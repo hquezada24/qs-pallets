@@ -1,0 +1,109 @@
+/* Header container */
+.header {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background-color: green;
+  color: #fff;
+}
+
+/* Logo container */
+.logo {
+  font-size: 1rem;
+}
+
+/* Dropdown container */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown button */
+.dropbtn {
+  border: 3px solid white;
+  background-color: green;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  cursor: pointer;
+}
+.icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+/* Dropdown content (hidden by default) */
+.dropdownContent {
+  display: none;
+  position: absolute;
+  background-color: white;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.show {
+  display: block;
+}
+
+/* Links inside the dropdown */
+.dropdownContent a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdownContent a:hover {
+  background-color: #ddd;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+  background-color: white;
+  color: green;
+}
+
+.navigation {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .header {
+    flex-wrap: nowrap; /* Prevent wrapping on desktop */
+  }
+
+  .dropdown {
+    display: none;
+  }
+
+  .navigation {
+    display: block;
+  }
+
+  .navigation ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    gap: 1.5rem;
+  }
+  .navigation a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 1.3rem;
+    padding: 0.5rem;
+  }
+  .navigation a:hover {
+    background-color: #fff;
+    color: green;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}

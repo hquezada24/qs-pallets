@@ -1,19 +1,52 @@
-import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { useState } from "react";
+import styles from "./Header.module.css";
 const Header = () => {
+  const [isToggled, setIsToggled] = useState(false);
+
   return (
-    <div id="Header">
-      <div className="logo">
+    <header className={styles.header}>
+      <div className={styles.logo}>
         <h1>QS Pallets</h1>
       </div>
-      <nav>
+      <div className={styles.dropdown}>
+        <button
+          className={styles.dropbtn}
+          onClick={() => {
+            setIsToggled(!isToggled);
+          }}
+        >
+          <FontAwesomeIcon className={styles.icon} icon={faBars} />
+        </button>
+        <div
+          className={`${styles.dropdownContent} ${
+            isToggled ? styles.show : ""
+          }`}
+        >
+          <a href="#">Home</a>
+          <a href="#">Products</a>
+          <a href="#">Request a Quote</a>
+          <a href="#">About Us</a>
+        </div>
+      </div>
+      <nav className={styles.navigation}>
         <ul>
-          {/* <Link to="">Home</Link>
-          <Link to="">Producs</Link>
-          <Link to="">Request a Quote</Link>
-          <Link to="">About Us</Link> */}
+          <li>
+            <a>Home</a>
+          </li>
+          <li>
+            <a>Producs</a>
+          </li>
+          <li>
+            <a>Request a Quote</a>
+          </li>
+          <li>
+            <a>About Us</a>
+          </li>
         </ul>
       </nav>
-    </div>
+    </header>
   );
 };
 
