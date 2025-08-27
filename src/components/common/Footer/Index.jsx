@@ -45,7 +45,7 @@ const Footer = () => {
           <h4>Follow us</h4>
           <div>
             <a href="https://www.facebook.com/?locale=es_LA" target="_blank">
-              <i class="fab fa-facebook-f"></i>
+              <i className="fab fa-facebook-f"></i>
             </a>
             <a href="https://es.linkedin.com/" target="_blank">
               <i></i>
