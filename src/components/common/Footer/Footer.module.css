@@ -1,0 +1,45 @@
+/* Footer container */
+.footer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  background-color: green;
+  color: #fff;
+}
+
+.footer a {
+  color: #fff;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.footer ul {
+  list-style-type: none;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* This centers the h4 and the ul horizontally */
+}
+
+.links ul {
+  padding: 0; /* This removes the default padding on the left */
+}
+
+@media (min-width: 768px) {
+  .footer {
+    flex-wrap: nowrap; /* Prevent wrapping on desktop */
+  }
+
+  .container {
+    flex-direction: row;
+  }
+}
