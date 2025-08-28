@@ -1,4 +1,5 @@
 import App from "./App";
+import { Products } from "./pages/Products/Products";
 
 const routes = [
   {
@@ -7,6 +8,7 @@ const routes = [
     children: [
       {
         path: "/products",
+        element: <Products />,
       },
       {
         path: "/request-a-quote",

@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import styles from "./Header.module.css";
 const Header = () => {
   const [isToggled, setIsToggled] = useState(false);
@@ -25,7 +26,8 @@ const Header = () => {
           }`}
         >
           <a href="#">Home</a>
-          <a href="#">Products</a>
+          <Link to="products">Products</Link>
+          {/* <a href="#">Products</a> */}
           <a href="#">Request a Quote</a>
           <a href="#">About Us</a>
         </div>
