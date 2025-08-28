@@ -1,0 +1,16 @@
+whyChooseUs {
+  padding: 5rem 0;
+  background-color: azure;
+  margin-top: 1rem;
+}
+
+@media (min-width: 768px) {
+  .reasons {
+    display: flex;
+    justify-content: center;
+  }
+
+  .reason {
+    width: 15rem;
+  }
+}
