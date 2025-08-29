@@ -1,4 +1,5 @@
 import App from "./App";
+import { Home } from "./pages/Home/Home";
 import { Products } from "./pages/Products/Products";
 
 const routes = [
@@ -7,7 +8,11 @@ const routes = [
     element: <App />,
     children: [
       {
-        path: "/products",
+        index: true, // This makes Home the default child route
+        element: <Home />,
+      },
+      {
+        path: "products",
         element: <Products />,
       },
       {

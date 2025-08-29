@@ -25,26 +25,26 @@ const Header = () => {
             isToggled ? styles.show : ""
           }`}
         >
-          <a href="#">Home</a>
-          <Link to="products">Products</Link>
-          {/* <a href="#">Products</a> */}
-          <a href="#">Request a Quote</a>
-          <a href="#">About Us</a>
+          <Link to="/">Home</Link>
+          <Link to="/products">Products</Link>
+          <Link to="/request-a-quote">Request a Quote</Link>
+          <Link to="/about">About Us</Link>
         </div>
       </div>
       <nav className={styles.navigation}>
         <ul>
           <li>
-            <a>Home</a>
+            <Link to="/">Home</Link>
           </li>
           <li>
-            <a>Producs</a>
+            <Link to="/products">Products</Link>{" "}
+            {/* Fixed typo: "Producs" → "Products" */}
           </li>
           <li>
-            <a>Request a Quote</a>
+            <Link to="/request-a-quote">Request a Quote</Link>
           </li>
           <li>
-            <a>About Us</a>
+            <Link to="/about">About Us</Link>
           </li>
         </ul>
       </nav>
