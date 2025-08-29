@@ -3,7 +3,7 @@ import QuoteForm from "../../components/forms/QuoteForm";
 
 const Quote = () => {
   return (
-    <div className={styles.quote}>
+    <div className={styles.quote} id="quote">
       <QuoteForm />
     </div>
   );
