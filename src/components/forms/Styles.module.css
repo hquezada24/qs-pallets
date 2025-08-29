@@ -1,0 +1,190 @@
+/* Form Container */
+.form {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(34, 139, 34, 0.1);
+  border: 2px solid #f0f8f0;
+}
+
+/* Fieldset Styling */
+.contact,
+.details,
+.delivery {
+  border: 2px solid #228b22;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  background: #fafffe;
+}
+
+.contact legend,
+.details legend,
+.delivery legend {
+  background: #228b22;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+/* Input Container */
+.form :global(.input) {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Label Styling */
+.form label {
+  font-weight: 600;
+  color: #2d5016;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+
+/* Input Field Styling */
+.form input,
+.form select,
+.form textarea {
+  padding: 0.75rem;
+  border: 2px solid #d4e6d4;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: white;
+}
+
+.form input:focus,
+.form select:focus,
+.form textarea:focus {
+  outline: none;
+  border-color: #228b22;
+  box-shadow: 0 0 0 3px rgba(34, 139, 34, 0.1);
+  background: #fafffe;
+}
+
+.form input:hover,
+.form select:hover,
+.form textarea:hover {
+  border-color: #32cd32;
+}
+
+/* Placeholder Styling */
+.form input::placeholder {
+  color: #90ee90;
+  opacity: 0.8;
+}
+
+/* Select Specific Styling */
+.form select {
+  cursor: pointer;
+  background-image: url("data:image/svg+xml;charset=UTF-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23228b22'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1rem;
+  appearance: none;
+  padding-right: 2.5rem;
+}
+
+/* Textarea Specific Styling */
+.form textarea {
+  resize: vertical;
+  min-height: 100px;
+  font-family: inherit;
+}
+
+/* Delivery Address Special Layout */
+.delivery {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  align-items: end;
+}
+
+.delivery label {
+  grid-column: span 2;
+  margin-bottom: 0.25rem;
+}
+
+.delivery input {
+  margin-bottom: 1rem;
+}
+
+.delivery label:nth-of-type(1),
+.delivery input:nth-of-type(1) {
+  grid-column: span 2;
+}
+
+.delivery label:nth-of-type(2),
+.delivery input:nth-of-type(2),
+.delivery label:nth-of-type(3),
+.delivery input:nth-of-type(3) {
+  grid-column: span 1;
+}
+
+.delivery label:nth-of-type(4),
+.delivery input:nth-of-type(4),
+.delivery label:nth-of-type(5),
+.delivery input:nth-of-type(5) {
+  grid-column: span 1;
+}
+
+/* Required Field Indicator */
+.form input:required + label::after,
+.form select:required + label::after {
+  content: " *";
+  color: #228b22;
+}
+
+/* Error States */
+.form input:invalid:not(:placeholder-shown) {
+  border-color: #ff6b6b;
+}
+
+.form input:valid {
+  border-color: #228b22;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .form {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+
+  .delivery {
+    grid-template-columns: 1fr;
+  }
+
+  .delivery label,
+  .delivery input {
+    grid-column: span 1;
+  }
+}
+
+/* Form Animation */
+.form {
+  animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Button Container Spacing */
+.form > form > button,
+.form > form > :last-child {
+  margin-top: 2rem;
+}

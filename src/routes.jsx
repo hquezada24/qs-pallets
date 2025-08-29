@@ -1,6 +1,7 @@
 import App from "./App";
 import { Home } from "./pages/Home/Home";
 import { Products } from "./pages/Products/Products";
+import { Quote } from "./pages/Quote/Quote";
 
 const routes = [
   {
@@ -17,6 +18,7 @@ const routes = [
       },
       {
         path: "/request-a-quote",
+        element: <Quote />,
       },
       {
         path: "/about",
