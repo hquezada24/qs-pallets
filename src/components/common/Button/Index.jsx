@@ -1,9 +1,47 @@
 import styles from "./Button.module.css";
 
-const Button = ({ text, type = "button" }) => {
+const Button = ({
+  text,
+  type = "button",
+  variant = "primary",
+  size = "medium",
+  disabled = false,
+  loading = false,
+  onClick,
+  ariaLabel,
+  className = "",
+  ...props
+}) => {
+  const buttonClass = [
+    styles.btn,
+    styles[variant],
+    styles[size],
+    disabled && styles.disabled,
+    loading && styles.loading,
+    className,
+  ]
+    .filter(Boolean)
+    .join(" ");
+
+  const handleClick = (e) => {
+    if (disabled || loading) {
+      e.preventDefault();
+      return;
+    }
+    onClick?.(e);
+  };
+
   return (
-    <button className={styles.btn} type={type}>
-      {text}
+    <button
+      className={buttonClass}
+      type={type}
+      disabled={disabled || loading}
+      onClick={handleClick}
+      aria-label={ariaLabel || text}
+      {...props}
+    >
+      {loading && <span className={styles.spinner} aria-hidden="true" />}
+      <span className={loading ? styles.textHidden : ""}>{text}</span>
     </button>
   );
 };
