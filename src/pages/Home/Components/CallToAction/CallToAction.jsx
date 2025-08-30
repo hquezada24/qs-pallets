@@ -3,16 +3,23 @@ import { Button } from "../../../../components/common/Button/Index";
 
 const CallToAction = () => {
   return (
-    <div className={styles.callToAction}>
-      <div className="background">
-        <div className={styles.heroText}>
-          <h2>
-            Ready to get started? Contact us today to discuss your pallet needs.
-          </h2>
-          <Button text={"Request a quote"} />
+    <section className={`${styles.section} ${styles.finalCta}`}>
+      <div className={styles.sectionContent}>
+        <div className={styles.ctaCard}>
+          <h2>Ready to Get Started?</h2>
+          <p>
+            Experience the QS Pallets difference. Get a custom quote tailored to
+            your specific needs, or speak with our experts to find the perfect
+            solution.
+          </p>
+
+          <div className={styles.ctaButtons}>
+            <button className={styles.primaryCtaButton}>Request Quote</button>
+            <button className={styles.secondaryCtaButton}>Contact Us</button>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

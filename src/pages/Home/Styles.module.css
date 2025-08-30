@@ -1,7 +1,69 @@
+/* Main Home Container */
 .home {
   width: 100%;
-  padding: 1rem;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8fff8 0%, #ffffff 100%);
+  position: relative;
+  overflow-x: hidden;
 }
 
-@media (min-width: 768px) {
+/* Animated Background Effects */
+.background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #228b22 0%, #32cd32 50%, #90ee90 100%);
+  z-index: 1;
+}
+
+.background::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><defs><pattern id='pallets' width='40' height='40' patternUnits='userSpaceOnUse'><rect width='40' height='40' fill='none'/><rect x='5' y='5' width='30' height='6' fill='rgba(255,255,255,0.1)' rx='1'/><rect x='5' y='15' width='30' height='6' fill='rgba(255,255,255,0.1)' rx='1'/><rect x='5' y='25' width='30' height='6' fill='rgba(255,255,255,0.1)' rx='1'/><rect x='10' y='0' width='4' height='40' fill='rgba(255,255,255,0.08)'/><rect x='26' y='0' width='4' height='40' fill='rgba(255,255,255,0.08)'/></pattern></defs><rect width='200' height='200' fill='url(%23pallets)'/></svg>")
+    repeat;
+  opacity: 0.3;
+  animation: floatPattern 30s linear infinite;
+}
+
+.background::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(
+      circle at 30% 70%,
+      rgba(255, 255, 255, 0.1) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(255, 255, 255, 0.15) 0%,
+      transparent 50%
+    );
+}
+
+@keyframes floatPattern {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  25% {
+    transform: translate(-10px, -10px) rotate(90deg);
+  }
+  50% {
+    transform: translate(-20px, 0px) rotate(180deg);
+  }
+  75% {
+    transform: translate(-10px, 10px) rotate(270deg);
+  }
+  100% {
+    transform: translate(0, 0) rotate(360deg);
+  }
 }
