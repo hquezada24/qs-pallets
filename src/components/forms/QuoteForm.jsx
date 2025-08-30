@@ -1,79 +1,569 @@
+import { useState } from "react";
 import { Button } from "../common/Button/Index";
 import styles from "./Styles.module.css";
 
 const QuoteForm = () => {
+  const [formData, setFormData] = useState({
+    fullName: "",
+    companyName: "",
+    email: "",
+    phone: "",
+    palletType: "",
+    quantity: "",
+    dimensions: "",
+    material: "",
+    deliveryDate: "",
+    street: "",
+    city: "",
+    state: "",
+    zip: "",
+    comments: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null);
+  const [errors, setErrors] = useState({});
+
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!formData.fullName.trim()) {
+      newErrors.fullName = "Full name is required";
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = "Please enter a valid email address";
+    }
+
+    if (!formData.phone.trim()) {
+      newErrors.phone = "Phone number is required";
+    } else if (
+      !/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/.test(formData.phone)
+    ) {
+      newErrors.phone = "Please enter a valid phone number";
+    }
+
+    if (!formData.palletType) {
+      newErrors.palletType = "Please select a pallet type";
+    }
+
+    if (!formData.quantity.trim()) {
+      newErrors.quantity = "Quantity is required";
+    } else if (parseInt(formData.quantity) < 1) {
+      newErrors.quantity = "Quantity must be at least 1";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+
+    // Clear error for this field when user starts typing
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: "" }));
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!validateForm()) {
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+
+    try {
+      // Simulate API call - replace with your actual submission logic
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      console.log("Quote request submitted:", formData);
+
+      setSubmitStatus("success");
+      setFormData({
+        fullName: "",
+        companyName: "",
+        email: "",
+        phone: "",
+        palletType: "",
+        quantity: "",
+        dimensions: "",
+        material: "",
+        deliveryDate: "",
+        street: "",
+        city: "",
+        state: "",
+        zip: "",
+        comments: "",
+      });
+    } catch (error) {
+      setSubmitStatus("error");
+      console.error("Quote submission error:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
-    <div className={styles.form}>
-      <form>
-        <fieldset className={styles.contact}>
-          <legend>Contact Information</legend>
+    <div className={styles.quotePage}>
+      <div className={styles.hero}>
+        <div className={styles.heroContent}>
+          <h1 className={styles.title}>Request a Quote</h1>
+          <p className={styles.subtitle}>
+            Get a custom quote for your pallet needs. We'll respond with
+            competitive pricing within 24 hours.
+          </p>
+        </div>
+      </div>
 
-          <div className="input">
-            <label htmlFor="fullName">Full Name</label>
-            <input id="fullName" type="text" placeholder="John Doe" required />
-          </div>
-          <div className="input">
-            <label htmlFor="companyName">Company Name (Optional)</label>
-            <input id="companyName" type="text" />
-          </div>
-          <div className="input">
-            <label htmlFor="email">Email</label>
-            <input
-              id="email"
-              type="email"
-              placeholder="john.doe@email.com"
-              required
-            />
-          </div>
-          <div className="input">
-            <label htmlFor="phone">Phone</label>
-            <input
-              id="phone"
-              type="tel"
-              placeholder="(555) 555-5555"
-              required
-            />
-          </div>
-        </fieldset>
+      <div className={styles.container}>
+        <div className={styles.formWrapper}>
+          <div className={styles.formSection}>
+            <div className={styles.formHeader}>
+              <h2>Tell Us About Your Requirements</h2>
+              <p>
+                Fill out the details below for an accurate quote tailored to
+                your needs.
+              </p>
+            </div>
 
-        <fieldset className={styles.details}>
-          <legend>Quote Details</legend>
-          <div className="input">
-            <label htmlFor="palletType">Pallet Type</label>
-            <select id="palletType" required>
-              <option value="">--Please choose an option--</option>
-              <option value="new">New Pallets</option>
-              <option value="recycled">Recycled Pallets</option>
-              <option value="custom">Custom Pallets</option>
-            </select>
+            {submitStatus === "success" && (
+              <div className={styles.successMessage} role="alert">
+                <svg
+                  className={styles.successIcon}
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                </svg>
+                <span>
+                  Quote request submitted successfully! We'll contact you within
+                  24 hours with pricing.
+                </span>
+              </div>
+            )}
+
+            {submitStatus === "error" && (
+              <div className={styles.errorMessage} role="alert">
+                <svg
+                  className={styles.errorIcon}
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                </svg>
+                <span>
+                  Error submitting quote request. Please try again or contact us
+                  directly.
+                </span>
+              </div>
+            )}
+
+            <form className={styles.form} onSubmit={handleSubmit} noValidate>
+              {/* Contact Information */}
+              <fieldset className={styles.fieldset}>
+                <legend className={styles.legend}>Contact Information</legend>
+
+                <div className={styles.formRow}>
+                  <div className={styles.formGroup}>
+                    <label htmlFor="fullName" className={styles.label}>
+                      Full Name *
+                    </label>
+                    <input
+                      type="text"
+                      id="fullName"
+                      name="fullName"
+                      value={formData.fullName}
+                      onChange={handleInputChange}
+                      className={`${styles.input} ${
+                        errors.fullName ? styles.inputError : ""
+                      }`}
+                      placeholder="John Doe"
+                      required
+                      aria-describedby={
+                        errors.fullName ? "fullName-error" : undefined
+                      }
+                    />
+                    {errors.fullName && (
+                      <span
+                        id="fullName-error"
+                        className={styles.errorText}
+                        role="alert"
+                      >
+                        {errors.fullName}
+                      </span>
+                    )}
+                  </div>
+
+                  <div className={styles.formGroup}>
+                    <label htmlFor="companyName" className={styles.label}>
+                      Company Name
+                    </label>
+                    <input
+                      type="text"
+                      id="companyName"
+                      name="companyName"
+                      value={formData.companyName}
+                      onChange={handleInputChange}
+                      className={styles.input}
+                      placeholder="Your Company LLC"
+                    />
+                  </div>
+                </div>
+
+                <div className={styles.formRow}>
+                  <div className={styles.formGroup}>
+                    <label htmlFor="email" className={styles.label}>
+                      Email Address *
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      className={`${styles.input} ${
+                        errors.email ? styles.inputError : ""
+                      }`}
+                      placeholder="john.doe@company.com"
+                      required
+                      aria-describedby={
+                        errors.email ? "email-error" : undefined
+                      }
+                    />
+                    {errors.email && (
+                      <span
+                        id="email-error"
+                        className={styles.errorText}
+                        role="alert"
+                      >
+                        {errors.email}
+                      </span>
+                    )}
+                  </div>
+
+                  <div className={styles.formGroup}>
+                    <label htmlFor="phone" className={styles.label}>
+                      Phone Number *
+                    </label>
+                    <input
+                      type="tel"
+                      id="phone"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                      className={`${styles.input} ${
+                        errors.phone ? styles.inputError : ""
+                      }`}
+                      placeholder="(555) 123-4567"
+                      required
+                      aria-describedby={
+                        errors.phone ? "phone-error" : undefined
+                      }
+                    />
+                    {errors.phone && (
+                      <span
+                        id="phone-error"
+                        className={styles.errorText}
+                        role="alert"
+                      >
+                        {errors.phone}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </fieldset>
+
+              {/* Quote Details */}
+              <fieldset className={styles.fieldset}>
+                <legend className={styles.legend}>Pallet Specifications</legend>
+
+                <div className={styles.formRow}>
+                  <div className={styles.formGroup}>
+                    <label htmlFor="palletType" className={styles.label}>
+                      Pallet Type *
+                    </label>
+                    <select
+                      id="palletType"
+                      name="palletType"
+                      value={formData.palletType}
+                      onChange={handleInputChange}
+                      className={`${styles.select} ${
+                        errors.palletType ? styles.inputError : ""
+                      }`}
+                      required
+                      aria-describedby={
+                        errors.palletType ? "palletType-error" : undefined
+                      }
+                    >
+                      <option value="">Select pallet type</option>
+                      <option value="new">New Pallets</option>
+                      <option value="recycled">Recycled Pallets</option>
+                      <option value="custom">Custom Pallets</option>
+                      <option value="heat-treated">Heat-Treated Pallets</option>
+                      <option value="export">Export Pallets</option>
+                    </select>
+                    {errors.palletType && (
+                      <span
+                        id="palletType-error"
+                        className={styles.errorText}
+                        role="alert"
+                      >
+                        {errors.palletType}
+                      </span>
+                    )}
+                  </div>
+
+                  <div className={styles.formGroup}>
+                    <label htmlFor="quantity" className={styles.label}>
+                      Quantity *
+                    </label>
+                    <input
+                      type="number"
+                      id="quantity"
+                      name="quantity"
+                      value={formData.quantity}
+                      onChange={handleInputChange}
+                      className={`${styles.input} ${
+                        errors.quantity ? styles.inputError : ""
+                      }`}
+                      placeholder="100"
+                      min="1"
+                      required
+                      aria-describedby={
+                        errors.quantity ? "quantity-error" : undefined
+                      }
+                    />
+                    {errors.quantity && (
+                      <span
+                        id="quantity-error"
+                        className={styles.errorText}
+                        role="alert"
+                      >
+                        {errors.quantity}
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label htmlFor="deliveryDate" className={styles.label}>
+                    Preferred Delivery Date
+                  </label>
+                  <input
+                    type="date"
+                    id="deliveryDate"
+                    name="deliveryDate"
+                    value={formData.deliveryDate}
+                    onChange={handleInputChange}
+                    className={styles.input}
+                    min={new Date().toISOString().split("T")[0]}
+                  />
+                </div>
+              </fieldset>
+
+              {/* Delivery Address */}
+              <fieldset className={styles.fieldset}>
+                <legend className={styles.legend}>Delivery Information</legend>
+
+                <div className={styles.formGroup}>
+                  <label htmlFor="street" className={styles.label}>
+                    Street Address
+                  </label>
+                  <input
+                    type="text"
+                    id="street"
+                    name="street"
+                    value={formData.street}
+                    onChange={handleInputChange}
+                    className={styles.input}
+                    placeholder="123 Industrial Blvd"
+                  />
+                </div>
+
+                <div className={styles.formRow}>
+                  <div className={styles.formGroup}>
+                    <label htmlFor="city" className={styles.label}>
+                      City
+                    </label>
+                    <input
+                      type="text"
+                      id="city"
+                      name="city"
+                      value={formData.city}
+                      onChange={handleInputChange}
+                      className={styles.input}
+                      placeholder="Dallas"
+                    />
+                  </div>
+
+                  <div className={styles.formGroup}>
+                    <label htmlFor="state" className={styles.label}>
+                      State
+                    </label>
+                    <select
+                      id="state"
+                      name="state"
+                      value={formData.state}
+                      onChange={handleInputChange}
+                      className={styles.select}
+                    >
+                      <option value="">Select state</option>
+                      <option value="TX">Texas</option>
+                      <option value="OK">Oklahoma</option>
+                      <option value="AR">Arkansas</option>
+                      <option value="LA">Louisiana</option>
+                      <option value="NM">New Mexico</option>
+                      {/* Add more states as needed */}
+                    </select>
+                  </div>
+
+                  <div className={styles.formGroup}>
+                    <label htmlFor="zip" className={styles.label}>
+                      ZIP Code
+                    </label>
+                    <input
+                      type="text"
+                      id="zip"
+                      name="zip"
+                      value={formData.zip}
+                      onChange={handleInputChange}
+                      className={styles.input}
+                      placeholder="75201"
+                      pattern="[0-9]{5}(-[0-9]{4})?"
+                    />
+                  </div>
+                </div>
+              </fieldset>
+
+              {/* Additional Details */}
+              <div className={styles.formGroup}>
+                <label htmlFor="comments" className={styles.label}>
+                  Additional Requirements or Comments
+                </label>
+                <textarea
+                  id="comments"
+                  name="comments"
+                  value={formData.comments}
+                  onChange={handleInputChange}
+                  className={styles.textarea}
+                  placeholder="Please specify any special requirements, load capacities, certifications needed, or other details that would help us provide an accurate quote..."
+                  rows="4"
+                />
+              </div>
+
+              <div className={styles.formActions}>
+                <Button
+                  text={isSubmitting ? "Submitting..." : "Submit Quote Request"}
+                  type="submit"
+                  variant="primary"
+                  size="large"
+                  loading={isSubmitting}
+                  disabled={isSubmitting}
+                  ariaLabel="Submit quote request form"
+                />
+              </div>
+            </form>
           </div>
 
-          <div className="input">
-            <label htmlFor="quantity">Quantity</label>
-            <input id="quantity" type="number" min="1" required />
+          {/* Quote Information Sidebar */}
+          <div className={styles.infoSection}>
+            <div className={styles.infoCard}>
+              <h3 className={styles.infoTitle}>Quote Process</h3>
+              <div className={styles.processSteps}>
+                <div className={styles.step}>
+                  <div className={styles.stepNumber}>1</div>
+                  <div className={styles.stepContent}>
+                    <h4>Submit Request</h4>
+                    <p>Fill out the form with your requirements</p>
+                  </div>
+                </div>
+                <div className={styles.step}>
+                  <div className={styles.stepNumber}>2</div>
+                  <div className={styles.stepContent}>
+                    <h4>Review & Analysis</h4>
+                    <p>We analyze your needs and prepare pricing</p>
+                  </div>
+                </div>
+                <div className={styles.step}>
+                  <div className={styles.stepNumber}>3</div>
+                  <div className={styles.stepContent}>
+                    <h4>Receive Quote</h4>
+                    <p>Get your detailed quote within 24 hours</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className={styles.infoCard}>
+              <h3 className={styles.infoTitle}>What We Need to Know</h3>
+              <ul className={styles.requirementsList}>
+                <li className={styles.requirement}>
+                  <svg
+                    className={styles.checkIcon}
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                  </svg>
+                  <span>Pallet type and specifications</span>
+                </li>
+                <li className={styles.requirement}>
+                  <svg
+                    className={styles.checkIcon}
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                  </svg>
+                  <span>Quantity needed</span>
+                </li>
+                <li className={styles.requirement}>
+                  <svg
+                    className={styles.checkIcon}
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                  </svg>
+                  <span>Delivery location</span>
+                </li>
+                <li className={styles.requirement}>
+                  <svg
+                    className={styles.checkIcon}
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                  </svg>
+                  <span>Timeline requirements</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className={styles.infoCard}>
+              <h3 className={styles.infoTitle}>Need Help?</h3>
+              <p className={styles.helpText}>
+                Not sure about specifications? Our team can help you determine
+                the right pallet solution.
+              </p>
+              <div className={styles.helpActions}>
+                <Button
+                  text="Call Us"
+                  variant="outline"
+                  onClick={() => (window.location.href = "tel:+14695551234")}
+                  ariaLabel="Call QS Pallets for assistance"
+                />
+              </div>
+            </div>
           </div>
-          <div className="input">
-            <label htmlFor="comments">Additional Details</label>
-            <textarea id="comments" rows="4"></textarea>
-          </div>
-        </fieldset>
-
-        <fieldset className={styles.delivery}>
-          <legend>Delivery Address</legend>
-          <label htmlFor="street">Street</label>
-          <input id="street" type="text" />
-
-          <label htmlFor="city">City</label>
-          <input id="city" type="text" />
-
-          <label htmlFor="state">State</label>
-          <input id="state" type="text" />
-          <label htmlFor="zip">Zip</label>
-          <input id="zip" type="text" />
-        </fieldset>
-
-        <Button text={"Submit Request"} type={"submit"} />
-      </form>
+        </div>
+      </div>
     </div>
   );
 };
