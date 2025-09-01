@@ -5,7 +5,6 @@ const Product = ({
   subtitle,
   description,
   features,
-  applications,
   price,
   image,
   accent = "primary",
@@ -32,17 +31,6 @@ const Product = ({
             <li key={index}>{feature}</li>
           ))}
         </ul>
-      </div>
-
-      <div className={styles.productApplications}>
-        <h4>Ideal Applications</h4>
-        <div className={styles.applicationTags}>
-          {applications.map((app, index) => (
-            <span key={index} className={styles.applicationTag}>
-              {app}
-            </span>
-          ))}
-        </div>
       </div>
 
       <div className={styles.productActions}>
