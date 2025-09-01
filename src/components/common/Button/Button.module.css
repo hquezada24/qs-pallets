@@ -75,6 +75,12 @@
   padding: 1rem 2rem;
 }
 
+/* Link styling */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
 /* States */
 .disabled {
   opacity: 0.6;

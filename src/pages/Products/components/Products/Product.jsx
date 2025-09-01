@@ -1,4 +1,6 @@
 import styles from "./Styles.module.css";
+import { Button } from "../../../../components/common/Button/Index";
+import { Link } from "react-router-dom";
 
 const Product = ({
   title,
@@ -34,8 +36,7 @@ const Product = ({
       </div>
 
       <div className={styles.productActions}>
-        <button className={styles.quoteButton}>Get Quote</button>
-        <button className={styles.learnMoreButton}>Learn More</button>
+        <Button text={"Get Quote"} link={"/request-a-quote"}></Button>
       </div>
     </div>
   );

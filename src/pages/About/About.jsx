@@ -1,3 +1,4 @@
+import { Button } from "../../components/common/Button/Index";
 import styles from "./Styles.module.css";
 import { Link } from "react-router-dom";
 
@@ -128,7 +129,7 @@ const About = () => {
               together.
             </p>
             <button className={styles.ctaButton}>
-              <Link to="/request-a-quote#quote">Get Your Quote Today</Link>
+              <Link to="/request-a-quote">Get Your Quote Today</Link>
             </button>
           </div>
         </section>

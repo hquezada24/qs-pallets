@@ -1,7 +1,9 @@
 import styles from "./Button.module.css";
+import { Link } from "react-router-dom";
 
 const Button = ({
   text,
+  link = "",
   type = "button",
   variant = "primary",
   size = "medium",
@@ -41,7 +43,13 @@ const Button = ({
       {...props}
     >
       {loading && <span className={styles.spinner} aria-hidden="true" />}
-      <span className={loading ? styles.textHidden : ""}>{text}</span>
+      {link ? (
+        <Link to={link} className={loading ? styles.textHidden : ""}>
+          {text}
+        </Link>
+      ) : (
+        <span className={loading ? styles.textHidden : ""}>{text}</span>
+      )}
     </button>
   );
 };

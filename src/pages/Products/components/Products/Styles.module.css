@@ -135,42 +135,7 @@
 /* Product Actions - buttons at bottom of card */
 .productActions {
   display: flex;
-  gap: 1rem;
-}
-
-.quoteButton {
-  background: linear-gradient(135deg, #228b22, #32cd32);
-  color: white;
-  border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 25px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  flex: 1;
-}
-
-.quoteButton:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(34, 139, 34, 0.3);
-}
-
-.learnMoreButton {
-  background: transparent;
-  color: #228b22;
-  border: 2px solid #228b22;
-  padding: 0.75rem 1.5rem;
-  border-radius: 25px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  flex: 1;
-}
-
-.learnMoreButton:hover {
-  background: #228b22;
-  color: white;
-  transform: translateY(-2px);
+  justify-content: center;
 }
 
 @media (max-width: 768px) {
@@ -187,10 +152,6 @@
 
   .productPrice {
     align-self: center;
-  }
-
-  .productActions {
-    flex-direction: column;
   }
 }
 

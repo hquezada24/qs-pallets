@@ -1,5 +1,6 @@
 import styles from "./Styles.module.css";
 import { Product } from "./components/Products/Product";
+import { Link } from "react-router-dom";
 
 const Products = () => {
   const products = [
@@ -200,7 +201,7 @@ const Products = () => {
             <div className={styles.ctaButtons}>
               <button className={styles.primaryButton}>Request a Quote</button>
               <button className={styles.secondaryButton}>
-                Contact Our Experts
+                <Link to={"/contact"}>Contact Us</Link>
               </button>
             </div>
           </div>
