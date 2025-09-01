@@ -5,22 +5,40 @@
 
 /* Hero Section */
 .hero {
-  background: linear-gradient(135deg, #1e5631 0%, #228b22 100%);
-  color: #fff;
+  background-color: #f8fff8;
+  color: #2d5016;
   padding: 4rem 1.5rem 3rem;
   text-align: center;
+  position: relative;
+  border-bottom: 4px solid #228b22;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
 .heroContent {
   max-width: 800px;
   margin: 0 auto;
+  z-index: 1;
 }
 
 .title {
   font-size: clamp(2.5rem, 5vw, 4rem);
   font-weight: 700;
   margin-bottom: 1rem;
-  line-height: 1.2;
+  position: relative;
+  z-index: 1;
+  background: linear-gradient(135deg, #228b22, #32cd32);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: none;
 }
 
 .subtitle {

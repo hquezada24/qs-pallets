@@ -1,14 +1,27 @@
 .contactPage {
   min-height: 100vh;
   background: linear-gradient(to bottom, #f8f9fa 0%, #e9ecef 100%);
+  position: relative;
+  overflow-x: hidden;
 }
 
 /* Hero Section */
 .hero {
-  background: linear-gradient(135deg, #1e5631 0%, #228b22 100%);
-  color: #fff;
+  background-color: #f8fff8;
   padding: 4rem 1.5rem 3rem;
+  color: #2d5016;
   text-align: center;
+  position: relative;
+  border-bottom: 4px solid #228b22;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
 .heroContent {
@@ -20,7 +33,13 @@
   font-size: clamp(2.5rem, 5vw, 4rem);
   font-weight: 700;
   margin-bottom: 1rem;
-  line-height: 1.2;
+  position: relative;
+  z-index: 1;
+  background: linear-gradient(135deg, #228b22, #32cd32);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: none;
 }
 
 .subtitle {
@@ -29,6 +48,7 @@
   opacity: 0.95;
   font-weight: 300;
   margin: 0;
+  z-index: 1;
 }
 
 /* Main Container */
