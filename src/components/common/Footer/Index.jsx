@@ -153,14 +153,6 @@ const Footer = () => {
           <p className={styles.copyright}>
             &copy; {currentYear} QS Pallets. All rights reserved.
           </p>
-          <div className={styles.legalLinks}>
-            <a href="/privacy" className={styles.legalLink}>
-              Privacy Policy
-            </a>
-            <a href="/terms" className={styles.legalLink}>
-              Terms of Service
-            </a>
-          </div>
         </div>
       </div>
     </footer>
