@@ -1,10 +1,8 @@
 import styles from "./Styles.module.css";
 import { Button } from "../../../../components/common/Button/Index";
-import { Link } from "react-router-dom";
 
 const Product = ({
   title,
-  subtitle,
   description,
   features,
   price,
@@ -17,7 +15,6 @@ const Product = ({
         <div className={styles.productImage}>{image}</div>
         <div className={styles.productTitle}>
           <h3>{title}</h3>
-          <p className={styles.productSubtitle}>{subtitle}</p>
         </div>
         <div className={styles.productPrice}>{price}</div>
       </div>

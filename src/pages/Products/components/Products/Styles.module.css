@@ -71,13 +71,6 @@
   margin: 0 0 0.5rem 0;
 }
 
-.productSubtitle {
-  color: #666;
-  font-size: 1rem;
-  margin: 0;
-  font-style: italic;
-}
-
 .productPrice {
   background: linear-gradient(135deg, #228b22, #32cd32);
   color: white;
