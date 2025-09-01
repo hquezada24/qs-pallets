@@ -1,10 +1,10 @@
-import { Button } from "../../components/common/Button/Index";
 import styles from "./Styles.module.css";
-import { Link } from "react-router-dom";
+import { Link, ScrollRestoration } from "react-router-dom";
 
 const About = () => {
   return (
     <div className={styles.about}>
+      <ScrollRestoration />
       <div className={styles.hero}>
         ``
         <h1>About QS Pallets</h1>

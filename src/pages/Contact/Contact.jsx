@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { ScrollRestoration } from "react-router-dom";
 import { Button } from "../../components/common/Button/Index";
 import styles from "./Styles.module.css";
 
@@ -98,6 +99,7 @@ const Contact = () => {
 
   return (
     <div className={styles.contactPage}>
+      <ScrollRestoration />
       <div className={styles.hero}>
         <div className={styles.heroContent}>
           <h1 className={styles.title}>Get In Touch</h1>

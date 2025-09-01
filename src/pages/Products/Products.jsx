@@ -1,6 +1,6 @@
 import styles from "./Styles.module.css";
 import { Product } from "./components/Products/Product";
-import { Link } from "react-router-dom";
+import { Link, ScrollRestoration } from "react-router-dom";
 
 const Products = () => {
   const products = [
@@ -77,6 +77,7 @@ const Products = () => {
 
   return (
     <div className={styles.products}>
+      <ScrollRestoration />
       <div className={styles.hero}>
         <h1>Our Products</h1>
         <p className={styles.subtitle}>
@@ -199,7 +200,9 @@ const Products = () => {
               specific needs.
             </p>
             <div className={styles.ctaButtons}>
-              <button className={styles.primaryButton}>Request a Quote</button>
+              <button className={styles.primaryButton}>
+                <Link to={"/request-a-quote"}>Request a Quote</Link>
+              </button>
               <button className={styles.secondaryButton}>
                 <Link to={"/contact"}>Contact Us</Link>
               </button>

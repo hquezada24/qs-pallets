@@ -36,7 +36,7 @@ const Product = ({
       </div>
 
       <div className={styles.productActions}>
-        <Button text={"Get Quote"} link={"/request-a-quote"}></Button>
+        <Button text={"Get Quote"} link="/request-a-quote"></Button>
       </div>
     </div>
   );
