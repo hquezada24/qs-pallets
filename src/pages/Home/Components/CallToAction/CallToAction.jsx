@@ -1,5 +1,5 @@
 import styles from "./Styles.module.css";
-import { Button } from "../../../../components/common/Button/Index";
+import { Link } from "react-router-dom";
 
 const CallToAction = () => {
   return (
@@ -14,8 +14,12 @@ const CallToAction = () => {
           </p>
 
           <div className={styles.ctaButtons}>
-            <button className={styles.primaryCtaButton}>Request Quote</button>
-            <button className={styles.secondaryCtaButton}>Contact Us</button>
+            <button className={styles.primaryCtaButton}>
+              <Link to="/request-a-quote">Request Quote</Link>
+            </button>
+            <button className={styles.secondaryCtaButton}>
+              <Link to="/contact">Contact Us</Link>
+            </button>
           </div>
         </div>
       </div>

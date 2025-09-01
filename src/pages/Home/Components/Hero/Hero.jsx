@@ -2,11 +2,6 @@ import styles from "./Styles.module.css";
 import { Button } from "../../../../components/common/Button/Index";
 
 const Hero = () => {
-  const handleProductsClick = () => {
-    // Add your navigation logic here
-    console.log("Navigate to products");
-  };
-
   return (
     <section className={styles.hero} role="banner">
       <div className={styles.background}>
@@ -19,14 +14,14 @@ const Hero = () => {
           <div className={styles.ctaContainer}>
             <Button
               text="See Products"
+              link="/products"
               variant="primary"
-              onClick={handleProductsClick}
               ariaLabel="View our pallet products and solutions"
             />
             <Button
               text="Get Quote"
+              link="/request-a-quote"
               variant="secondary"
-              onClick={() => console.log("Navigate to quote")}
               ariaLabel="Request a custom pallet quote"
             />
           </div>

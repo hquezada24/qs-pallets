@@ -22,7 +22,7 @@ const FeaturedProducts = () => {
               for applications requiring maximum durability and consistency.
             </p>
             <div style={{ marginTop: "1.5rem" }}>
-              <Button text="Learn More" />
+              <Button text="Learn More" link="/products" />
             </div>
           </div>
 
@@ -35,7 +35,7 @@ const FeaturedProducts = () => {
               standards.
             </p>
             <div style={{ marginTop: "1.5rem" }}>
-              <Button text="Learn More" />
+              <Button text="Learn More" link="/products" />
             </div>
           </div>
 
@@ -47,7 +47,7 @@ const FeaturedProducts = () => {
               specification - we'll create the perfect pallet for your needs.
             </p>
             <div style={{ marginTop: "1.5rem" }}>
-              <Button text="Learn More" />
+              <Button text="Learn More" link="/products" />
             </div>
           </div>
         </div>
