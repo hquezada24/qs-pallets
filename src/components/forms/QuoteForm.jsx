@@ -164,7 +164,13 @@ const QuoteForm = () => {
               </div>
             )}
 
-            <form className={styles.form} onSubmit={handleSubmit} noValidate>
+            <form
+              action="/http://localhost:3000/request-a-quote"
+              className={styles.form}
+              method="post"
+              onSubmit={handleSubmit}
+              noValidate
+            >
               {/* Contact Information */}
               <fieldset className={styles.fieldset}>
                 <legend className={styles.legend}>Contact Information</legend>
@@ -349,21 +355,6 @@ const QuoteForm = () => {
                       </span>
                     )}
                   </div>
-                </div>
-
-                <div className={styles.formGroup}>
-                  <label htmlFor="deliveryDate" className={styles.label}>
-                    Preferred Delivery Date
-                  </label>
-                  <input
-                    type="date"
-                    id="deliveryDate"
-                    name="deliveryDate"
-                    value={formData.deliveryDate}
-                    onChange={handleInputChange}
-                    className={styles.input}
-                    min={new Date().toISOString().split("T")[0]}
-                  />
                 </div>
               </fieldset>
 
