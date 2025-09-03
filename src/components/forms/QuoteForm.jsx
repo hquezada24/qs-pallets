@@ -10,14 +10,13 @@ const QuoteForm = () => {
     phone: "",
     palletType: "",
     quantity: "",
-    dimensions: "",
-    material: "",
-    deliveryDate: "",
-    street: "",
-    city: "",
-    state: "",
-    zip: "",
-    comments: "",
+    address: {
+      street: "",
+      city: "",
+      state: "",
+      zipCode: "",
+    },
+    additionalDetails: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
@@ -60,7 +59,23 @@ const QuoteForm = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+
+    if (
+      name === "street" ||
+      name === "city" ||
+      name === "zipCode" ||
+      name === "state"
+    ) {
+      setFormData((prev) => ({
+        ...prev,
+        address: {
+          ...prev.address,
+          [name]: value,
+        },
+      }));
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
 
     // Clear error for this field when user starts typing
     if (errors[name]) {
@@ -80,7 +95,9 @@ const QuoteForm = () => {
 
     try {
       // Simulate API call - replace with your actual submission logic
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      // await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      const apiUrl = "/request-a-quote";
 
       console.log("Quote request submitted:", formData);
 
@@ -92,15 +109,36 @@ const QuoteForm = () => {
         phone: "",
         palletType: "",
         quantity: "",
-        dimensions: "",
-        material: "",
-        deliveryDate: "",
-        street: "",
-        city: "",
-        state: "",
-        zip: "",
-        comments: "",
+        address: {
+          street: "",
+          city: "",
+          state: "",
+          zipCode: "",
+        },
+        additionalDetails: "",
       });
+
+      console.log(formData);
+
+      await fetch(apiUrl, {
+        method: "POST", // The request method
+        headers: {
+          "Content-Type": "application/json", // The type of data you're sending
+        },
+        body: JSON.stringify(formData), // The data, converted to a JSON string
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((responseData) => {
+          console.log("Success:", responseData);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
     } catch (error) {
       setSubmitStatus("error");
       console.error("Quote submission error:", error);
@@ -164,13 +202,7 @@ const QuoteForm = () => {
               </div>
             )}
 
-            <form
-              action="/http://localhost:3000/request-a-quote"
-              className={styles.form}
-              method="post"
-              onSubmit={handleSubmit}
-              noValidate
-            >
+            <form className={styles.form} onSubmit={handleSubmit} noValidate>
               {/* Contact Information */}
               <fieldset className={styles.fieldset}>
                 <legend className={styles.legend}>Contact Information</legend>
@@ -373,7 +405,6 @@ const QuoteForm = () => {
                     value={formData.street}
                     onChange={handleInputChange}
                     className={styles.input}
-                    placeholder="123 Industrial Blvd"
                   />
                 </div>
 
@@ -389,7 +420,6 @@ const QuoteForm = () => {
                       value={formData.city}
                       onChange={handleInputChange}
                       className={styles.input}
-                      placeholder="Dallas"
                     />
                   </div>
 
@@ -421,11 +451,10 @@ const QuoteForm = () => {
                     <input
                       type="text"
                       id="zip"
-                      name="zip"
-                      value={formData.zip}
+                      name="zipCode"
+                      value={formData.zipCode}
                       onChange={handleInputChange}
                       className={styles.input}
-                      placeholder="75201"
                       pattern="[0-9]{5}(-[0-9]{4})?"
                     />
                   </div>
@@ -439,8 +468,8 @@ const QuoteForm = () => {
                 </label>
                 <textarea
                   id="comments"
-                  name="comments"
-                  value={formData.comments}
+                  name="additionalDetails"
+                  value={formData.additionalDetails}
                   onChange={handleInputChange}
                   className={styles.textarea}
                   placeholder="Please specify any special requirements, load capacities, certifications needed, or other details that would help us provide an accurate quote..."
