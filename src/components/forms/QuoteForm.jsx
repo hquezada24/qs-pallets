@@ -340,11 +340,9 @@ const QuoteForm = () => {
                       }
                     >
                       <option value="">Select pallet type</option>
-                      <option value="new">New Pallets</option>
-                      <option value="recycled">Recycled Pallets</option>
-                      <option value="custom">Custom Pallets</option>
-                      <option value="heat-treated">Heat-Treated Pallets</option>
-                      <option value="export">Export Pallets</option>
+                      <option value="new">New</option>
+                      <option value="recycled">Recycled</option>
+                      <option value="custom">Custom</option>
                     </select>
                     {errors.palletType && (
                       <span
