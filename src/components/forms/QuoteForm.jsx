@@ -21,6 +21,8 @@ const QuoteForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
   const [errors, setErrors] = useState({});
+  const API_BASE_URL =
+    import.meta.env.VITE_API_BASE_URL || "http://localhost:3000";
 
   const validateForm = () => {
     const newErrors = {};
@@ -97,8 +99,6 @@ const QuoteForm = () => {
       // Simulate API call - replace with your actual submission logic
       // await new Promise((resolve) => setTimeout(resolve, 2000));
 
-      const apiUrl = "/request-a-quote";
-
       console.log("Quote request submitted:", formData);
 
       setSubmitStatus("success");
@@ -120,7 +120,7 @@ const QuoteForm = () => {
 
       console.log(formData);
 
-      await fetch(apiUrl, {
+      await fetch(`${API_BASE_URL}/request-a-quote`, {
         method: "POST", // The request method
         headers: {
           "Content-Type": "application/json", // The type of data you're sending
