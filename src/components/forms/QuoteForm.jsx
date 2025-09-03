@@ -96,11 +96,25 @@ const QuoteForm = () => {
     setSubmitStatus(null);
 
     try {
-      // Simulate API call - replace with your actual submission logic
-      // await new Promise((resolve) => setTimeout(resolve, 2000));
-
       console.log("Quote request submitted:", formData);
 
+      // Make the API call FIRST, before clearing formData
+      const response = await fetch(`${API_BASE_URL}/request-a-quote`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData), // Send the actual formData
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const responseData = await response.json();
+      console.log("Success:", responseData);
+
+      // Only clear the form AFTER successful submission
       setSubmitStatus("success");
       setFormData({
         fullName: "",
@@ -117,28 +131,6 @@ const QuoteForm = () => {
         },
         additionalDetails: "",
       });
-
-      console.log(formData);
-
-      await fetch(`${API_BASE_URL}/request-a-quote`, {
-        method: "POST", // The request method
-        headers: {
-          "Content-Type": "application/json", // The type of data you're sending
-        },
-        body: JSON.stringify(formData), // The data, converted to a JSON string
-      })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
-          return response.json();
-        })
-        .then((responseData) => {
-          console.log("Success:", responseData);
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
     } catch (error) {
       setSubmitStatus("error");
       console.error("Quote submission error:", error);
