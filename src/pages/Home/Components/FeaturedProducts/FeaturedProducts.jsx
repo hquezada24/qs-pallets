@@ -1,16 +1,15 @@
 import styles from "./Styles.module.css";
 import { Button } from "../../../../components/common/Button/Index";
 
-const FeaturedProducts = () => {
+const FeaturedProducts = ({ products }) => {
+  if (!products) return null;
+
   return (
     <section className={styles.section}>
       <div className={styles.sectionContent}>
         <div className={styles.sectionHeader}>
-          <h2>Our Product Range</h2>
-          <p>
-            From standard shipping pallets to custom solutions, we have the
-            right pallet for every application and budget.
-          </p>
+          <h2>{products.title}</h2>
+          <p>{products.description}</p>
         </div>
 
         <div className={styles.featuresGrid}>

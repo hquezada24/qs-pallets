@@ -4,14 +4,20 @@ import { ScrollRestoration } from "react-router-dom";
 import { FeaturedProducts } from "./Components/FeaturedProducts/FeaturedProducts";
 import { WhyChooseUs } from "./Components/WhyChooseUs/WhyChooseUs";
 import { CallToAction } from "./Components/CallToAction/CallToAction";
+import { useHomeData } from "../../../hooks/useHomeData";
 
 const Home = () => {
+  const { data, loading, error } = useHomeData();
+
+  if (loading) return <div className={styles.loading}>Loading...</div>;
+  if (error) return <div className={styles.error}>Error: {error}</div>;
+
   return (
     <div className={styles.home}>
       <ScrollRestoration />
       <Hero />
-      <FeaturedProducts />
-      <WhyChooseUs />
+      <FeaturedProducts products={data?.features} />
+      <WhyChooseUs features={data?.whyChooseUs} />
       <CallToAction />
     </div>
   );

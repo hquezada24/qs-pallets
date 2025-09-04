@@ -1,6 +1,6 @@
 import styles from "./Styles.module.css";
 
-const WhyChooseUs = () => {
+const WhyChooseUs = ({ features }) => {
   return (
     <section className={styles.section}>
       <div className={styles.sectionContent}>
