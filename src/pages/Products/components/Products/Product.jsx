@@ -1,32 +1,25 @@
 import styles from "./Styles.module.css";
 import { Button } from "../../../../components/common/Button/Index";
 
-const Product = ({
-  title,
-  description,
-  features,
-  price,
-  image,
-  accent = "primary",
-}) => {
+const Product = ({ product }) => {
   return (
-    <div className={`${styles.productCard} ${styles[accent]}`}>
+    <div className={`${styles.productCard}`}>
       <div className={styles.productHeader}>
-        <div className={styles.productImage}>{image}</div>
+        <div className={styles.productImage}></div>
         <div className={styles.productTitle}>
-          <h3>{title}</h3>
+          <h3>{product.name}</h3>
         </div>
-        <div className={styles.productPrice}>{price}</div>
+        <div className={styles.productPrice}>{product.price}</div>
       </div>
 
       <div className={styles.productDescription}>
-        <p>{description}</p>
+        <p>{product.description}</p>
       </div>
 
       <div className={styles.productFeatures}>
         <h4>Key Features</h4>
         <ul>
-          {features.map((feature, index) => (
+          {product.key_features.map((feature, index) => (
             <li key={index}>{feature}</li>
           ))}
         </ul>

@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 
-export const useHomeData = () => {
+export const useProductsData = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const API_BASE_URL =
-      import.meta.env.VITE_API_BASE_URL || "http://localhost:3000";
+      import.meta.env.VITE_API_PRODUCTS || "http://localhost:3000/products";
     const fetchData = async () => {
       try {
         const response = await fetch(API_BASE_URL);
