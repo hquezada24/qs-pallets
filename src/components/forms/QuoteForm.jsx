@@ -22,7 +22,7 @@ const QuoteForm = () => {
   const [submitStatus, setSubmitStatus] = useState(null);
   const [errors, setErrors] = useState({});
   const API_BASE_URL =
-    import.meta.env.VITE_API_BASE_URL || "http://localhost:3000";
+    import.meta.env.VITE_API_BASE_URL || "http://localhost:4001";
 
   const validateForm = () => {
     const newErrors = {};
@@ -108,6 +108,7 @@ const QuoteForm = () => {
       });
 
       if (!response.ok) {
+        console.log(await response.json());
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
@@ -332,9 +333,9 @@ const QuoteForm = () => {
                       }
                     >
                       <option value="">Select pallet type</option>
-                      <option value="new">New</option>
-                      <option value="recycled">Recycled</option>
-                      <option value="custom">Custom</option>
+                      <option value="NEW">New Pallets</option>
+                      <option value="RECYCLED">Recycled Pallets</option>
+                      <option value="CUSTOM">Custom Pallets</option>
                     </select>
                     {errors.palletType && (
                       <span
@@ -392,7 +393,7 @@ const QuoteForm = () => {
                     type="text"
                     id="street"
                     name="street"
-                    value={formData.street}
+                    value={formData.address.street}
                     onChange={handleInputChange}
                     className={styles.input}
                   />
@@ -407,7 +408,7 @@ const QuoteForm = () => {
                       type="text"
                       id="city"
                       name="city"
-                      value={formData.city}
+                      value={formData.address.city}
                       onChange={handleInputChange}
                       className={styles.input}
                     />
@@ -420,7 +421,7 @@ const QuoteForm = () => {
                     <select
                       id="state"
                       name="state"
-                      value={formData.state}
+                      value={formData.address.state}
                       onChange={handleInputChange}
                       className={styles.select}
                     >
@@ -442,7 +443,7 @@ const QuoteForm = () => {
                       type="text"
                       id="zip"
                       name="zipCode"
-                      value={formData.zipCode}
+                      value={formData.address.zipCode}
                       onChange={handleInputChange}
                       className={styles.input}
                       pattern="[0-9]{5}(-[0-9]{4})?"
