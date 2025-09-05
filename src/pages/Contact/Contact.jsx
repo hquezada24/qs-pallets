@@ -5,23 +5,24 @@ import styles from "./Styles.module.css";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
-    name: "",
+    fullName: "",
     email: "",
     phone: "",
-    company: "",
+    companyName: "",
     subject: "",
     message: "",
-    inquiryType: "general",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
   const [errors, setErrors] = useState({});
+  const API_BASE_URL =
+    import.meta.env.VITE_API_BASE_URL || "http://localhost:3000";
 
   const validateForm = () => {
     const newErrors = {};
 
-    if (!formData.name.trim()) {
-      newErrors.name = "Name is required";
+    if (!formData.fullName.trim()) {
+      newErrors.fullName = "Name is required";
     }
 
     if (!formData.email.trim()) {
@@ -65,6 +66,8 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    console.log(formData);
+
     if (!validateForm()) {
       return;
     }
@@ -73,21 +76,30 @@ const Contact = () => {
     setSubmitStatus(null);
 
     try {
-      // Simulate API call - replace with your actual submission logic
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      // Make the API call
+      const response = await fetch(`${API_BASE_URL}/contact`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData), // Send the actual formData
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
 
       // send the data to backend
       console.log("Form submitted:", formData);
 
       setSubmitStatus("success");
       setFormData({
-        name: "",
+        fullName: "",
         email: "",
         phone: "",
-        company: "",
+        companyName: "",
         subject: "",
         message: "",
-        inquiryType: "general",
       });
     } catch (error) {
       setSubmitStatus("error");
@@ -162,8 +174,8 @@ const Contact = () => {
                 <input
                   type="text"
                   id="name"
-                  name="name"
-                  value={formData.name}
+                  name="fullName"
+                  value={formData.fullName}
                   onChange={handleInputChange}
                   className={`${styles.input} ${
                     errors.name ? styles.inputError : ""
@@ -249,8 +261,8 @@ const Contact = () => {
                   <input
                     type="text"
                     id="company"
-                    name="company"
-                    value={formData.company}
+                    name="companyName"
+                    value={formData.companyName}
                     onChange={handleInputChange}
                     className={styles.input}
                     placeholder="Your Company LLC"
