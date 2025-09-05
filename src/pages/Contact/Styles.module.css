@@ -240,7 +240,7 @@
   gap: 1rem;
   padding: 1rem 0;
   border-bottom: 1px solid #f7fafc;
-  align-items: flex-start;
+  align-items: center;
 }
 
 .infoItem:last-child {
@@ -254,6 +254,7 @@
   border-radius: 50%;
   display: flex;
   align-items: center;
+  background-color: yellow;
   justify-content: center;
   color: #fff;
   flex-shrink: 0;
@@ -267,12 +268,14 @@
 .infoContent h4 {
   font-size: 1.1rem;
   color: #2d3748;
+  text-align: left;
   margin-bottom: 0.5rem;
   font-weight: 600;
 }
 
 .infoContent p {
   color: #718096;
+  text-align: left;
   margin: 0;
   line-height: 1.6;
 }

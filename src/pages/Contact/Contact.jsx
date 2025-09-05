@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ScrollRestoration } from "react-router-dom";
 import { Button } from "../../components/common/Button/Index";
+import { useContactData } from "../../../hooks/useContactData";
 import styles from "./Styles.module.css";
 
 const Contact = () => {
@@ -17,6 +18,7 @@ const Contact = () => {
   const [errors, setErrors] = useState({});
   const API_BASE_URL =
     import.meta.env.VITE_API_BASE_URL || "http://localhost:3000";
+  const { data, loading, error } = useContactData();
 
   const validateForm = () => {
     const newErrors = {};
@@ -108,6 +110,9 @@ const Contact = () => {
       setIsSubmitting(false);
     }
   };
+
+  if (loading) return <div className={styles.loading}>Loading...</div>;
+  if (error) return <div className={styles.error}>Error: {error}</div>;
 
   return (
     <div className={styles.contactPage}>
@@ -357,10 +362,11 @@ const Contact = () => {
                 </div>
                 <div className={styles.infoContent}>
                   <h4>Our Location</h4>
+                  <p>{data.contactInfo.address.street}</p>
                   <p>
-                    123 Industrial Boulevard
-                    <br />
-                    Dallas, TX 75201
+                    {data.contactInfo.address.city},{" "}
+                    {data.contactInfo.address.state}{" "}
+                    {data.contactInfo.address.zipCode}
                   </p>
                 </div>
               </div>
@@ -374,8 +380,11 @@ const Contact = () => {
                 <div className={styles.infoContent}>
                   <h4>Phone</h4>
                   <p>
-                    <a href="tel:+14695551234" className={styles.contactLink}>
-                      (469) 555-1234
+                    <a
+                      href={data.contactInfo.phone.href}
+                      className={styles.contactLink}
+                    >
+                      {data.contactInfo.phone.display}
                     </a>
                   </p>
                 </div>
@@ -391,10 +400,10 @@ const Contact = () => {
                   <h4>Email</h4>
                   <p>
                     <a
-                      href="mailto:info@qspallets.com"
+                      href={data.contactInfo.email.href}
                       className={styles.contactLink}
                     >
-                      info@qspallets.com
+                      {data.contactInfo.email.display}
                     </a>
                   </p>
                 </div>
@@ -409,13 +418,9 @@ const Contact = () => {
                 </div>
                 <div className={styles.infoContent}>
                   <h4>Business Hours</h4>
-                  <p>
-                    Monday - Friday: 7:00 AM - 6:00 PM
-                    <br />
-                    Saturday: 8:00 AM - 4:00 PM
-                    <br />
-                    Sunday: Closed
-                  </p>
+                  <p>{data.contactInfo.businessHours.weekdays}</p>
+                  <p>{data.contactInfo.businessHours.saturday}</p>
+                  <p>{data.contactInfo.businessHours.sunday}</p>
                 </div>
               </div>
             </div>
