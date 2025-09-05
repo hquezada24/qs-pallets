@@ -242,7 +242,7 @@ const Contact = () => {
                     className={`${styles.input} ${
                       errors.phone ? styles.inputError : ""
                     }`}
-                    placeholder="(555) 123-4567"
+                    placeholder="(000) 000-0000"
                     required
                     aria-describedby={errors.phone ? "phone-error" : undefined}
                   />
@@ -270,7 +270,7 @@ const Contact = () => {
                     value={formData.companyName}
                     onChange={handleInputChange}
                     className={styles.input}
-                    placeholder="Your Company LLC"
+                    placeholder="Your Company"
                   />
                 </div>
               </div>
@@ -317,7 +317,7 @@ const Contact = () => {
                   className={`${styles.textarea} ${
                     errors.message ? styles.inputError : ""
                   }`}
-                  placeholder="Please provide details about your pallet requirements, quantities, specifications, or any questions you have..."
+                  placeholder="Please provide details about your pallet requirements, quantities, specifications, or any questions you have."
                   rows="6"
                   required
                   aria-describedby={

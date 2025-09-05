@@ -22,7 +22,7 @@ const QuoteForm = () => {
   const [submitStatus, setSubmitStatus] = useState(null);
   const [errors, setErrors] = useState({});
   const API_BASE_URL =
-    import.meta.env.VITE_API_BASE_URL || "http://localhost:4001";
+    import.meta.env.VITE_API_BASE_URL || "http://localhost:3000";
 
   const validateForm = () => {
     const newErrors = {};
@@ -98,7 +98,7 @@ const QuoteForm = () => {
     try {
       console.log("Quote request submitted:", formData);
 
-      // Make the API call FIRST, before clearing formData
+      // Make the API call
       const response = await fetch(`${API_BASE_URL}/request-a-quote`, {
         method: "POST",
         headers: {
@@ -108,12 +108,8 @@ const QuoteForm = () => {
       });
 
       if (!response.ok) {
-        console.log(await response.json());
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-
-      const responseData = await response.json();
-      console.log("Success:", responseData);
 
       // Only clear the form AFTER successful submission
       setSubmitStatus("success");
@@ -214,7 +210,7 @@ const QuoteForm = () => {
                       className={`${styles.input} ${
                         errors.fullName ? styles.inputError : ""
                       }`}
-                      placeholder="John Doe"
+                      placeholder="Enter your full name"
                       required
                       aria-describedby={
                         errors.fullName ? "fullName-error" : undefined
@@ -242,7 +238,7 @@ const QuoteForm = () => {
                       value={formData.companyName}
                       onChange={handleInputChange}
                       className={styles.input}
-                      placeholder="Your Company LLC"
+                      placeholder="Your Company"
                     />
                   </div>
                 </div>
@@ -261,7 +257,7 @@ const QuoteForm = () => {
                       className={`${styles.input} ${
                         errors.email ? styles.inputError : ""
                       }`}
-                      placeholder="john.doe@company.com"
+                      placeholder="your.email@company.com"
                       required
                       aria-describedby={
                         errors.email ? "email-error" : undefined
@@ -291,7 +287,7 @@ const QuoteForm = () => {
                       className={`${styles.input} ${
                         errors.phone ? styles.inputError : ""
                       }`}
-                      placeholder="(555) 123-4567"
+                      placeholder="(000) 000-0000"
                       required
                       aria-describedby={
                         errors.phone ? "phone-error" : undefined
@@ -463,7 +459,7 @@ const QuoteForm = () => {
                   value={formData.additionalDetails}
                   onChange={handleInputChange}
                   className={styles.textarea}
-                  placeholder="Please specify any special requirements, load capacities, certifications needed, or other details that would help us provide an accurate quote..."
+                  placeholder="Please provide details about your pallet requirements, quantities, specifications, or any questions you have."
                   rows="4"
                 />
               </div>
