@@ -60,10 +60,19 @@ const Products = () => {
                 <div key={index}>{header}</div>
               ))}
             </div>
-            {data.specifications.rows.map((row, index) => (
-              <div key={index} className={styles.specRow}>
-                {row.map((col, index) => (
-                  <div key={index}>{col}</div>
+            {data.specifications.rows.map((row, rowIndex) => (
+              <div key={rowIndex} className={styles.specRow}>
+                {row.map((col, colIndex) => (
+                  <div
+                    key={colIndex}
+                    data-label={
+                      colIndex > 0
+                        ? data.specifications.headers[colIndex]
+                        : undefined
+                    }
+                  >
+                    {col}
+                  </div>
                 ))}
               </div>
             ))}
