@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import styles from "./Header.module.css";
+import logoURL from "../../../assets/qspallets.svg";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -69,14 +70,11 @@ const Header = () => {
         <div className={styles.logo}>
           <Link to="/" className={styles.logoLink} aria-label="QS Pallets Home">
             <div className={styles.logoIcon}>
-              <svg viewBox="0 0 40 40" className={styles.logoSvg}>
-                <rect x="2" y="12" width="36" height="4" fill="currentColor" />
-                <rect x="2" y="24" width="36" height="4" fill="currentColor" />
-                <rect x="6" y="8" width="4" height="24" fill="currentColor" />
-                <rect x="15" y="8" width="4" height="24" fill="currentColor" />
-                <rect x="21" y="8" width="4" height="24" fill="currentColor" />
-                <rect x="30" y="8" width="4" height="24" fill="currentColor" />
-              </svg>
+              <img
+                src={logoURL}
+                alt="QS Pallets Logo"
+                className={styles.logoSvg}
+              />
             </div>
             <span className={styles.brandName}>QS Pallets</span>
           </Link>
