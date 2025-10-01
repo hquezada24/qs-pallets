@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ScrollRestoration } from "react-router-dom";
 import { Button } from "../../components/common/Button/Index";
-import { useContactData } from "../../../hooks/useContactData";
+import { useContactData } from "../../hooks/useContactData";
 import styles from "./Styles.module.css";
 
 const Contact = () => {

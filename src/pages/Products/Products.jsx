@@ -1,7 +1,7 @@
 import styles from "./Styles.module.css";
 import { Product } from "./components/Products/Product";
 import { Link, ScrollRestoration } from "react-router-dom";
-import { useProductsData } from "../../../hooks/useProductsData";
+import { useProductsData } from "../../hooks/useProductsData";
 
 const Products = () => {
   const { data, loading, error } = useProductsData();
