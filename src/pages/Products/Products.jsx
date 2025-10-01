@@ -52,32 +52,34 @@ const Products = () => {
           </div>
         </div>
 
-        <div className={styles.specifications}>
-          <h2>Standard Specifications</h2>
-          <div className={styles.specTable}>
-            <div className={styles.specHeader}>
-              {data.specifications.headers.map((header, index) => (
-                <div key={index}>{header}</div>
-              ))}
-            </div>
-            {data.specifications.rows.map((row, rowIndex) => (
-              <div key={rowIndex} className={styles.specRow}>
-                {row.map((col, colIndex) => (
-                  <div
-                    key={colIndex}
-                    data-label={
-                      colIndex > 0
-                        ? data.specifications.headers[colIndex]
-                        : undefined
-                    }
-                  >
-                    {col}
-                  </div>
+        {data.specifications && (
+          <div className={styles.specifications}>
+            <h2>Standard Specifications</h2>
+            <div className={styles.specTable}>
+              <div className={styles.specHeader}>
+                {data.specifications.headers.map((header, index) => (
+                  <div key={index}>{header}</div>
                 ))}
               </div>
-            ))}
+              {data.specifications.rows.map((row, rowIndex) => (
+                <div key={rowIndex} className={styles.specRow}>
+                  {row.map((col, colIndex) => (
+                    <div
+                      key={colIndex}
+                      data-label={
+                        colIndex > 0
+                          ? data.specifications.headers[colIndex]
+                          : undefined
+                      }
+                    >
+                      {col}
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
         <div className={styles.cta}>
           <div className={styles.ctaContent}>
