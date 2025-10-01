@@ -1,0 +1,32 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Home Component > renders all components when data is loaded successfully 1`] = `
+<div>
+  <div
+    class="_home_0da9fa"
+  >
+    <div
+      data-testid="hero"
+    >
+      Hero Component
+    </div>
+    <div
+      data-testid="featured-products"
+    >
+      Featured Products: 
+      1
+    </div>
+    <div
+      data-testid="why-choose-us"
+    >
+      Why Choose Us: 
+      1
+    </div>
+    <div
+      data-testid="cta"
+    >
+      Call to Action
+    </div>
+  </div>
+</div>
+`;
