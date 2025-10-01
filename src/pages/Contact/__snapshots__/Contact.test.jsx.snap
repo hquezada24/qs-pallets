@@ -1,0 +1,457 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Contact component > renders all components when data is loaded successfully 1`] = `
+<div>
+  <div
+    class="_contactPage_9cbbc9"
+  >
+    <div
+      class="_hero_9cbbc9"
+    >
+      <div
+        class="_heroContent_9cbbc9"
+      >
+        <h1
+          class="_title_9cbbc9"
+        >
+          Get In Touch
+        </h1>
+        <p
+          class="_subtitle_9cbbc9"
+        >
+          Ready to discuss your pallet needs? We're here to help with custom solutions and reliable supply.
+        </p>
+      </div>
+    </div>
+    <div
+      class="_container_9cbbc9"
+    >
+      <div
+        class="_content_9cbbc9"
+      >
+        <div
+          class="_formSection_9cbbc9"
+        >
+          <div
+            class="_formHeader_9cbbc9"
+          >
+            <h2>
+              Send Us a Message
+            </h2>
+            <p>
+              Fill out the form below and we'll get back to you within 24 hours.
+            </p>
+          </div>
+          <form
+            class="_form_9cbbc9"
+            novalidate=""
+          >
+            <div
+              class="_formGroup_9cbbc9"
+            >
+              <label
+                class="_label_9cbbc9"
+                for="name"
+              >
+                Full Name *
+              </label>
+              <input
+                class="_input_9cbbc9 "
+                id="name"
+                name="fullName"
+                placeholder="Enter your full name"
+                required=""
+                type="text"
+                value=""
+              />
+            </div>
+            <div
+              class="_formRow_9cbbc9"
+            >
+              <div
+                class="_formGroup_9cbbc9"
+              >
+                <label
+                  class="_label_9cbbc9"
+                  for="email"
+                >
+                  Email Address *
+                </label>
+                <input
+                  class="_input_9cbbc9 "
+                  id="email"
+                  name="email"
+                  placeholder="your.email@company.com"
+                  required=""
+                  type="email"
+                  value=""
+                />
+              </div>
+              <div
+                class="_formGroup_9cbbc9"
+              >
+                <label
+                  class="_label_9cbbc9"
+                  for="phone"
+                >
+                  Phone Number *
+                </label>
+                <input
+                  class="_input_9cbbc9 "
+                  id="phone"
+                  name="phone"
+                  placeholder="(000) 000-0000"
+                  required=""
+                  type="tel"
+                  value=""
+                />
+              </div>
+            </div>
+            <div
+              class="_formRow_9cbbc9"
+            >
+              <div
+                class="_formGroup_9cbbc9"
+              >
+                <label
+                  class="_label_9cbbc9"
+                  for="company"
+                >
+                  Company Name
+                </label>
+                <input
+                  class="_input_9cbbc9"
+                  id="company"
+                  name="companyName"
+                  placeholder="Your Company"
+                  type="text"
+                  value=""
+                />
+              </div>
+            </div>
+            <div
+              class="_formGroup_9cbbc9"
+            >
+              <label
+                class="_label_9cbbc9"
+                for="subject"
+              >
+                Subject *
+              </label>
+              <input
+                class="_input_9cbbc9 "
+                id="subject"
+                name="subject"
+                placeholder="Brief description of your inquiry"
+                required=""
+                type="text"
+                value=""
+              />
+            </div>
+            <div
+              class="_formGroup_9cbbc9"
+            >
+              <label
+                class="_label_9cbbc9"
+                for="message"
+              >
+                Message *
+              </label>
+              <textarea
+                class="_textarea_9cbbc9 "
+                id="message"
+                name="message"
+                placeholder="Please provide details about your pallet requirements, quantities, specifications, or any questions you have."
+                required=""
+                rows="6"
+              />
+            </div>
+            <div
+              class="_formActions_9cbbc9"
+            >
+              <button
+                data-loading="false"
+                data-testid="button-send-message"
+              >
+                Send Message
+              </button>
+            </div>
+          </form>
+        </div>
+        <div
+          class="_infoSection_9cbbc9"
+        >
+          <div
+            class="_infoCard_9cbbc9"
+          >
+            <h3
+              class="_infoTitle_9cbbc9"
+            >
+              Contact Information
+            </h3>
+            <div
+              class="_infoItem_9cbbc9"
+            >
+              <div
+                class="_infoIcon_9cbbc9"
+              >
+                <svg
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"
+                  />
+                </svg>
+              </div>
+              <div
+                class="_infoContent_9cbbc9"
+              >
+                <h4>
+                  Our Location
+                </h4>
+                <p>
+                  123 Street
+                </p>
+                <p>
+                  Los Angeles
+                  ,
+                   
+                  CA
+                   
+                  00000
+                </p>
+              </div>
+            </div>
+            <div
+              class="_infoItem_9cbbc9"
+            >
+              <div
+                class="_infoIcon_9cbbc9"
+              >
+                <svg
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"
+                  />
+                </svg>
+              </div>
+              <div
+                class="_infoContent_9cbbc9"
+              >
+                <h4>
+                  Phone
+                </h4>
+                <p>
+                  <a
+                    class="_contactLink_9cbbc9"
+                    href="tel:+10000000000"
+                  >
+                    (000) 000-0000
+                  </a>
+                </p>
+              </div>
+            </div>
+            <div
+              class="_infoItem_9cbbc9"
+            >
+              <div
+                class="_infoIcon_9cbbc9"
+              >
+                <svg
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"
+                  />
+                </svg>
+              </div>
+              <div
+                class="_infoContent_9cbbc9"
+              >
+                <h4>
+                  Email
+                </h4>
+                <p>
+                  <a
+                    class="_contactLink_9cbbc9"
+                    href="mailto:info@email.com"
+                  >
+                    info@email.com
+                  </a>
+                </p>
+              </div>
+            </div>
+            <div
+              class="_infoItem_9cbbc9"
+            >
+              <div
+                class="_infoIcon_9cbbc9"
+              >
+                <svg
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                  />
+                  <path
+                    d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z"
+                  />
+                </svg>
+              </div>
+              <div
+                class="_infoContent_9cbbc9"
+              >
+                <h4>
+                  Business Hours
+                </h4>
+                <p>
+                  Monday - Friday: 7:00 AM - 6:00 PM
+                </p>
+                <p>
+                  Saturday: 8:00 AM - 4:00 PM
+                </p>
+                <p>
+                  Sunday: Closed
+                </p>
+              </div>
+            </div>
+          </div>
+          <div
+            class="_infoCard_9cbbc9"
+          >
+            <h3
+              class="_infoTitle_9cbbc9"
+            >
+              Why Choose QS Pallets?
+            </h3>
+            <ul
+              class="_benefitsList_9cbbc9"
+            >
+              <li
+                class="_benefit_9cbbc9"
+              >
+                <svg
+                  class="_checkIcon_9cbbc9"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
+                  />
+                </svg>
+                <span>
+                  Fast turnaround times
+                </span>
+              </li>
+              <li
+                class="_benefit_9cbbc9"
+              >
+                <svg
+                  class="_checkIcon_9cbbc9"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
+                  />
+                </svg>
+                <span>
+                  Custom pallet solutions
+                </span>
+              </li>
+              <li
+                class="_benefit_9cbbc9"
+              >
+                <svg
+                  class="_checkIcon_9cbbc9"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
+                  />
+                </svg>
+                <span>
+                  Competitive pricing
+                </span>
+              </li>
+              <li
+                class="_benefit_9cbbc9"
+              >
+                <svg
+                  class="_checkIcon_9cbbc9"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
+                  />
+                </svg>
+                <span>
+                  Quality materials
+                </span>
+              </li>
+              <li
+                class="_benefit_9cbbc9"
+              >
+                <svg
+                  class="_checkIcon_9cbbc9"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
+                  />
+                </svg>
+                <span>
+                  Reliable delivery
+                </span>
+              </li>
+            </ul>
+          </div>
+          <div
+            class="_infoCard_9cbbc9"
+          >
+            <h3
+              class="_infoTitle_9cbbc9"
+            >
+              Need Immediate Help?
+            </h3>
+            <p
+              class="_urgentText_9cbbc9"
+            >
+              For urgent inquiries or large orders, call us directly at
+               
+              <a
+                class="_phoneLink_9cbbc9"
+                href="tel:+14695551234"
+              >
+                (469) 555-1234
+              </a>
+            </p>
+            <div
+              class="_urgentActions_9cbbc9"
+            >
+              <button
+                data-testid="button-call-now"
+              >
+                Call Now
+              </button>
+              <button
+                data-testid="button-get-quote"
+              >
+                Get Quote
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
