@@ -1,0 +1,16 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Quote component > renders quote form component 1`] = `
+<div>
+  <div
+    class="_quote_b1fc99"
+    id="quote"
+  >
+    <div
+      data-testid="quote-form"
+    >
+      QuoteForm
+    </div>
+  </div>
+</div>
+`;
