@@ -7,7 +7,7 @@ const FeaturedProducts = ({ products }) => {
   return (
     <section
       className={styles.section}
-      ariaLabelledBy="featured-products-title"
+      aria-labelledby="featured-products-title"
     >
       <div className={styles.sectionContent}>
         <div className={styles.sectionHeader}>
@@ -18,7 +18,7 @@ const FeaturedProducts = ({ products }) => {
         <div className={styles.featuresGrid}>
           {products.products?.map((product, index) => (
             <div key={index} className={styles.featureCard}>
-              <span className={styles.featureIcon} ariaHidden="true">
+              <span className={styles.featureIcon} aria-hidden="true">
                 {product.icon}
               </span>
               <h3>{product.name}</h3>
@@ -27,7 +27,7 @@ const FeaturedProducts = ({ products }) => {
                 <Button
                   text="Learn More"
                   link="/products"
-                  ariaLabel={`Learn more about ${product.name}`}
+                  aria-label={`Learn more about ${product.name}`}
                 />
               </div>
             </div>
