@@ -39,7 +39,7 @@ const Button = ({
       type={type}
       disabled={disabled || loading}
       onClick={handleClick}
-      aria-label={ariaLabel || text}
+      ariaLabel={ariaLabel || text}
       {...props}
     >
       {loading && <span className={styles.spinner} aria-hidden="true" />}
