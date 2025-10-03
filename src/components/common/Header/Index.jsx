@@ -69,12 +69,8 @@ const Header = () => {
       <div className={styles.container}>
         <div className={styles.logo}>
           <Link to="/" className={styles.logoLink} aria-label="QS Pallets Home">
-            <div className={styles.logoIcon}>
-              <img
-                src={logoURL}
-                alt="QS Pallets Logo"
-                className={styles.logoSvg}
-              />
+            <div className={styles.logoIcon} aria-hidden="true">
+              <img src={logoURL} alt="" className={styles.logoSvg} />
             </div>
             <span className={styles.brandName}>QS Pallets</span>
           </Link>
@@ -82,7 +78,9 @@ const Header = () => {
 
         {/* Desktop Navigation */}
         <nav className={styles.navigation} aria-label="Main navigation">
-          <ul className={styles.navList}>
+          <ul className={styles.navList} role="list">
+            {" "}
+            {/* Ensure list semantics preserved */}
             {navigationItems.map((item) => (
               <li key={item.path} className={styles.navItem}>
                 <Link
@@ -90,6 +88,7 @@ const Header = () => {
                   className={`${styles.navLink} ${
                     isActiveLink(item.path) ? styles.activeLink : ""
                   }`}
+                  aria-current={isActiveLink(item.path) ? "page" : undefined}
                 >
                   {item.label}
                 </Link>
@@ -105,9 +104,11 @@ const Header = () => {
             onClick={toggleMenu}
             aria-expanded={isMenuOpen}
             aria-controls="mobile-navigation"
-            aria-label="Toggle navigation menu"
+            aria-label={
+              isMenuOpen ? "Close navigation menu" : "Open navigation menu"
+            }
           >
-            <span className={styles.hamburger}>
+            <span className={styles.hamburger} aria-hidden="true">
               <span
                 className={`${styles.line} ${
                   isMenuOpen ? styles.lineActive : ""
@@ -133,8 +134,9 @@ const Header = () => {
             }`}
             id="mobile-navigation"
             aria-label="Mobile navigation"
+            aria-hidden={!isMenuOpen}
           >
-            <ul className={styles.mobileNavList}>
+            <ul className={styles.mobileNavList} role="list">
               {navigationItems.map((item) => (
                 <li key={item.path} className={styles.mobileNavItem}>
                   <Link
@@ -143,6 +145,8 @@ const Header = () => {
                       isActiveLink(item.path) ? styles.activeMobileLink : ""
                     }`}
                     onClick={() => setIsMenuOpen(false)}
+                    aria-current={isActiveLink(item.path) ? "page" : undefined}
+                    tabIndex={isMenuOpen ? 0 : -1}
                   >
                     {item.label}
                   </Link>
