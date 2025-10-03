@@ -14,7 +14,7 @@ const QuoteForm = () => {
       street: "",
       city: "",
       state: "",
-      zipCode: "",
+      zip: "",
     },
     additionalDetails: "",
   });
@@ -65,7 +65,7 @@ const QuoteForm = () => {
     if (
       name === "street" ||
       name === "city" ||
-      name === "zipCode" ||
+      name === "zip" ||
       name === "state"
     ) {
       setFormData((prev) => ({
@@ -124,7 +124,7 @@ const QuoteForm = () => {
           street: "",
           city: "",
           state: "",
-          zipCode: "",
+          zip: "",
         },
         additionalDetails: "",
       });
@@ -160,11 +160,16 @@ const QuoteForm = () => {
             </div>
 
             {submitStatus === "success" && (
-              <div className={styles.successMessage} role="alert">
+              <div
+                className={styles.successMessage}
+                role="alert"
+                aria-live="polite"
+              >
                 <svg
                   className={styles.successIcon}
                   viewBox="0 0 24 24"
                   fill="currentColor"
+                  aria-hidden="true"
                 >
                   <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
                 </svg>
@@ -176,11 +181,16 @@ const QuoteForm = () => {
             )}
 
             {submitStatus === "error" && (
-              <div className={styles.errorMessage} role="alert">
+              <div
+                className={styles.errorMessage}
+                role="alert"
+                aria-live="assertive"
+              >
                 <svg
                   className={styles.errorIcon}
                   viewBox="0 0 24 24"
                   fill="currentColor"
+                  aria-hidden="true"
                 >
                   <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
                 </svg>
@@ -212,6 +222,9 @@ const QuoteForm = () => {
                       }`}
                       placeholder="Enter your full name"
                       required
+                      aria-required="true"
+                      aria-invalid={errors.fullName ? "true" : "false"}
+                      autoComplete="name"
                       aria-describedby={
                         errors.fullName ? "fullName-error" : undefined
                       }
@@ -238,6 +251,7 @@ const QuoteForm = () => {
                       value={formData.companyName}
                       onChange={handleInputChange}
                       className={styles.input}
+                      autoComplete="organization"
                       placeholder="Your Company"
                     />
                   </div>
@@ -259,6 +273,9 @@ const QuoteForm = () => {
                       }`}
                       placeholder="your.email@company.com"
                       required
+                      aria-required="true"
+                      aria-invalid={errors.email ? "true" : "false"}
+                      autoComplete="email"
                       aria-describedby={
                         errors.email ? "email-error" : undefined
                       }
@@ -289,6 +306,9 @@ const QuoteForm = () => {
                       }`}
                       placeholder="(000) 000-0000"
                       required
+                      aria-required="true"
+                      aria-invalid={errors.phone ? "true" : "false"}
+                      autoComplete="tel"
                       aria-describedby={
                         errors.phone ? "phone-error" : undefined
                       }
@@ -324,6 +344,8 @@ const QuoteForm = () => {
                         errors.palletType ? styles.inputError : ""
                       }`}
                       required
+                      aria-required="true"
+                      aria-invalid={errors.palletType ? "true" : "false"}
                       aria-describedby={
                         errors.palletType ? "palletType-error" : undefined
                       }
@@ -360,6 +382,8 @@ const QuoteForm = () => {
                       placeholder="100"
                       min="1"
                       required
+                      aria-required="true"
+                      aria-invalid={errors.quantity ? "true" : "false"}
                       aria-describedby={
                         errors.quantity ? "quantity-error" : undefined
                       }
@@ -392,6 +416,7 @@ const QuoteForm = () => {
                     value={formData.address.street}
                     onChange={handleInputChange}
                     className={styles.input}
+                    autoComplete="street-address"
                   />
                 </div>
 
@@ -407,6 +432,7 @@ const QuoteForm = () => {
                       value={formData.address.city}
                       onChange={handleInputChange}
                       className={styles.input}
+                      autoComplete="address-level2"
                     />
                   </div>
 
@@ -420,6 +446,7 @@ const QuoteForm = () => {
                       value={formData.address.state}
                       onChange={handleInputChange}
                       className={styles.select}
+                      autoComplete="address-level1"
                     >
                       <option value="">Select state</option>
                       <option value="TX">Texas</option>
@@ -438,13 +465,18 @@ const QuoteForm = () => {
                     <input
                       type="text"
                       id="zip"
-                      name="zipCode"
-                      value={formData.address.zipCode}
+                      name="zip"
+                      value={formData.address.zip}
                       onChange={handleInputChange}
                       className={styles.input}
+                      autoComplete="postal-code"
                       pattern="[0-9]{5}(-[0-9]{4})?"
+                      aria-describedby="zip-hint"
                     />
                   </div>
+                  <span id="zip-hint" className="sr-only">
+                    Format: 12345 or 12345-6789
+                  </span>
                 </div>
               </fieldset>
 
@@ -461,7 +493,11 @@ const QuoteForm = () => {
                   className={styles.textarea}
                   placeholder="Please provide details about your pallet requirements, quantities, specifications, or any questions you have."
                   rows="4"
+                  aria-describedby="comments-hint"
                 />
+                <span id="comments-hint" className="sr-only">
+                  Optional: Provide any specific requirements or questions
+                </span>
               </div>
 
               <div className={styles.formActions}>
@@ -479,42 +515,46 @@ const QuoteForm = () => {
           </div>
 
           {/* Quote Information Sidebar */}
-          <div className={styles.infoSection}>
+          <aside
+            className={styles.infoSection}
+            aria-label="Quote process information"
+          >
             <div className={styles.infoCard}>
               <h3 className={styles.infoTitle}>Quote Process</h3>
-              <div className={styles.processSteps}>
-                <div className={styles.step}>
+              <ol className={styles.processSteps} role="list">
+                <li className={styles.step}>
                   <div className={styles.stepNumber}>1</div>
                   <div className={styles.stepContent}>
                     <h4>Submit Request</h4>
                     <p>Fill out the form with your requirements</p>
                   </div>
-                </div>
-                <div className={styles.step}>
+                </li>
+                <li className={styles.step}>
                   <div className={styles.stepNumber}>2</div>
                   <div className={styles.stepContent}>
                     <h4>Review & Analysis</h4>
                     <p>We analyze your needs and prepare pricing</p>
                   </div>
-                </div>
-                <div className={styles.step}>
+                </li>
+                <li className={styles.step}>
                   <div className={styles.stepNumber}>3</div>
                   <div className={styles.stepContent}>
                     <h4>Receive Quote</h4>
                     <p>Get your detailed quote within 24 hours</p>
                   </div>
-                </div>
-              </div>
+                </li>
+              </ol>
             </div>
 
             <div className={styles.infoCard}>
               <h3 className={styles.infoTitle}>What We Need to Know</h3>
-              <ul className={styles.requirementsList}>
+              <ul className={styles.requirementsList} role="list">
                 <li className={styles.requirement}>
                   <svg
                     className={styles.checkIcon}
                     viewBox="0 0 24 24"
                     fill="currentColor"
+                    aria-hidden="true"
                   >
                     <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
                   </svg>
@@ -525,6 +565,7 @@ const QuoteForm = () => {
                     className={styles.checkIcon}
                     viewBox="0 0 24 24"
                     fill="currentColor"
+                    aria-hidden="true"
                   >
                     <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
                   </svg>
@@ -535,6 +576,7 @@ const QuoteForm = () => {
                     className={styles.checkIcon}
                     viewBox="0 0 24 24"
                     fill="currentColor"
+                    aria-hidden="true"
                   >
                     <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
                   </svg>
@@ -545,6 +587,7 @@ const QuoteForm = () => {
                     className={styles.checkIcon}
                     viewBox="0 0 24 24"
                     fill="currentColor"
+                    aria-hidden="true"
                   >
                     <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
                   </svg>
@@ -568,7 +611,7 @@ const QuoteForm = () => {
                 />
               </div>
             </div>
-          </div>
+          </aside>
         </div>
       </div>
     </div>
