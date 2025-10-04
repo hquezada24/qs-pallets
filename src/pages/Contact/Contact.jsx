@@ -111,8 +111,18 @@ const Contact = () => {
     }
   };
 
-  if (loading) return <div className={styles.loading}>Loading...</div>;
-  if (error) return <div className={styles.error}>Error: {error}</div>;
+  if (loading)
+    return (
+      <div className={styles.contentWrapper}>
+        <div className={styles.loading}>Loading ...</div>;
+      </div>
+    );
+  if (error)
+    return (
+      <div className={styles.contentWrapper}>
+        <div className={styles.error}>Error: {error}</div>;
+      </div>
+    );
 
   return (
     <div className={styles.contactPage}>
