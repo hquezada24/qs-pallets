@@ -30,6 +30,20 @@ const Product = ({ product }) => {
       aria-labelledby={`product-${product.name}-title`}
     >
       <div className={styles.productHeader}>
+        {/* Product Title */}
+        <div className={styles.productTitle}>
+          <h3 id={`product-${product.name}-title`}>{product.name}</h3>
+        </div>
+
+        {/* Product Price */}
+        {product.price && (
+          <p
+            className={styles.productPrice}
+            aria-label={`Price: ${product.price}`}
+          >
+            {parseInt(product.price) ? `$${product.price}` : product.price}
+          </p>
+        )}
         {/* Product Image Container */}
         {product.imageURL ? (
           <div className={styles.imageContainer}>
@@ -82,21 +96,6 @@ const Product = ({ product }) => {
           </div>
         ) : (
           ""
-        )}
-
-        {/* Product Title */}
-        <div className={styles.productTitle}>
-          <h3 id={`product-${product.name}-title`}>{product.name}</h3>
-        </div>
-
-        {/* Product Price */}
-        {product.price && (
-          <p
-            className={styles.productPrice}
-            aria-label={`Price: ${product.price}`}
-          >
-            {parseInt(product.price) ? `$${product.price}` : product.price}
-          </p>
         )}
       </div>
 
