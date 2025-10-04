@@ -43,11 +43,11 @@ const Footer = () => {
                 <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
               </svg>
               <a
-                href="tel:+14695551234"
+                href="tel:+19034010536"
                 className={styles.contactLink}
-                aria-label="Call us at (469) 555-1234"
+                aria-label="Call us at (903) 401-0536"
               >
-                (469) 555-1234
+                (903) 401-0536
               </a>
             </div>
             <div className={styles.contactItem}>
@@ -60,11 +60,11 @@ const Footer = () => {
                 <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
               </svg>
               <a
-                href="mailto:info@qspallets.com"
+                href="mailto:qspallets@gmail.com"
                 className={styles.contactLink}
-                aria-label="Email us at info@qspallets.com"
+                aria-label="Email us at qspallets@gmail.com"
               >
-                info@qspallets.com
+                qspallets@gmail.com
               </a>
             </div>
           </address>
@@ -108,7 +108,7 @@ const Footer = () => {
           </nav>
         </div>
 
-        <div className={styles.section}>
+        {/* <div className={styles.section}>
           <h4 className={styles.sectionTitle}>Follow Us</h4>
           <div className={styles.social}>
             <a
@@ -160,7 +160,7 @@ const Footer = () => {
               </svg>
             </a>
           </div>
-        </div>
+        </div> */}
       </div>
 
       <div className={styles.bottom}>
