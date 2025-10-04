@@ -1,28 +1,92 @@
 import styles from "./Styles.module.css";
 import { Button } from "../../../../components/common/Button/Index";
+import { useState } from "react";
 
 const Product = ({ product }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  // Handle both single image (string) and multiple images (array)
+  const images = Array.isArray(product.imageURL)
+    ? product.imageURL
+    : product.imageURL
+    ? [product.imageURL]
+    : ["/images/placeholder.jpeg"]; // fallback image
+
+  const isSingleImage = images.length === 1;
+  const currentImageURL = images[currentIndex];
+
+  const nextImage = () => {
+    setCurrentIndex((prev) => (prev + 1) % images.length);
+  };
+
+  const prevImage = () => {
+    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+  };
+
   return (
     <div
       className={styles.productCard}
       role="article"
-      aria-labelledby={`product-${product.id}-title`}
+      aria-labelledby={`product-${product.name}-title`}
     >
       <div className={styles.productHeader}>
-        {/* Product Image (accessible if meaningful) */}
-        {product.imageUrl ? (
-          <img
-            src={product.imageUrl}
-            alt={product.name}
-            className={styles.productImage}
-          />
+        {/* Product Image Container */}
+        {product.imageURL ? (
+          <div className={styles.imageContainer}>
+            <img
+              src={currentImageURL}
+              alt={`${product.name} - Image ${currentIndex + 1} of ${
+                images.length
+              }`}
+              className={styles.productImage}
+            />
+
+            {/* Carousel Controls - Only show if multiple images */}
+            {!isSingleImage && (
+              <>
+                <button
+                  onClick={prevImage}
+                  className={styles.carouselBtn}
+                  aria-label="Previous image"
+                >
+                  ‹
+                </button>
+                <button
+                  onClick={nextImage}
+                  className={styles.carouselBtn}
+                  aria-label="Next image"
+                >
+                  ›
+                </button>
+                <div className={styles.imageIndicators}>
+                  {images.map((_, index) => (
+                    <span
+                      key={index}
+                      className={`${styles.indicator} ${
+                        index === currentIndex ? styles.active : ""
+                      }`}
+                      onClick={() => setCurrentIndex(index)}
+                      role="button"
+                      aria-label={`View image ${index + 1}`}
+                      tabIndex={0}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          setCurrentIndex(index);
+                        }
+                      }}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
         ) : (
-          <div className={styles.productImage} aria-hidden="true"></div>
+          ""
         )}
 
         {/* Product Title */}
         <div className={styles.productTitle}>
-          <h3 id={`product-${product.id}-title`}>{product.name}</h3>
+          <h3 id={`product-${product.name}-title`}>{product.name}</h3>
         </div>
 
         {/* Product Price */}
@@ -31,7 +95,7 @@ const Product = ({ product }) => {
             className={styles.productPrice}
             aria-label={`Price: ${product.price}`}
           >
-            {product.price}
+            {parseInt(product.price) ? `$${product.price}` : product.price}
           </p>
         )}
       </div>
