@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import styles from "./Header.module.css";
-import logoURL from "../../../assets/qspallets.svg";
+import logoURL from "../../../assets/qspallets.png";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -69,9 +69,7 @@ const Header = () => {
       <div className={styles.container}>
         <div className={styles.logo}>
           <Link to="/" className={styles.logoLink} aria-label="QS Pallets Home">
-            <div className={styles.logoIcon} aria-hidden="true">
-              <img src={logoURL} alt="" className={styles.logoSvg} />
-            </div>
+            <img src={logoURL} alt="" className={styles.logoPng} />
             <span className={styles.brandName}>QS Pallets</span>
           </Link>
         </div>
