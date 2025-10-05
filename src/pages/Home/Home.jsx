@@ -12,12 +12,14 @@ const Home = () => {
   if (loading)
     return (
       <div className={styles.contentWrapper}>
+        <ScrollRestoration />
         <div className={styles.loading}>Loading ...</div>;
       </div>
     );
   if (error)
     return (
       <div className={styles.contentWrapper}>
+        <ScrollRestoration />
         <div className={styles.error}>Error: {error}</div>;
       </div>
     );

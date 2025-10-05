@@ -114,12 +114,14 @@ const Contact = () => {
   if (loading)
     return (
       <div className={styles.contentWrapper}>
+        <ScrollRestoration />
         <div className={styles.loading}>Loading ...</div>;
       </div>
     );
   if (error)
     return (
       <div className={styles.contentWrapper}>
+        <ScrollRestoration />
         <div className={styles.error}>Error: {error}</div>;
       </div>
     );
@@ -509,18 +511,18 @@ const Contact = () => {
               <p className={styles.urgentText}>
                 For urgent inquiries or large orders, call us directly at{" "}
                 <a
-                  href="tel:+14695551234"
+                  href="tel:+19034010536"
                   className={styles.phoneLink}
-                  aria-label="Call QS Pallets at (469) 555-1234"
+                  aria-label="Call QS Pallets at (903) 401-0536"
                 >
-                  (469) 555-1234
+                  (903) 401-0536
                 </a>
               </p>
               <div className={styles.urgentActions}>
                 <Button
                   text="Call Now"
                   variant="outline"
-                  onClick={() => (window.location.href = "tel:+14695551234")}
+                  onClick={() => (window.location.href = "tel:+9034010536")}
                   aria-label="Call QS Pallets now"
                 />
                 <Button
