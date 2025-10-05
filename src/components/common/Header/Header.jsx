@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
-import styles from "./Header.module.css";
+import styles from "./Styles.module.css";
 import logoURL from "../../../assets/qspallets.png";
 
 const Header = () => {

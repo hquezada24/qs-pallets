@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button } from "../common/Button/Index";
+import { Button } from "../common/Button/Button";
 import styles from "./Styles.module.css";
 
 const QuoteForm = () => {

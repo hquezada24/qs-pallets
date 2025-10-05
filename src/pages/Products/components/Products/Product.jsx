@@ -1,5 +1,5 @@
 import styles from "./Styles.module.css";
-import { Button } from "../../../../components/common/Button/Index";
+import { Button } from "../../../../components/common/Button/Button";
 import { useState } from "react";
 
 const Product = ({ product }) => {
