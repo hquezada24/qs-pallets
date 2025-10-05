@@ -48,16 +48,6 @@
   border-radius: 4px;
 }
 
-.logoIcon {
-  width: 70px;
-  height: 70px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: start;
-  transition: all 0.2s ease;
-}
-
 .logo:hover {
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.2);
@@ -330,10 +320,6 @@
 
   .navLink::before {
     display: none;
-  }
-
-  .logoIcon {
-    transition: none;
   }
 }
 
