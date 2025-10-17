@@ -59,6 +59,14 @@ With a clean design and practical features, QS Pallets provides a foundation for
 
 ## Screenshots
 
+![Home Page](./public/Home.png)
+
+![Products Page](./public/Products.png)
+
+![Quote Page](./public/Quote.png)
+
+![Contact Page](./public/Contact.png)
+
 ## Contact
 
 Created by [Hugo Quezada](https://www.linkedin.com/in/hugo-quezada-7059091b6/)
