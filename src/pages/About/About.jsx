@@ -36,12 +36,12 @@ const About = () => {
           </div>
           <div className={styles.content}>
             <p>
-              Founded with a vision to revolutionize pallet solutions, QS
-              Pallets has grown from a small family business to a trusted
-              industry leader. We've built our reputation on unwavering quality,
-              innovative solutions, and genuine care for our customers' success.
-              Every pallet we produce carries the legacy of craftsmanship and
-              the promise of reliability that has defined us for years.
+              QS Pallets is a family-owned business built on dedication, hard
+              work, and care for our customers. What started as a homegrown
+              operation has grown into a trusted source for quality pallets that
+              businesses can depend on. We value every order, big or small, and
+              pride ourselves on offering personalized service with a focus on
+              reliability and lasting relationships.
             </p>
           </div>
         </section>
@@ -60,7 +60,7 @@ const About = () => {
               <div className={styles.productIcon} aria-hidden="true">
                 🆕
               </div>
-              <h3>New Pallets</h3>
+              <h3>Standard Pallets</h3>
               <p>
                 Durable, custom-built pallets tailored to your exact
                 specifications. Perfect for businesses that demand the highest
