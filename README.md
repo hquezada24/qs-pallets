@@ -32,30 +32,9 @@ With a clean design and practical features, QS Pallets provides a foundation for
 - Routing: React Router
 - Deployment: Netlify
 
-## Installation
-
-1. Clone the repository:
-
-   ```bash
-   git clone https://github.com/hquezada24/qs-pallets.git
-   cd qs-pallets
-   ```
-
-1. Install dependencies:
-
-   ```bash
-   npm install
-   ```
-
-1. Start the development server:
-
-   ```bash
-   npm run dev
-   ```
-
-1. Open in your browser: [http://localhost:5473](http://localhost:5473)
-
 ## Live Demo
+
+[QS Pallets](https://qspallets.com/)
 
 ## Screenshots
 
