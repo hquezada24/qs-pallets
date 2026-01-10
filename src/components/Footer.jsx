@@ -6,9 +6,9 @@ const Footer = () => {
 
   return (
     <footer className="footer" role="contentinfo">
-      <div className="container">
+      <div className="footerContainer">
         <div className="section">
-          <div className="logo">
+          <div className="footerLogo">
             <h3 className="brandName">QS Pallets</h3>
             <p className="tagline">Quality pallets for your business needs</p>
           </div>
@@ -70,7 +70,7 @@ const Footer = () => {
 
         <div className="section">
           <h4 className="sectionTitle">Quick Links</h4>
-          <nav className="links" aria-label="Footer navigation">
+          <nav className="footerLinks" aria-label="Footer navigation">
             <ul className="linksList" role="list">
               <li>
                 <Link href="/" className="navLink">
