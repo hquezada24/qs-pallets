@@ -139,3 +139,11 @@ a.secondary {
     --button-secondary-border: #1a1a1a;
   }
 }
+
+.home {
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8fff8 0%, #ffffff 100%);
+  position: relative;
+  overflow-x: hidden;
+}
