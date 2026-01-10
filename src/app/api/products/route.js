@@ -8,6 +8,7 @@ export const GET = (request) => {
       products: [
         {
           name: "Standard Pallets",
+          imageURL: ["/pallet1.jpeg", "/pallet2.jpeg"],
           icon: "🆕",
           price: 11,
           index_page_description:
@@ -79,7 +80,7 @@ export const GET = (request) => {
         rows: [
           [
             "Standard Sizes",
-            '48"×40", 42"×42", 48"U+00d748"',
+            '48"×40", 42"×42", 48" U+00d7 48"',
             "Various standard sizes",
             "Any dimension",
           ],
