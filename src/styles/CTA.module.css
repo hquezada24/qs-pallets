@@ -1,0 +1,186 @@
+.finalCta {
+  background: linear-gradient(135deg, #f8fff8 0%, #ffffff 100%);
+  text-align: center;
+  position: relative;
+}
+
+.ctaCard {
+  background: white;
+  border-radius: 25px;
+  padding: 4rem 3rem;
+  max-width: 800px;
+  margin: 0 auto;
+  box-shadow: 0 15px 50px rgba(34, 139, 34, 0.15);
+  border: 3px solid #f0f8f0;
+  position: relative;
+  overflow: hidden;
+}
+
+.ctaCard::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background: linear-gradient(
+    90deg,
+    #228b22,
+    #32cd32,
+    #90ee90,
+    #32cd32,
+    #228b22
+  );
+  background-size: 400% 100%;
+  animation: gradientShift 4s ease infinite;
+}
+
+@keyframes gradientShift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.ctaCard h2 {
+  color: #2d5016;
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.ctaCard p {
+  color: #666;
+  font-size: 1.3rem;
+  line-height: 1.6;
+  margin-bottom: 3rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.ctaButtons {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.primaryCtaButton {
+  background: linear-gradient(135deg, #228b22, #32cd32);
+  color: white;
+  border: none;
+  padding: 1.2rem 3rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.primaryCtaButton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(34, 139, 34, 0.4);
+}
+
+.secondaryCtaButton {
+  background: transparent;
+  color: #228b22;
+  border: 3px solid #228b22;
+  padding: 1.2rem 3rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.secondaryCtaButton:hover {
+  background: #228b22;
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(34, 139, 34, 0.3);
+}
+
+.section {
+  padding: 6rem 0;
+  position: relative;
+}
+
+.section:nth-child(even) {
+  background: rgba(248, 255, 248, 0.5);
+}
+
+.sectionContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.sectionHeader {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.sectionHeader h2 {
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  color: #2d5016;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.sectionHeader h2::after {
+  content: "";
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 4px;
+  background: linear-gradient(90deg, #228b22, #32cd32);
+  border-radius: 2px;
+}
+
+.sectionHeader p {
+  font-size: 1.3rem;
+  color: #666;
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* Responsive Design */
+
+@media (max-width: 768px) {
+  .section {
+    padding: 4rem 0;
+  }
+
+  .sectionContent {
+    padding: 0 1rem;
+  }
+
+  .ctaCard {
+    padding: 3rem 2rem;
+    margin: 0 1rem;
+  }
+
+  .ctaButtons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .primaryCtaButton,
+  .secondaryCtaButton {
+    width: 100%;
+    max-width: 300px;
+  }
+}
