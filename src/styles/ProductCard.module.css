@@ -1,0 +1,229 @@
+/* Product Card Styling - Main container for each product */
+.productCard {
+  background: white;
+  border-radius: 20px;
+  padding: 2.5rem;
+  box-shadow: 0 8px 32px rgba(34, 139, 34, 0.1);
+  border: 2px solid transparent;
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.productCard::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, #228b22, #32cd32);
+  transform: translateX(-100%);
+  transition: transform 0.4s ease;
+}
+
+.productCard:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 16px 48px rgba(34, 139, 34, 0.2);
+  border-color: #90ee90;
+}
+
+.productCard:hover::before {
+  transform: translateX(0);
+}
+
+/* Accent Variations for different product types */
+.productCard.secondary::before {
+  background: linear-gradient(90deg, #32cd32, #90ee90);
+}
+
+.productCard.tertiary::before {
+  background: linear-gradient(90deg, #90ee90, #228b22);
+}
+
+/* Product Header - contains image, title, and price */
+.productHeader {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 2rem;
+  gap: 1rem;
+}
+
+.productImage {
+  font-size: 3.5rem;
+  flex-shrink: 0;
+  filter: grayscale(0.2);
+  transition: filter 0.3s ease;
+}
+
+.productCard:hover .productImage {
+  filter: grayscale(0);
+}
+
+.productTitle {
+  flex-grow: 1;
+}
+
+.productTitle h3 {
+  color: #2d5016;
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+}
+
+.productPrice {
+  background: linear-gradient(135deg, #228b22, #32cd32);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+/* Product Description */
+.productDescription {
+  margin-bottom: 2rem;
+}
+
+.productDescription p {
+  color: #555;
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* Product Features - checkmarked list */
+.productFeatures {
+  margin-bottom: 2rem;
+}
+
+.productFeatures h4 {
+  color: #2d5016;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.productFeatures ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.productFeatures li {
+  color: #555;
+  padding: 0.5rem 0;
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.productFeatures li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: #228b22;
+  font-weight: bold;
+}
+
+/* Product Actions - buttons at bottom of card */
+.productActions {
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .productCard {
+    padding: 2rem 1.5rem;
+  }
+
+  .productHeader {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .productPrice {
+    align-self: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .productImage {
+    font-size: 2.5rem;
+  }
+}
+
+.imageContainer {
+  position: relative;
+  width: 100%;
+  height: 350px;
+  overflow: hidden;
+  border-radius: 8px;
+  background-color: #f5f5f5;
+}
+
+.productImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.carouselBtn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(46, 125, 50, 0.8);
+  color: white;
+  border: none;
+  font-size: 32px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s;
+  z-index: 2;
+}
+
+.carouselBtn:first-of-type {
+  left: 2px;
+}
+
+.carouselBtn:last-of-type {
+  right: 2px;
+}
+
+.carouselBtn:hover {
+  background-color: rgba(27, 94, 32, 0.9);
+}
+
+.imageIndicators {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 2;
+}
+
+.indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.indicator.active {
+  background-color: #2e7d32;
+}
+
+.indicator:hover {
+  background-color: rgba(255, 255, 255, 0.8);
+}
