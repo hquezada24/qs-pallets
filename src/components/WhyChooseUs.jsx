@@ -1,4 +1,4 @@
-import styles from "@/styles/WhyChooseUse.module.css";
+import styles from "@/styles/WhyChooseUs.module.css";
 
 const fetchFeatures = async () => {
   const res = await fetch(`${process.env.API_URL}/why-choose-us`);
