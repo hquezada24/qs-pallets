@@ -1,7 +1,11 @@
-import React from "react";
+import QuoteForm from "@/components/QuoteForm";
 
 const RequestAQuotePage = () => {
-  return <div>RequestAQuotePage</div>;
+  return (
+    <div id="quote">
+      <QuoteForm />
+    </div>
+  );
 };
 
 export default RequestAQuotePage;
