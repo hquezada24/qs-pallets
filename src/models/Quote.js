@@ -20,12 +20,12 @@ const QuoteSchema = new Schema(
       enum: ["NEW", "PENDING", "APPROVED", "REJECTED"],
       default: "NEW",
     },
-    Customer: {
+    customer: {
       type: Schema.Types.ObjectId,
       ref: "Customer",
       required: true,
     },
-    Address: {
+    address: {
       type: Schema.Types.ObjectId,
       ref: "Address",
       required: true,
