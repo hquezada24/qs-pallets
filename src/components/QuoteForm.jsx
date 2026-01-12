@@ -5,17 +5,17 @@ import styles from "@/styles/QuoteForm.module.css";
 
 const QuoteForm = () => {
   const [formData, setFormData] = useState({
-    fullName: "",
+    fullName: "Hugo",
     companyName: "",
-    email: "",
-    phone: "",
-    palletType: "",
-    quantity: "",
+    email: "em@mail.com",
+    phone: "9034019096",
+    palletType: "STANDARD",
+    quantity: "100",
     address: {
-      street: "",
-      city: "",
+      street: "1415 FM 2216",
+      city: "Honey Grove",
       state: "TX",
-      zipCode: "",
+      zipCode: "75446",
     },
     additionalDetails: "",
   });
@@ -201,7 +201,13 @@ const QuoteForm = () => {
               </div>
             )}
 
-            <form className={styles.form} onSubmit={handleSubmit} noValidate>
+            {/* <form
+              action="/api/request-a-quote"
+              method="post"
+              className={styles.form}
+              noValidate
+            > */}
+            <form onSubmit={handleSubmit} className={styles.form} noValidate>
               {/* Contact Information */}
               <fieldset className={styles.fieldset}>
                 <legend className={styles.legend}>Contact Information</legend>
@@ -541,6 +547,9 @@ const QuoteForm = () => {
               </div>
 
               <div className={styles.formActions}>
+                {/* <button type="submit" ariaLabel="Submit quote request form">
+                  Submit
+                </button> */}
                 <Button
                   text={isSubmitting ? "Submitting..." : "Submit Quote Request"}
                   type="submit"
