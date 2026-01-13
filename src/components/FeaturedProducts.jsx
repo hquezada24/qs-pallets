@@ -2,7 +2,9 @@ import styles from "@/styles/Featured.module.css";
 import Button from "./Button";
 
 const fetchProducts = async () => {
-  const res = await fetch("/api/products", { cache: "no-store" });
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`, {
+    cache: "no-store",
+  });
 
   if (!res.ok) {
     throw new Error("Failed to fetch products");
