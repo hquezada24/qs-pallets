@@ -18,12 +18,11 @@ const Contact = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
-  const API_BASE_URL = process.env.API_URL || "http://localhost:3000/api";
 
   useEffect(() => {
     const fetchContactData = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/contact`);
+        const res = await fetch("/api/contact", { cache: "no-store" });
 
         if (!res.ok) {
           throw new Error("Failed to fetch contact data");

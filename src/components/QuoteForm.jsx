@@ -96,10 +96,8 @@ const QuoteForm = () => {
     setSubmitStatus(null);
 
     try {
-      console.log("Quote request submitted:", formData);
-
       // Make the API call
-      const response = await fetch(`${API_BASE_URL}/request-a-quote`, {
+      const response = await fetch("/api/request-a-quote", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

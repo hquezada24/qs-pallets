@@ -5,7 +5,7 @@ import styles from "@/styles/Products.module.css";
 export const dynamic = "force-dynamic";
 
 const fetchProducts = async () => {
-  const res = await fetch(`${process.env.API_URL}/products`);
+  const res = await fetch("/api/products", { cache: "no-store" });
 
   if (!res.ok) {
     throw new Error("Failed to fetch products");
