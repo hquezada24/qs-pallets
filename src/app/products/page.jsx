@@ -2,6 +2,8 @@ import Link from "next/link";
 import ProductCard from "@/components/ProductCard";
 import styles from "@/styles/Products.module.css";
 
+export const dynamic = "force-dynamic";
+
 const fetchProducts = async () => {
   const res = await fetch(`${process.env.API_URL}/products`);
 
