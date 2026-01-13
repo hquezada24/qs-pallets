@@ -22,6 +22,11 @@ const Contact = () => {
   useEffect(() => {
     const fetchContactData = async () => {
       try {
+        console.log(
+          "Attempting to fetch from:",
+          process.env.NEXT_PUBLIC_API_URL
+        );
+
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/contact`, {
           cache: "no-store",
         });

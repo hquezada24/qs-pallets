@@ -2,6 +2,8 @@ import styles from "@/styles/Featured.module.css";
 import Button from "./Button";
 
 const fetchProducts = async () => {
+  console.log("Attempting to fetch from:", process.env.NEXT_PUBLIC_API_URL);
+
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`, {
     cache: "no-store",
   });

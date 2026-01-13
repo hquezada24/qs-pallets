@@ -97,8 +97,10 @@ const QuoteForm = () => {
 
     try {
       // Make the API call
+      console.log("Attempting to fetch from:", process.env.NEXT_PUBLIC_API_URL);
+
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/request-a-quote`,
+        `${process.env.NEXT_PUBLIC_API_URL}/request-a-quote`,
         {
           method: "POST",
           headers: {

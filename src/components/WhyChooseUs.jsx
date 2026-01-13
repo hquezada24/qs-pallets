@@ -1,7 +1,9 @@
 import styles from "@/styles/WhyChooseUs.module.css";
 
 const fetchFeatures = async () => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/why-choose-us`);
+  console.log("Attempting to fetch from:", process.env.NEXT_PUBLIC_API_URL);
+
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/why-choose-us`);
 
   if (!res.ok) {
     throw new Error("Failed to fetch features");
