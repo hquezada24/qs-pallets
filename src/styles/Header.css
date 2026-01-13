@@ -48,11 +48,6 @@
   border-radius: 4px;
 }
 
-.logo:hover {
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.2);
-}
-
 .logoPng {
   width: 100px;
   height: 100px;
@@ -67,9 +62,9 @@
 }
 
 /* Desktop Navigation */
-/* .navigation {
+.navigation {
   display: none;
-} */
+}
 
 .navList {
   display: flex;
@@ -126,9 +121,9 @@
   outline-offset: 2px;
 }
 
-/* 
 .activeLink {
   background-color: rgba(255, 255, 255, 0.15);
+  border-radius: 5px;
   color: #90ee90;
 }
 
@@ -141,15 +136,16 @@
   width: 60%;
   height: 2px;
   background-color: #90ee90;
-} */
+  border-radius: 10px;
+}
 
 /* Mobile Menu */
-/* .mobileMenu {
+.mobileMenu {
   display: block;
   position: relative;
 }
 
-.menuButton {
+.hamburger-button {
   background: none;
   border: 2px solid rgba(255, 255, 255, 0.3);
   color: #fff;
@@ -162,18 +158,18 @@
   justify-content: center;
 }
 
-.menuButton:hover {
+.hamburger-button:hover {
   background-color: rgba(255, 255, 255, 0.1);
   border-color: rgba(255, 255, 255, 0.5);
 }
 
-.menuButton:focus {
+.hamburger-button:focus {
   outline: 2px solid rgba(255, 255, 255, 0.5);
   outline-offset: 2px;
-} */
+}
 
 /* Hamburger Animation */
-/* .hamburger {
+.hamburger {
   display: flex;
   flex-direction: column;
   width: 20px;
@@ -199,10 +195,10 @@
 
 .lineActive:nth-child(3) {
   transform: translateY(-7px) rotate(-45deg);
-} */
+}
 
 /* Mobile Navigation Dropdown */
-/* .mobileNav {
+.mobileNav {
   position: absolute;
   top: calc(100% + 0.5rem);
   right: 0;
@@ -225,11 +221,13 @@
 
 .mobileNavList {
   list-style: none;
-  padding: 0.5rem 0;
   margin: 0;
 }
 
 .mobileNavItem {
+  padding: 15px 0;
+  text-align: center;
+  position: relative;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -273,7 +271,7 @@
   bottom: 0;
   width: 4px;
   background-color: #90ee90;
-} */
+}
 
 /* Desktop Styles */
 @media (min-width: 768px) {
@@ -296,6 +294,11 @@
   .brandName {
     font-size: 1.75rem;
   }
+
+  .logo:hover {
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.2);
+  }
 }
 
 @media (min-width: 1024px) {
@@ -315,7 +318,7 @@
   .headerNavLink,
   .mobileNav,
   .line,
-  .menuButton {
+  .hamburger-button {
     transition: none;
   }
 
@@ -331,7 +334,7 @@
     border-bottom: 3px solid #fff;
   }
 
-  .menuButton {
+  .hamburger-button {
     border-color: #fff;
   }
 
