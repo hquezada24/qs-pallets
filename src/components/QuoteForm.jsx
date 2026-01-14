@@ -99,16 +99,23 @@ const QuoteForm = () => {
       // Make the API call
       console.log("Attempting to fetch from:", process.env.NEXT_PUBLIC_API_URL);
 
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/request-a-quote`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData), // Send the actual formData
-        }
-      );
+      const response = await fetch("/api/request-a-quote", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData), // Send the actual formData
+      });
+      // const response = await fetch(
+      //   `${process.env.NEXT_PUBLIC_API_URL}/request-a-quote`,
+      //   {
+      //     method: "POST",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //     },
+      //     body: JSON.stringify(formData), // Send the actual formData
+      //   }
+      // );
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);

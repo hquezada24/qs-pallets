@@ -27,9 +27,10 @@ const Contact = () => {
           process.env.NEXT_PUBLIC_API_URL
         );
 
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/contact`, {
-          cache: "no-store",
-        });
+        const res = await fetch("/api/contact");
+        // const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/contact`, {
+        //   cache: "no-store",
+        // });
 
         if (!res.ok) {
           throw new Error("Failed to fetch contact data");
