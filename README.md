@@ -1,36 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# QS Pallets
 
-## Getting Started
+QS Pallets is a full-stack business website built with Next.js, serving as the company's first online presence. The site allows clients to explore the company's product catalog, view detailed product information, and submit inquiries through interactive forms.
 
-First, run the development server:
+The application features:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- A quote request form, enabling clients to request a free quote tailored to their specific needs
+- A contact form, giving visitors a direct way to ask questions or request additional information
+- Server-side rendering for improved SEO and performance
+- Integrated backend API routes for form submissions and data handling
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Tech Stack
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+Frontend: Next.js and React with server-side rendering
+Backend: Next.js API routes
+Deployment: Render
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Features
 
-## Learn More
+- Server-side rendered pages for optimal SEO and performance
+- Responsive layout for desktop and mobile devices
+- Product catalog with detailed product pages
+- Quote request form with validation
+- Contact form for general inquiries
+- API routes for form processing and business logic
+- Single repository for both frontend and backend
 
-To learn more about Next.js, take a look at the following resources:
+## Live Demo
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+[https://www.qspallets.com](QS Pallets)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Screenshots
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+![Home](/public/Screenshots/Home.png)
+![Products](/public/Screenshots/Products.png)
+![Quote](/public/Screenshots/Quote.png)
+![Contact](/public/Screenshots/Contact.png)
