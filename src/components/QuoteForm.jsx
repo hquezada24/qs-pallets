@@ -5,17 +5,17 @@ import styles from "@/styles/QuoteForm.module.css";
 
 const QuoteForm = () => {
   const [formData, setFormData] = useState({
-    fullName: "Hugo",
+    fullName: "",
     companyName: "",
-    email: "em@mail.com",
-    phone: "9034019096",
-    palletType: "STANDARD",
-    quantity: "100",
+    email: "",
+    phone: "",
+    palletType: "",
+    quantity: "",
     address: {
-      street: "1415 FM 2216",
-      city: "Honey Grove",
-      state: "TX",
-      zipCode: "75446",
+      street: "",
+      city: "",
+      state: "",
+      zipCode: "",
     },
     additionalDetails: "",
   });
