@@ -27,7 +27,7 @@ Deployment: Render
 
 ## Live Demo
 
-[https://www.qspallets.com](QS Pallets)
+[QS Pallets](https://www.qspallets.com)
 
 ## Screenshots
 
