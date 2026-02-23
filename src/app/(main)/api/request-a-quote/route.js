@@ -1,4 +1,4 @@
-import connectDB from "../../../../config/database";
+import connectDB from "../../../../config/database.js";
 import Customer from "@/models/Customer";
 import Quote from "@/models/Quote";
 import Address from "@/models/Address";
@@ -17,7 +17,7 @@ export const POST = async (request) => {
     if (customerEmail !== null) {
       return new Response(
         JSON.stringify({ message: "Customer already exists" }),
-        { status: 400 } // Changed to 400 for bad request
+        { status: 400 }, // Changed to 400 for bad request
       );
     }
 
@@ -31,7 +31,7 @@ export const POST = async (request) => {
     if (customerAddress !== null) {
       return new Response(
         JSON.stringify({ message: "Address is already registered" }),
-        { status: 400 } // Changed to 400 for bad request
+        { status: 400 }, // Changed to 400 for bad request
       );
     }
 
@@ -72,13 +72,13 @@ export const POST = async (request) => {
         message: "Quote created successfully",
         quoteId: newQuote._id,
       }),
-      { status: 201 }
+      { status: 201 },
     );
   } catch (error) {
     console.error("Something went wrong:", error);
     return new Response(
       JSON.stringify({ message: "Failed to register quote" }),
-      { status: 500 }
+      { status: 500 },
     );
   }
 };

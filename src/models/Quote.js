@@ -2,13 +2,13 @@ import { Schema, model, models } from "mongoose";
 
 const QuoteSchema = new Schema(
   {
-    palletType: {
-      type: String,
-      enum: ["STANDARD", "RECYCLED", "CUSTOM"],
+    product: {
+      type: Schema.Types.ObjectId,
+      ref: "Product",
       required: true,
     },
     quantity: {
-      type: String,
+      type: Number,
       required: true,
     },
     additionalDetails: {
@@ -33,7 +33,7 @@ const QuoteSchema = new Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 const Quote = models.Quote || model("Quote", QuoteSchema);
