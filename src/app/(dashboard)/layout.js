@@ -1,3 +1,4 @@
+import DashboardShell from "./DashboardShell";
 import "../../styles/globals.css";
 
 export const metadata = {
@@ -7,8 +8,8 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>
-        <main className="bg-yellow-200">{children}</main>
+      <body className="flex">
+        <DashboardShell>{children}</DashboardShell>
       </body>
     </html>
   );

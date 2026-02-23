@@ -1,7 +1,7 @@
-import React from "react";
+import DashboardHeader from "@/components/DashboardHeader";
 
 const DashboardHome = () => {
-  return <div className="text-blue-600">DashboardHome</div>;
+  return <></>;
 };
 
 export default DashboardHome;
