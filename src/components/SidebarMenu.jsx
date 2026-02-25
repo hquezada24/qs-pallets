@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Image from "next/image";
 
 const menuItems = [
   {
@@ -133,59 +134,16 @@ const menuItems = [
   },
 ];
 
-const PalletIcon = () => (
-  <svg viewBox="0 0 40 40" fill="none" className="w-8 h-8">
-    <rect
-      x="4"
-      y="26"
-      width="32"
-      height="6"
-      rx="1.5"
-      fill="white"
-      opacity="0.9"
-    />
-    <rect x="8" y="8" width="6" height="18" rx="1" fill="white" opacity="0.9" />
-    <rect
-      x="17"
-      y="8"
-      width="6"
-      height="18"
-      rx="1"
-      fill="white"
-      opacity="0.9"
-    />
-    <rect
-      x="26"
-      y="8"
-      width="6"
-      height="18"
-      rx="1"
-      fill="white"
-      opacity="0.9"
-    />
-    <rect x="4" y="8" width="32" height="5" rx="1.5" fill="white" />
-    <rect
-      x="4"
-      y="17"
-      width="32"
-      height="3"
-      rx="1"
-      fill="white"
-      opacity="0.6"
-    />
-  </svg>
-);
-
 const SidebarMenu = ({ isOpen, setIsOpen }) => {
   const [activeItem, setActiveItem] = useState("Inventory");
 
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Syne:wght@700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
         .sidebar-root {
-          font-family: 'DM Sans', sans-serif;
+          font-family: 'Lexend', sans-serif;
         }
 
         .sidebar-panel {
@@ -229,28 +187,23 @@ const SidebarMenu = ({ isOpen, setIsOpen }) => {
           padding: 28px 24px 20px;
           display: flex;
           align-items: center;
-          gap: 12px;
           border-bottom: 1px solid rgba(255,255,255,0.12);
           position: relative;
           z-index: 1;
         }
+        
+        .sidebar-logo{
+          margin: 0;
+        }
 
         .logo-text {
-          font-family: 'Syne', sans-serif;
+          font-family: 'Lexend', sans-serif;
           font-weight: 800;
           font-size: 1.2rem;
           color: white;
           letter-spacing: -0.02em;
           line-height: 1;
-        }
-
-        .logo-sub {
-          font-size: 0.65rem;
-          color: rgba(255,255,255,0.55);
-          font-weight: 500;
-          letter-spacing: 0.12em;
-          text-transform: uppercase;
-          margin-top: 2px;
+          margin: 0;
         }
 
         .nav-section {
@@ -351,7 +304,7 @@ const SidebarMenu = ({ isOpen, setIsOpen }) => {
           display: flex;
           align-items: center;
           justify-content: center;
-          font-family: 'Syne', sans-serif;
+          font-family: 'Lexend', sans-serif;
           font-weight: 800;
           font-size: 0.9rem;
           color: #14532d;
@@ -391,7 +344,7 @@ const SidebarMenu = ({ isOpen, setIsOpen }) => {
           border: 1px solid rgba(255,255,255,0.15);
           background: transparent;
           color: rgba(255,255,255,0.65);
-          font-family: 'DM Sans', sans-serif;
+          font-family: 'Lexend', sans-serif;
           font-size: 0.875rem;
           font-weight: 500;
           cursor: pointer;
@@ -461,10 +414,16 @@ const SidebarMenu = ({ isOpen, setIsOpen }) => {
           <div className="sidebar-inner">
             {/* Logo */}
             <div className="logo-area">
-              <PalletIcon />
+              <Image
+                src="/qspallets.png"
+                alt=""
+                width={100}
+                height={100}
+                sizes="100vw"
+                className="sidebar-logo"
+              />
               <div>
                 <div className="logo-text">QS Pallets</div>
-                <div className="logo-sub">Dashboard</div>
               </div>
             </div>
 

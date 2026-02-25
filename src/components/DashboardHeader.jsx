@@ -32,9 +32,12 @@ const DashboardHeader = ({ isOpen }) => {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap');
         .header-font { font-family: 'DM Sans', sans-serif; }
-        .logo-font { font-family: 'Syne', sans-serif; }
+        .logo-font { font-family: 'DM Sans', sans-serif; }
         .notif-dropdown {
           animation: dropIn 0.18s cubic-bezier(0.4,0,0.2,1);
+        }
+        header{
+          transition: width 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.35s ease;
         }
         @keyframes dropIn {
           from { opacity: 0; transform: translateY(-8px) scale(0.97); }
@@ -43,9 +46,9 @@ const DashboardHeader = ({ isOpen }) => {
       `}</style>
 
       <header
-        className={`header-font sticky top-0 z-40 border-b border-emerald-800/30 bg-gradient-to-r from-[#1e5631] via-[#1f7a35] to-[#228b22] shadow-lg ${isOpen ? "w-[calc(100vw-260px)]" : "w-screen"}`}
+        className={`header-font sticky top-0 z-40 border-b border-emerald-800/30 bg-linear-to-r from-[#1e5631] via-[#1f7a35] to-[#228b22] shadow-lg ${isOpen ? "w-[calc(100vw-260px)]" : "w-screen"}`}
       >
-        <div className="absolute inset-0 opacity-20 pointer-events-none [background-image:radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.35),transparent_45%),radial-gradient(circle_at_80%_50%,rgba(255,255,255,0.2),transparent_35%)]" />
+        <div className="absolute inset-0 opacity-20 pointer-events-none bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.35),transparent_45%),radial-gradient(circle_at_80%_50%,rgba(255,255,255,0.2),transparent_35%)]" />
         <div className="relative flex flex-col gap-4 sm:px-8 sm:py-6 sm:items-center lg:px-10 xl:px-12 lg:flex-row lg:items-center lg:justify-evenly lg:gap-5">
           {/* Left — greeting */}
           <div className="flex flex-col min-w-0">
@@ -53,7 +56,7 @@ const DashboardHeader = ({ isOpen }) => {
               {today}
             </p>
             <h1 className="logo-font truncate text-xl font-extrabold leading-tight tracking-tight text-white sm:text-2xl">
-              Welcome back, <span className="text-emerald-200">John</span> 👋
+              Welcome back, <span className="text-emerald-200">Anna</span> 👋
             </h1>
             <p className="mt-1 text-sm font-medium text-emerald-100/80">
               Here&apos;s what&apos;s happening with your operations today.
@@ -61,7 +64,7 @@ const DashboardHeader = ({ isOpen }) => {
           </div>
 
           {/* Right — actions */}
-          <div className="flex items-center gap-2.5 sm:gap-3 lg:flex-shrink-0">
+          <div className="flex items-center gap-2.5 sm:gap-3 lg:shrink-0">
             {/* Search */}
 
             {/* Notifications */}
@@ -113,7 +116,7 @@ const DashboardHeader = ({ isOpen }) => {
                       >
                         <div className="flex items-start gap-3">
                           <div
-                            className={`mt-1 h-2 w-2 flex-shrink-0 rounded-full ${n.unread ? "bg-emerald-500" : "bg-gray-300"}`}
+                            className={`mt-1 h-2 w-2 shrink-0 rounded-full ${n.unread ? "bg-emerald-500" : "bg-gray-300"}`}
                           />
                           <div>
                             <p className="text-sm font-medium leading-snug text-gray-700">
@@ -138,7 +141,7 @@ const DashboardHeader = ({ isOpen }) => {
               </div>
               <div className="hidden sm:block">
                 <p className="text-sm font-semibold leading-tight text-white">
-                  John Smith
+                  Anna Quezada
                 </p>
                 <p className="text-xs font-medium text-emerald-100/80">
                   Administrator

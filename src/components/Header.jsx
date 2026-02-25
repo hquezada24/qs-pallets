@@ -25,8 +25,8 @@ const Header = () => {
             <Image
               src="/qspallets.png"
               alt=""
-              width={0}
-              height={0}
+              width={100}
+              height={67}
               sizes="100vw"
               className="logoPng"
             />
