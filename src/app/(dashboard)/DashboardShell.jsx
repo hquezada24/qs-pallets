@@ -8,9 +8,9 @@ const DashboardShell = ({ children }) => {
   return (
     <div className="flex min-h-screen">
       <SidebarMenu isOpen={isOpen} setIsOpen={setIsOpen} />
-      <div className="flex flex-col flex-1 min-w-0 transition-all duration-[350ms]">
+      <div className="flex flex-col flex-1 min-w-0 transition-all duration-350">
         <DashboardHeader isOpen={isOpen} />
-        <main className="flex-1 p-6">{children}</main>
+        <main className="flex-1 p-0">{children}</main>
       </div>
     </div>
   );
