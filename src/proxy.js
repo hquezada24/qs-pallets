@@ -13,12 +13,29 @@ export function proxy(req) {
 
   console.log("Host: ", host);
 
+  if (host === baseDomain && pathname.startsWith("/login")) {
+    return NextResponse.redirect(`${protocol}//${dashboardSubdomain}/login`);
+  }
+
+  const isDashboardSubdomain = host?.startsWith("dashboard.");
+  const isDashboardPath = pathname.startsWith("/dashboard");
+
+  if (isDashboardSubdomain && isDashboardPath) {
+    // OPCIÓN A: redirigir a "/"
+    const url = req.nextUrl.clone();
+    url.pathname = "/";
+
+    return NextResponse.rewrite(new URL("/not-found", req.url));
+  }
+
   if (host === baseDomain && pathname.startsWith("/dashboard")) {
     return NextResponse.redirect(`${protocol}//${dashboardSubdomain}`);
   }
 
   if (host === dashboardSubdomain) {
-    return NextResponse.rewrite(new URL("/dashboard", req.url));
+    return NextResponse.rewrite(
+      new URL(pathname === "/" ? "/dashboard" : pathname, req.url),
+    );
   }
 
   return NextResponse.next();
