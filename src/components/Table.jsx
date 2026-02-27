@@ -1,10 +1,4 @@
 export default function Table({ columns, data }) {
-  const currentMonthTotal = data.reduce((acc, item) => acc + item.total, 0);
-
-  const lastMonthTotal = 5200; // ejemplo real vendría del backend
-
-  const percentageChange =
-    ((currentMonthTotal - lastMonthTotal) / lastMonthTotal) * 100;
   return (
     <>
       <h2 className="text-lg font-semibold mb-4">Recent Orders</h2>
@@ -38,17 +32,6 @@ export default function Table({ columns, data }) {
             ))}
           </tbody>
         </table>
-      </div>
-      <p className="text-lg font-bold text-gray-900">
-        Month total ${currentMonthTotal.toLocaleString()}
-      </p>
-      <div
-        className={`text-sm font-medium ${
-          percentageChange >= 0 ? "text-green-600" : "text-red-600"
-        }`}
-      >
-        {percentageChange >= 0 ? "▲" : "▼"}{" "}
-        {Math.abs(percentageChange).toFixed(0)}% from last month
       </div>
     </>
   );
