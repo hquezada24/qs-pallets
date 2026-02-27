@@ -1,0 +1,63 @@
+"use client";
+import Form from "@/components/Form";
+import Table from "@/components/Table";
+import { useState } from "react";
+
+const Users = () => {
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Login attempt:", form);
+  };
+
+  const orderColumns = [
+    { key: "id", header: "Name" },
+    { key: "customer", header: "Email" },
+    {
+      key: "status",
+      header: "Role",
+    },
+  ];
+
+  const orderData = [
+    {
+      id: "Hugo Alberto Quezada",
+      customer: "hquezada@qspallets.com",
+      status: "Admin",
+    },
+    {
+      id: "Anna Belen Quezada",
+      customer: "aquezada@qspallets.com",
+      status: "Admin",
+    },
+  ];
+  return (
+    <div className="p-8 flex justify-evenly">
+      <div className="users-left">
+        <Table columns={orderColumns} data={orderData} />
+      </div>
+      <div className="users-">
+        <h2 className="mb-3">Add a New User</h2>
+        <Form
+          form={form}
+          handleSubmit={handleSubmit}
+          handleChange={handleChange}
+          newUser={true}
+        />
+      </div>
+    </div>
+  );
+};
+
+export default Users;
