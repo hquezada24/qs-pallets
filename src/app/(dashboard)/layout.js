@@ -1,5 +1,6 @@
 import DashboardShell from "./DashboardShell";
 import "../../styles/globals.css";
+import Providers from "./providers";
 
 export const metadata = {
   title: "QS Pallets Dashboard",
@@ -9,7 +10,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className="flex">
-        <DashboardShell>{children}</DashboardShell>
+        <Providers>
+          <DashboardShell>{children}</DashboardShell>
+        </Providers>
       </body>
     </html>
   );

@@ -13,7 +13,7 @@ const Form = ({ form, handleSubmit, handleChange, newUser }) => {
           <input
             type="text"
             name="name"
-            value={form.email}
+            value={form.name}
             onChange={handleChange}
             required
             className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-green-600 focus:outline-none transition"
@@ -43,7 +43,7 @@ const Form = ({ form, handleSubmit, handleChange, newUser }) => {
           >
             Role
           </label>
-          <select name="role" id="role">
+          <select name="role" id="role" value={form.role}>
             <option value="user">User</option>
             <option value="admin">Admin</option>
           </select>

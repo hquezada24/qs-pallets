@@ -1,12 +1,15 @@
 "use client";
 import Form from "@/components/Form";
 import Table from "@/components/Table";
+import { apiRequest } from "@/lib/apiRequest";
 import { useState } from "react";
 
 const Users = () => {
   const [form, setForm] = useState({
-    email: "",
-    password: "",
+    name: "Hugo Quezada",
+    email: "hugoaquezada@proton.me",
+    role: "admin",
+    password: "HelloThere",
   });
 
   const handleChange = (e) => {
@@ -16,9 +19,21 @@ const Users = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Login attempt:", form);
+    try {
+      // await apiRequest("/api/users", {
+      //   method: "POST",
+      //   body: JSON.stringify(form),
+      // });
+
+      await apiRequest("/api/users", {
+        method: "POST",
+        body: JSON.stringify(form),
+      });
+    } catch (error) {
+      console.error("User registration error: ", error.message);
+    }
   };
 
   const orderColumns = [
