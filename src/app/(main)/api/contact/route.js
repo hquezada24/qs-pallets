@@ -1,4 +1,4 @@
-import connectDB from "../../../../../config/database";
+import connectDB from "../../../../config/database";
 import Customer from "@/models/Customer";
 import Message from "@/models/Message";
 

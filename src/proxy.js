@@ -41,6 +41,9 @@ export function proxy(req) {
   return NextResponse.next();
 }
 
+export { default } from "next-auth/middleware";
+
 export const config = {
+  matcher: ["/dashboard/:path*"],
   matcher: "/((?!_next|favicon.ico).*)",
 };
