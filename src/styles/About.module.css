@@ -1,3 +1,11 @@
+.home {
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8fff8 0%, #ffffff 100%);
+  position: relative;
+  overflow-x: hidden;
+}
+
 /* Main About Container */
 .about {
   min-height: 100vh;
@@ -367,6 +375,13 @@
   }
 }
 
+.locationMap {
+  display: flex;
+  justify-content: center;
+  padding: 0 2rem;
+  min-width: 600px;
+}
+
 @media (max-width: 480px) {
   .aboutSection {
     margin: 2rem 0;
@@ -378,5 +393,8 @@
 
   .ctaContent {
     padding: 3rem 1rem;
+  }
+  .locationMap {
+    max-width: 350px;
   }
 }

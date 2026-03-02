@@ -52,7 +52,7 @@ const Header = () => {
                 Products
               </Link>
             </li>
-            <li
+            {/* <li
               className={`navItem ${
                 isActiveLink("/request-a-quote") ? "activeLink" : ""
               }`}
@@ -60,7 +60,7 @@ const Header = () => {
               <Link href="/request-a-quote" className={`headerNavLink`}>
                 Request a quote
               </Link>
-            </li>
+            </li> */}
             <li
               className={`navItem ${
                 isActiveLink("/about") ? "activeLink" : ""
@@ -70,7 +70,7 @@ const Header = () => {
                 About
               </Link>
             </li>
-            <li
+            {/* <li
               className={`navItem ${
                 isActiveLink("/contact") ? "activeLink" : ""
               }`}
@@ -78,7 +78,7 @@ const Header = () => {
               <Link href="/contact" className={`headerNavLink`}>
                 Contact
               </Link>
-            </li>
+            </li> */}
           </ul>
         </nav>
 
