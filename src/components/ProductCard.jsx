@@ -11,8 +11,8 @@ const ProductCard = ({ product }) => {
   const images = Array.isArray(product.imageURL)
     ? product.imageURL
     : product.imageURL
-    ? [product.imageURL]
-    : ["/images/placeholder.jpeg"]; // fallback image
+      ? [product.imageURL]
+      : ["/images/placeholder.jpeg"]; // fallback image
 
   const isSingleImage = images.length === 1;
   const currentImageURL = images[currentIndex];
@@ -121,13 +121,13 @@ const ProductCard = ({ product }) => {
       )}
 
       {/* Actions */}
-      <div className={styles.productActions}>
+      {/* <div className={styles.productActions}>
         <Button
           text="Get Quote"
           link="/request-a-quote"
           aria-label={`Get a quote for ${product.name}`}
         />
-      </div>
+      </div> */}
     </div>
   );
 };

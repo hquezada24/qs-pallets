@@ -21,12 +21,12 @@ const Hero = () => {
               variant="primary"
               ariaLabel="View our pallet products and solutions"
             />
-            <Button
+            {/* <Button
               text="Get Quote"
               link="/request-a-quote"
               variant="secondary"
               ariaLabel="Request a custom pallet quote"
-            />
+            /> */}
           </div>
         </div>
       </div>

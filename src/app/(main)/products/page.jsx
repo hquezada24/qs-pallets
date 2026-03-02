@@ -78,7 +78,7 @@ const ProductsPage = async () => {
         </div>
 
         {/* Specifications */}
-        {data.specifications && (
+        {/* {data.specifications && (
           <div className={styles.specifications}>
             <h2>Standard Specifications</h2>
             <div className={styles.specTable}>
@@ -105,7 +105,7 @@ const ProductsPage = async () => {
               ))}
             </div>
           </div>
-        )}
+        )} */}
 
         {/* CTA */}
         <div
@@ -124,20 +124,34 @@ const ProductsPage = async () => {
               role="group"
               aria-label="Call to action"
             >
-              <Link
+              {/* <Link
                 href="/request-a-quote"
                 className={styles.primaryButton}
                 aria-label="Request a pallet quote"
               >
                 Request a Quote
-              </Link>
-              <Link
+              </Link> */}
+              {/* <Link
                 href="/contact"
                 className={styles.secondaryButton}
                 aria-label="Contact QS Pallets"
               >
                 Contact Us
-              </Link>
+              </Link> */}
+              <a
+                className={styles.secondaryButton}
+                aria-label="Contact QS Pallets"
+                href={"mailto:qspallets@gmail.com"}
+              >
+                Email us
+              </a>
+              <a
+                className={styles.secondaryButton}
+                aria-label="Contact QS Pallets"
+                href={"tel:9034010536"}
+              >
+                Text us
+              </a>
             </div>
           </div>
         </div>

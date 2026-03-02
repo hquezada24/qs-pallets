@@ -7,17 +7,34 @@ export const GET = (request) => {
         "From standard shipping pallets to custom solutions, we have the right pallet for every application and budget.",
       products: [
         {
-          name: "Standard Pallets",
-          imageURL: ["/pallet1.jpeg", "/pallet2.jpeg"],
-          icon: "🆕",
+          name: "Heavy-Duty Pallet",
+          imageURL: ["/pallet2.jpeg"],
+          icon: "💪",
           price: 11,
           index_page_description:
             "Premium quality pallets built from high-grade materials. Perfect for applications requiring maximum durability and consistency.",
-          description:
-            "Our new pallets are crafted from high-grade materials with precision manufacturing processes. Built to withstand heavy loads and repeated use, these pallets offer maximum durability and reliability for your shipping needs.",
+          description: `Our Heavy-Duty Pallet is built from fresh, premium-grade lumber sourced directly from certified distributors. Wider boards provide a larger load-bearing surface, making it the go-to choice for demanding agricultural and landscaping operations.
+Engineered to handle forklift use, truck transport, and heavy sod loads day after day.`,
           key_features: [
             "High load capacity",
-            'Standard sizes: 48" x 40", 42" x 42", 48" x 48"',
+            "Wide boards for maximum load surface",
+            // 'Standard sizes: 48" x 40", 42" x 42", 48" x 48"',
+            "Custom branding available",
+          ],
+        },
+        {
+          name: "Standard Pallets",
+          imageURL: ["/pallet3.jpeg"],
+          icon: "🪵",
+          price: 9,
+          index_page_description:
+            "Premium quality pallets built from high-grade materials. Perfect for applications requiring maximum durability and consistency.",
+          description: `Our Standard Pallet is built to deliver reliable performance at an accessible price point. Each pallet is carefully assembled with precision nailing for consistent strength and stability.
+Perfect for sod storage, light stacking, and everyday yard or warehouse use. A smart, cost-effective choice for operations that need dependable pallets without breaking the budget.`,
+          key_features: [
+            "High load capacity",
+            "Best value option",
+            //'Standard sizes: 48" x 40", 42" x 42", 48" x 48"',
             "Custom branding available",
           ],
         },
@@ -88,6 +105,6 @@ export const GET = (request) => {
         ],
       },
     }),
-    { status: 200 }
+    { status: 200 },
   );
 };

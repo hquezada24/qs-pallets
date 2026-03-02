@@ -25,7 +25,7 @@ const CTA = () => {
             role="group"
             aria-label="Call to action buttons"
           >
-            <Link
+            {/* <Link
               className={styles.primaryCtaButton}
               href="/request-a-quote"
               aria-label="Request a custom pallet quote"
@@ -34,7 +34,21 @@ const CTA = () => {
             </Link>
             <Link className={styles.secondaryCtaButton} href="/contact">
               Contact Us
-            </Link>
+            </Link> */}
+            <a
+              className={`${styles.primaryCtaButton} mr-2`}
+              aria-label="Contact QS Pallets"
+              href={"mailto:qspallets@gmail.com"}
+            >
+              Email us
+            </a>
+            <a
+              className={styles.secondaryCtaButton}
+              aria-label="Contact QS Pallets"
+              href={"tel:+19034010536"}
+            >
+              Text us
+            </a>
           </div>
         </div>
       </div>
