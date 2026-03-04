@@ -43,7 +43,12 @@ const Form = ({ form, handleSubmit, handleChange, newUser }) => {
           >
             Role
           </label>
-          <select name="role" id="role" value={form.role}>
+          <select
+            name="role"
+            id="role"
+            value={form.role}
+            onChange={handleChange}
+          >
             <option value="user">User</option>
             <option value="admin">Admin</option>
           </select>
