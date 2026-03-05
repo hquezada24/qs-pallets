@@ -7,8 +7,7 @@ export async function apiRequest(url, options = {}) {
 
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
-    const text = await res.text();
-    return text ? JSON.parse(text) : null;
+    return res;
   } catch (err) {
     console.error("API Request error:", err);
     throw err;

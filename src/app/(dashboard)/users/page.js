@@ -2,15 +2,17 @@
 import Form from "@/components/Form";
 import Table from "@/components/Table";
 import { apiRequest } from "@/lib/apiRequest";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Users = () => {
   const [form, setForm] = useState({
-    name: "Hugo Quezada",
-    email: "hugoaquezada@proton.me",
-    role: "admin",
-    password: "HelloThere",
+    name: "",
+    email: "",
+    role: "",
+    password: "",
   });
+
+  const [users, setUsers] = useState(null);
 
   const handleChange = (e) => {
     setForm({
@@ -36,31 +38,34 @@ const Users = () => {
     }
   };
 
-  const orderColumns = [
-    { key: "id", header: "Name" },
-    { key: "customer", header: "Email" },
-    {
-      key: "status",
-      header: "Role",
-    },
+  useEffect(() => {
+    async function fetchUsers() {
+      try {
+        const res = await apiRequest("/api/users");
+
+        if (!res.ok) {
+          throw new Error("Failed to fetch data");
+        }
+
+        const data = await res.json();
+        setUsers(data);
+      } catch (error) {
+        console.error("User fetching error: ", error.message);
+      }
+    }
+    fetchUsers();
+  }, []);
+
+  const userColumns = [
+    { key: "name", header: "Name" },
+    { key: "email", header: "Email" },
+    { key: "role", header: "Role" },
   ];
 
-  const orderData = [
-    {
-      id: "Hugo Alberto Quezada",
-      customer: "hquezada@qspallets.com",
-      status: "Admin",
-    },
-    {
-      id: "Anna Belen Quezada",
-      customer: "aquezada@qspallets.com",
-      status: "Admin",
-    },
-  ];
   return (
     <div className="p-8 flex justify-evenly">
       <div className="users-left">
-        <Table columns={orderColumns} data={orderData} />
+        {users && <Table columns={userColumns} data={users.users} />}
       </div>
       <div className="users-">
         <h2 className="mb-3">Add a New User</h2>

@@ -4,29 +4,45 @@ import bcrypt from "bcrypt";
 import User from "@/models/User";
 import connectDB from "@/config/database.js";
 
+export async function GET(req) {
+  try {
+    await connectDB();
+
+    const users = await User.find({}).select("-password");
+
+    return new Response(JSON.stringify({ users }), {
+      status: 200,
+    });
+  } catch (error) {}
+}
+
 export async function POST(req) {
-  // const session = await getServerSession(authOptions);
+  try {
+    // const session = await getServerSession(authOptions);
 
-  // if (!session || session.user.role !== "admin") {
-  //   return new Response("Unauthorized", { status: 401 });
-  // }
-  console.log("POST request trial");
-  const { name, email, password, role } = await req.json();
+    // if (!session || session.user.role !== "admin") {
+    //   return new Response("Unauthorized", { status: 401 });
+    // }
 
-  console.log("Connecting to MongoDB");
-  await connectDB();
+    const { name, email, password, role } = await req.json();
 
-  console.log("Hashing password");
-  const hashed = await bcrypt.hash(password, 10);
+    await connectDB();
 
-  console.log("Creating user");
-  const newUser = await User.create({
-    name,
-    email,
-    password: hashed,
-    role,
-  });
+    const hashed = await bcrypt.hash(password, 10);
 
-  console.log("User created successfully");
-  return Response.json(newUser);
+    const newUser = await User.create({
+      name,
+      email,
+      password: hashed,
+      role,
+    });
+
+    console.log("User created successfully");
+    return new Response(JSON.stringify({ newUser }), {
+      status: 200,
+    });
+  } catch (error) {
+    console.log(error);
+    return new Response("Something went wrong", { status: 500 });
+  }
 }
