@@ -1,5 +1,7 @@
 "use client";
 import { useState } from "react";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 import { FaHome, FaUser } from "react-icons/fa";
 import { MdInventory2, MdRequestQuote } from "react-icons/md";
 import { IoAnalytics } from "react-icons/io5";
@@ -7,43 +9,13 @@ import { IoMdSettings, IoMdPeople } from "react-icons/io";
 import { TbInvoice } from "react-icons/tb";
 import Image from "next/image";
 
-const menuItems = [
-  {
-    label: "Home",
-    icon: <FaHome />,
-  },
-  {
-    label: "Inventory",
-    icon: <MdInventory2 />,
-  },
-  {
-    label: "Orders",
-    icon: <TbInvoice />,
-  },
-  {
-    label: "Quotes",
-    icon: <MdRequestQuote />,
-  },
-  {
-    label: "Customers",
-    icon: <IoMdPeople />,
-  },
-  {
-    label: "Analytics",
-    icon: <IoAnalytics />,
-  },
-  {
-    label: "Settings",
-    icon: <IoMdSettings />,
-  },
-  {
-    label: "Users",
-    icon: <FaUser />,
-  },
-];
-
 const SidebarMenu = ({ isOpen, setIsOpen }) => {
-  const [activeItem, setActiveItem] = useState("Inventory");
+  const location = usePathname();
+
+  const isActiveLink = (path) => {
+    console.log("Path: ", path);
+    return location === path;
+  };
 
   return (
     <>
@@ -52,6 +24,7 @@ const SidebarMenu = ({ isOpen, setIsOpen }) => {
 
         .sidebar-root {
           font-family: 'Lexend', sans-serif;
+          display: none;
         }
 
         .sidebar-panel {
@@ -289,6 +262,12 @@ const SidebarMenu = ({ isOpen, setIsOpen }) => {
         .toggle-btn:hover {
           background: #15803d;
         }
+
+        @media(width > 640px){
+          .sidebar-root{
+            display: block;
+          }
+        }
       `}</style>
 
       <div className="sidebar-root flex">
@@ -338,16 +317,71 @@ const SidebarMenu = ({ isOpen, setIsOpen }) => {
             {/* Navigation */}
             <nav className="nav-section">
               <div className="nav-label">Main Menu</div>
-              {menuItems.map((item) => (
-                <div
-                  key={item.label}
-                  className={`nav-item ${activeItem === item.label ? "active" : ""}`}
-                  onClick={() => setActiveItem(item.label)}
+
+              <ul>
+                <li className={`nav-item ${isActiveLink("/") ? "active" : ""}`}>
+                  <span className="nav-icon">
+                    <FaHome />
+                  </span>
+                  <Link href="/">Home</Link>
+                </li>
+                <li
+                  className={`nav-item ${isActiveLink("/orders") ? "active" : ""}`}
                 >
-                  <span className="nav-icon">{item.icon}</span>
-                  {item.label}
-                </div>
-              ))}
+                  <span className="nav-icon">
+                    <TbInvoice />
+                  </span>
+                  <Link href="/orders">Orders</Link>
+                </li>
+                <li
+                  className={`nav-item ${isActiveLink("/inventory") ? "active" : ""}`}
+                >
+                  <span className="nav-icon">
+                    <MdInventory2 />
+                  </span>
+                  <Link href="/inventory">Inventory</Link>
+                </li>
+                <li
+                  className={`nav-item ${isActiveLink("/customers") ? "active" : ""}`}
+                >
+                  <span className="nav-icon">
+                    <IoMdPeople />
+                  </span>
+                  <Link href="/customers">Customers</Link>
+                </li>
+                <li
+                  className={`nav-item ${isActiveLink("/quotes") ? "active" : ""}`}
+                >
+                  <span className="nav-icon">
+                    <MdRequestQuote />
+                  </span>
+                  <Link href="/quotes">Quotes</Link>
+                </li>
+                <li
+                  className={`nav-item ${isActiveLink("/analytics") ? "active" : ""}`}
+                >
+                  <span className="nav-icon">
+                    <IoAnalytics />
+                  </span>
+                  <Link href="/analytics">Analytics</Link>
+                </li>
+                <li
+                  className={`nav-item ${isActiveLink("/settings") ? "active" : ""}`}
+                >
+                  <span className="nav-icon">
+                    <IoMdSettings />
+                  </span>
+                  <Link href="/settings">Settings</Link>
+                </li>
+                <li
+                  className={`nav-item ${isActiveLink("/users") ? "active" : ""}`}
+                >
+                  <span className="nav-icon">
+                    <FaUser />
+                  </span>
+                  <Link href="/users">Users</Link>
+                </li>
+              </ul>
             </nav>
 
             {/* Profile & Logout */}
