@@ -1,4 +1,4 @@
-const Form = ({ form, handleSubmit, handleChange, newUser }) => {
+const Form = ({ form, handleSubmit, handleChange, newUser, submitType }) => {
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
       {/* Email */}
@@ -76,7 +76,7 @@ const Form = ({ form, handleSubmit, handleChange, newUser }) => {
         type="submit"
         className="w-full bg-green-700 hover:bg-green-800 text-white font-semibold py-3 rounded-xl transition duration-200 shadow-md"
       >
-        Sign In
+        {submitType}
       </button>
     </form>
   );

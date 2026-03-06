@@ -1,7 +1,7 @@
-export default function Table({ columns, data }) {
+export default function Table({ title, columns, data }) {
   return (
     <>
-      <h2 className="text-lg font-semibold mb-4">Recent Orders</h2>
+      <h2 className="text-lg font-semibold mb-4">{title}</h2>
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
         <table className="w-full text-sm">
           <thead className="bg-gray-50 border-b border-gray-100">
