@@ -13,7 +13,13 @@ export async function GET(req) {
     return new Response(JSON.stringify({ users }), {
       status: 200,
     });
-  } catch (error) {}
+  } catch (error) {
+    console.error("GET /api/users error:", error);
+
+    return new Response(JSON.stringify({ message: "Internal Server Error" }), {
+      status: 500,
+    });
+  }
 }
 
 export async function POST(req) {
@@ -43,6 +49,6 @@ export async function POST(req) {
     });
   } catch (error) {
     console.log(error);
-    return new Response("Something went wrong", { status: 500 });
+    return new Response("Internal Server Error", { status: 500 });
   }
 }
