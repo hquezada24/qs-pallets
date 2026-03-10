@@ -3,26 +3,18 @@ import Table from "@/components/Table";
 import Form from "@/components/Form";
 import { apiRequest } from "@/lib/apiRequest";
 import { useState, useEffect } from "react";
+import { Product } from "@/types/product";
+
+type ProductsResponse = {
+  products: Product[];
+};
 
 const Products = () => {
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    role: "employee",
-    password: "",
-  });
-
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState<ProductsResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
-
-  const orderData = [
-    { name: "Heavy-Duty Pallets", price: 11, icon: "💪", see: "→" },
-    { name: "Standard Pallets", price: 9, icon: "🪵", see: "→" },
-    { name: "Recycled", price: 5, icon: "♻️", see: "→" },
-  ];
 
   const FormData = [
     { key: "name", label: "Name", type: "text" },
@@ -52,7 +44,6 @@ const Products = () => {
   async function fetchProducts() {
     try {
       setLoading(true);
-      setSubmitStatus(null);
       setError(null);
 
       const res = await apiRequest("/api/our-products");
@@ -61,7 +52,7 @@ const Products = () => {
         throw new Error("Failed to fetch data");
       }
 
-      const data = await res.json();
+      const data: ProductsResponse = await res.json();
 
       setProducts(data);
     } catch (error) {
@@ -74,14 +65,12 @@ const Products = () => {
 
   useEffect(() => {
     fetchProducts();
-  }, []);
-
-  console.log(products);
+  }, [submitStatus]);
 
   return (
     <div className="p-8 flex flex-col sm:flex-row justify-evenly space-y-4">
       <div className="">
-        {loading && <p>Loading users...</p>}
+        {loading && <p>Loading products...</p>}
 
         {error && <p className="text-red-500">{error}</p>}
         {!loading && !error && (
@@ -95,7 +84,10 @@ const Products = () => {
       <div className="flex flex-col justify-center items-center min-w-md">
         <h2 className="mb-3">Add a New Product</h2>
         {submitStatus === "error" && (
-          <h3 className="text-red-500 ">Could Not Create New User!</h3>
+          <h3 className="text-red-500 ">Could Not Create New Product!</h3>
+        )}
+        {submitStatus === "success" && (
+          <h3 className="text-green-500 ">Product created successfully!</h3>
         )}
         <Form
           inputs={FormData}

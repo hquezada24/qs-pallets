@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import connectDB from "@/config/database";
-import Product from "@/models/Product.js";
+import Product from "@/models/Product";
 import { model } from "mongoose";
 import { Schema } from "mongoose";
 
@@ -38,8 +38,10 @@ export const GET = async (req: NextRequest) => {
   try {
     await connectDB();
 
-    const products = await Product.find({}).select("name price icon");
+    console.log("Accessing the db");
+    const products = await Product.find().select("name price icon");
 
+    console.log("Returning response");
     return new Response(JSON.stringify({ products }), {
       status: 200,
     });
