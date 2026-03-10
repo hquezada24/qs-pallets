@@ -3,12 +3,13 @@ import { authOptions } from "@/lib/auth";
 import bcrypt from "bcrypt";
 import User from "@/models/User";
 import connectDB from "@/config/database.js";
+import { NextRequest } from "next/server";
 
-export async function GET(req) {
+export async function GET(req: NextRequest) {
   try {
     await connectDB();
 
-    const users = await User.find({}).select("-password");
+    const users = await User.find().select("-password -__v");
 
     return new Response(JSON.stringify({ users }), {
       status: 200,

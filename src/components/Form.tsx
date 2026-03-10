@@ -33,7 +33,9 @@ const Form = ({
   path,
 }: FormProps) => {
   const formKeys = inputs.map((input) => input.key);
-  const formObject = Object.fromEntries(formKeys.map((m) => [m, ""]));
+  const formObject = Object.fromEntries(
+    formKeys.map((m) => (m === "role" ? [m, "employee"] : [m, ""])),
+  );
   const [form, setForm] = useState(formObject);
 
   const handleChange = (e) => {
@@ -46,7 +48,6 @@ const Form = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setSubmitStatus(null);
     console.log(form);
     try {
       const res = await apiRequest(`/api/${path}`, {
@@ -58,8 +59,12 @@ const Form = ({
         throw new Error("Failed to create user");
       }
 
-      console.log("submitted successfully");
-      setForm(Object.fromEntries(formKeys.map((m) => [m, ""])));
+      setSubmitStatus("success");
+      setForm(
+        Object.fromEntries(
+          formKeys.map((m) => (m === "role" ? [m, "employee"] : [m, ""])),
+        ),
+      );
     } catch (error) {
       setSubmitStatus("error");
       console.error("User registration error: ", error.message);

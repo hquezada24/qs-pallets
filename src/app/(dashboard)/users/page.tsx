@@ -3,68 +3,22 @@ import Form from "@/components/Form";
 import Table from "@/components/Table";
 import { apiRequest } from "@/lib/apiRequest";
 import { useState, useEffect } from "react";
+import { User } from "@/types/user";
+
+type UsersResponse = {
+  users: User[];
+};
 
 const Users = () => {
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    role: "employee",
-    password: "",
-  });
-
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState<UsersResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
 
-  const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitStatus(null);
-    try {
-      // await apiRequest("/api/users", {
-      //   method: "POST",
-      //   body: JSON.stringify(form),
-      // });
-
-      const res = await apiRequest("/api/users", {
-        method: "POST",
-        body: JSON.stringify(form),
-      });
-
-      console.log("response: ", res.ok);
-      if (!res.ok) {
-        throw new Error("Failed to create user");
-      }
-
-      console.log("submitted successfully");
-      setForm({
-        name: "",
-        email: "",
-        role: "employee",
-        password: "",
-      });
-    } catch (error) {
-      setSubmitStatus("error");
-      console.error("User registration error: ", error.message);
-    } finally {
-      setIsSubmitting(false);
-      await fetchUsers();
-    }
-  };
-
   async function fetchUsers() {
     try {
       setLoading(true);
-      setSubmitStatus(null);
       setError(null);
 
       const res = await apiRequest("/api/users");
@@ -73,7 +27,7 @@ const Users = () => {
         throw new Error("Failed to fetch data");
       }
 
-      const data = await res.json();
+      const data: UsersResponse = await res.json();
       setUsers(data);
     } catch (error) {
       setError(error.message);
@@ -85,7 +39,9 @@ const Users = () => {
 
   useEffect(() => {
     fetchUsers();
-  }, []);
+  }, [submitStatus]);
+
+  console.log(users);
 
   const userColumns = [
     { key: "name", header: "Name" },
@@ -93,12 +49,26 @@ const Users = () => {
     { key: "role", header: "Role" },
   ];
 
+  const FormData = [
+    { key: "name", label: "Name", type: "text" },
+    { key: "email", label: "Email", type: "email" },
+    {
+      key: "role",
+      label: "Role",
+      type: "select",
+      options: ["employee", "admin"],
+    },
+    { key: "password", label: "Password", type: "password" },
+  ];
+
   return (
     <div className="p-8 flex flex-col sm:flex-row justify-evenly space-y-4">
       <div className="users-left">
         {loading && <p>Loading users...</p>}
 
-        {error && <p className="text-red-500">{error}</p>}
+        {error && (
+          <p className="text-red-500">Failed to fetch users: {error}</p>
+        )}
 
         {!loading && !error && (
           <Table title={"Users"} columns={userColumns} data={users.users} />
@@ -109,11 +79,14 @@ const Users = () => {
         {submitStatus === "error" && (
           <h3 className="text-red-500 ">Could Not Create New User!</h3>
         )}
+        {submitStatus === "success" && (
+          <h3 className="text-green-500 ">User Created Successfully!</h3>
+        )}
         <Form
-          form={form}
-          handleSubmit={handleSubmit}
-          handleChange={handleChange}
-          newUser={true}
+          inputs={FormData}
+          setIsSubmitting={setIsSubmitting}
+          setSubmitStatus={setSubmitStatus}
+          path={"/users"}
           submitType={isSubmitting ? "Creating user..." : "Create User"}
         />
       </div>
