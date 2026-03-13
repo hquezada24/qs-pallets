@@ -1,6 +1,16 @@
-import { Schema, model, models } from "mongoose";
+import { Schema, model, models, Types } from "mongoose";
+import { Model } from "mongoose";
 
-const QuoteSchema = new Schema(
+export interface IQuote {
+  product: Types.ObjectId;
+  quantity: number;
+  additionalDetails?: string;
+  status: "NEW" | "PENDING" | "APPROVED" | "REJECTED";
+  customer: Types.ObjectId;
+  address: Types.ObjectId;
+}
+
+const QuoteSchema = new Schema<IQuote>(
   {
     product: {
       type: Schema.Types.ObjectId,
@@ -36,6 +46,7 @@ const QuoteSchema = new Schema(
   },
 );
 
-const Quote = models.Quote || model("Quote", QuoteSchema);
+const Quote =
+  (models.Quote as Model<IQuote>) || model<IQuote>("Quote", QuoteSchema);
 
 export default Quote;

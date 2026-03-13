@@ -1,6 +1,14 @@
 import { Schema, model, models } from "mongoose";
+import { Model } from "mongoose";
 
-const CustomerSchema = new Schema(
+interface ICustomer {
+  fullName: string;
+  companyName?: string;
+  email: string;
+  phone: string;
+}
+
+const CustomerSchema = new Schema<ICustomer>(
   {
     fullName: {
       type: String,
@@ -23,9 +31,11 @@ const CustomerSchema = new Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
-const Customer = models.Customer || model("Customer", CustomerSchema);
+const Customer =
+  (models.Customer as Model<ICustomer>) ||
+  model<ICustomer>("Customer", CustomerSchema);
 
 export default Customer;
