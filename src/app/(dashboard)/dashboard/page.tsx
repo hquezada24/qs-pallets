@@ -71,19 +71,27 @@ const DashboardHome = () => {
     `}</style>
       <div className="items-center py-8 space-y-5">
         <div className="nav-options flex justify-evenly">
-          <DashboardNav bg={"blue"} text={"New Orders"} />
-          <DashboardNav bg={"red"} text={"Open Quotes"} />
-          <DashboardNav bg={"green"} text={"Total Inventory"} />
-          <DashboardNav bg={"yellow"} text={"Customers"} />
+          <DashboardNav bg={"blue"} text={"Orders"} link={"/orders"} />
+          <DashboardNav bg={"red"} text={"Quotes"} link={"/quotes"} />
+          <DashboardNav
+            bg={"green"}
+            text={"Inventory"}
+            link={"/our-products"}
+          />
+          <DashboardNav bg={"yellow"} text={"Customers"} link={"/customers"} />
         </div>
         <div
           className="grid gap-6 p-4 bg-gray-200 
                 grid-cols-1 
                 lg:grid-cols-[2fr_1fr]"
         >
-          <DashboardHomeGraph className="card chart" />
+          <DashboardHomeGraph />
           <div className="card table">
-            <Table columns={orderColumns} data={orderData} />
+            <Table
+              title={"Sales This Month"}
+              columns={orderColumns}
+              data={orderData}
+            />
             <p className="text-lg font-bold text-gray-900">
               Month total ${currentMonthTotal.toLocaleString()}
             </p>
