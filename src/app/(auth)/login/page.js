@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
+import { signIn } from "next-auth/react";
 
 export default function Login() {
   const [form, setForm] = useState({
@@ -15,9 +16,20 @@ export default function Login() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Login attempt:", form);
+
+    const res = await signIn("credentials", {
+      ...form,
+      redirect: false,
+    });
+
+    if (res?.error) {
+      console.log("Login failed");
+    } else {
+      window.location.href = "/";
+    }
   };
 
   return (

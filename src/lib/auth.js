@@ -14,7 +14,9 @@ export const authOptions = {
       async authorize(credentials) {
         await connectDB();
 
-        const user = await User.findOne({ email: credentials?.email });
+        const user = await User.findOne({ email: credentials?.email }).select(
+          "+password",
+        );
         if (!user) return null;
 
         const valid = await bcrypt.compare(credentials.password, user.password);
@@ -36,7 +38,9 @@ export const authOptions = {
       return token;
     },
     async session({ session, token }) {
-      session.user.role = token.role;
+      if (session.user) {
+        session.user.role = token.role;
+      }
       return session;
     },
   },
