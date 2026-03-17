@@ -2,8 +2,9 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
 import User from "@/models/User";
 import connectDB from "@/config/database.js";
+import { type AuthOptions } from "next-auth";
 
-export const authOptions = {
+export const authOptions: AuthOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -18,6 +19,8 @@ export const authOptions = {
           "+password",
         );
         if (!user) return null;
+
+        if (!credentials?.password) return null;
 
         const valid = await bcrypt.compare(credentials.password, user.password);
 

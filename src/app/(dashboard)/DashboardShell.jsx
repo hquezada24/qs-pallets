@@ -2,15 +2,9 @@
 import SidebarMenu from "@/components/SidebarMenu";
 import DashboardHeader from "@/components/DashboardHeader";
 import { useState } from "react";
-import { useSession } from "next-auth/react";
 
 const DashboardShell = ({ children }) => {
-  const { data: session, status } = useSession();
   const [isOpen, setIsOpen] = useState(true);
-
-  if (status === "loading") return <p>Loading...</p>;
-
-  if (!session) return <p>Not authenticated</p>;
 
   return (
     <div className="flex min-h-screen">
