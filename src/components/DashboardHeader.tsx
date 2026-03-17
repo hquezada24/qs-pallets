@@ -1,14 +1,16 @@
 "use client";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import "@/styles/Header.css";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 const DashboardHeader = ({ isOpen }) => {
   const [showNotifications, setShowNotifications] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef(null);
   const location = usePathname();
+  const { data: session, status } = useSession();
   const [notifications, setNotifications] = useState([
     { id: 1, text: "New order #1042 received", time: "2m ago", unread: true },
     { id: 2, text: "Quote #87 was approved", time: "1h ago", unread: true },
@@ -70,7 +72,11 @@ const DashboardHeader = ({ isOpen }) => {
               {today}
             </p>
             <h1 className="logo-font truncate text-xl font-extrabold leading-tight tracking-tight text-white sm:text-2xl">
-              Welcome back, <span className="text-emerald-200">Anna</span> 👋
+              Welcome back,{" "}
+              <span className="text-emerald-200">
+                {status !== "loading" && session.user.name}
+              </span>{" "}
+              👋
             </h1>
             <p className="mt-1 text-sm font-medium text-emerald-100/80">
               Here&apos;s what&apos;s happening with your operations today.
@@ -151,14 +157,14 @@ const DashboardHeader = ({ isOpen }) => {
             {/* Avatar */}
             <div className="flex items-center gap-2.5 sm:border-l border-white/25 pl-3">
               <div className="logo-font flex h-10 w-10 items-center justify-center rounded-xl bg-white text-sm font-extrabold text-emerald-800 shadow-md">
-                J
+                {status !== "loading" && session.user.name[0]}
               </div>
               <div className="hidden sm:block">
                 <p className="text-sm font-semibold leading-tight text-white">
-                  Anna Quezada
+                  {status !== "loading" && session.user.name}
                 </p>
                 <p className="text-xs font-medium text-emerald-100/80">
-                  Administrator
+                  {status !== "loading" && session.user.role}
                 </p>
               </div>
               <div className="mobileMenu" ref={menuRef}>

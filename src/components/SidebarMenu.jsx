@@ -8,9 +8,12 @@ import { IoMdSettings, IoMdPeople } from "react-icons/io";
 import { TbInvoice } from "react-icons/tb";
 import { LiaPalletSolid } from "react-icons/lia";
 import Image from "next/image";
+import LogoutButton from "./LogoutButton";
+import { useSession } from "next-auth/react";
 
 const SidebarMenu = ({ isOpen, setIsOpen }) => {
   const location = usePathname();
+  const { data: session, status } = useSession();
 
   const isActiveLink = (path) => {
     return location === path;
@@ -388,44 +391,24 @@ const SidebarMenu = ({ isOpen, setIsOpen }) => {
                     Settings
                   </li>
                 </Link>
-                <Link href="/users">
-                  <li
-                    className={`nav-item ${isActiveLink("/users") ? "active" : ""}`}
-                  >
-                    <span className="nav-icon">
-                      <FaUser />
-                    </span>
-                    Users
-                  </li>
-                </Link>
+                {status !== "loading" && session?.user.role === "admin" && (
+                  <Link href="/users">
+                    <li
+                      className={`nav-item ${isActiveLink("/users") ? "active" : ""}`}
+                    >
+                      <span className="nav-icon">
+                        <FaUser />
+                      </span>
+                      Users
+                    </li>
+                  </Link>
+                )}
               </ul>
             </nav>
 
             {/* Profile & Logout */}
             <div className="profile-section">
-              <div className="profile-card">
-                <div className="avatar">J</div>
-                <div className="profile-info">
-                  <div className="profile-name">John Smith</div>
-                  <div className="profile-role">Administrator</div>
-                </div>
-              </div>
-              <button className="logout-btn">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  style={{ width: 16, height: 16 }}
-                >
-                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-                  <polyline points="16 17 21 12 16 7" />
-                  <line x1="21" y1="12" x2="9" y2="12" />
-                </svg>
-                Log Out
-              </button>
+              <LogoutButton />
             </div>
           </div>
         </div>

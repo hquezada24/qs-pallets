@@ -30,6 +30,7 @@ export const authOptions: AuthOptions = {
           id: user._id.toString(),
           email: user.email,
           role: user.role,
+          name: user.name,
         };
       },
     }),
