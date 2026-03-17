@@ -2,17 +2,17 @@
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { FaHome, FaUser } from "react-icons/fa";
-import { MdInventory2, MdRequestQuote } from "react-icons/md";
+import { MdRequestQuote } from "react-icons/md";
 import { IoAnalytics } from "react-icons/io5";
 import { IoMdSettings, IoMdPeople } from "react-icons/io";
 import { TbInvoice } from "react-icons/tb";
+import { LiaPalletSolid } from "react-icons/lia";
 import Image from "next/image";
 
 const SidebarMenu = ({ isOpen, setIsOpen }) => {
   const location = usePathname();
 
   const isActiveLink = (path) => {
-    console.log("Path: ", path);
     return location === path;
   };
 
@@ -27,7 +27,7 @@ const SidebarMenu = ({ isOpen, setIsOpen }) => {
         }
 
         .sidebar-panel {
-          width: 260px;
+          width: 280px;
           min-height: 100vh;
           background: linear-gradient(175deg, #16a34a 0%, #15803d 60%, #14532d 100%);
           display: flex;
@@ -269,7 +269,7 @@ const SidebarMenu = ({ isOpen, setIsOpen }) => {
         }
       `}</style>
 
-      <div className="sidebar-root flex">
+      <div className="sidebar-root flex fixed inset-y-0 left-0 w-64 z-50">
         {/* Toggle Button */}
         <button
           className="toggle-btn"
@@ -338,14 +338,14 @@ const SidebarMenu = ({ isOpen, setIsOpen }) => {
                     Orders
                   </li>
                 </Link>
-                <Link href="/inventory">
+                <Link href="/our-products">
                   <li
-                    className={`nav-item ${isActiveLink("/inventory") ? "active" : ""}`}
+                    className={`nav-item ${isActiveLink("/our-products") ? "active" : ""}`}
                   >
                     <span className="nav-icon">
-                      <MdInventory2 />
+                      <LiaPalletSolid />
                     </span>
-                    Inventory
+                    Products
                   </li>
                 </Link>
                 <Link href="/customers">
