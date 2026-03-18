@@ -5,7 +5,7 @@ interface IProduct {
   index_page_description: string;
   description: string;
   price: number;
-  imageURL: string[];
+  imageURL?: string[];
   icon: string;
   isCustom: boolean;
 }
@@ -32,6 +32,7 @@ const ProductSchema = new Schema<IProduct>(
     imageURL: {
       type: [String],
       default: [],
+      required: false,
     },
     icon: {
       type: String,
