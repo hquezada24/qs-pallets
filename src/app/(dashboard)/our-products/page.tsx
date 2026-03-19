@@ -15,6 +15,7 @@ const Products = () => {
   const [error, setError] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
+  const [form, setForm] = useState(false);
 
   const FormData = [
     { key: "name", label: "Name", type: "text" },
@@ -65,14 +66,43 @@ const Products = () => {
 
   useEffect(() => {
     fetchProducts();
+    if (!submitStatus) return;
+
+    const delay = submitStatus === "success" ? 1500 : 4000;
+    const timer = setTimeout(() => {
+      setSubmitStatus(null);
+      if (submitStatus === "success") setForm(false);
+    }, delay);
+
+    return () => clearTimeout(timer);
   }, [submitStatus]);
 
   return (
-    <div className="p-8 flex flex-col sm:flex-row justify-evenly space-y-4">
-      <div className="">
-        {loading && <p>Loading products...</p>}
+    <div className="min-h-screen bg-gray-50 px-6 py-10 flex flex-col items-center gap-8">
+      {/* Table section */}
+      <div className="w-full max-w-3xl bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden px-2 py-4">
+        {loading && (
+          <div className="p-6 space-y-3">
+            {/* Header */}
+            <div className="h-5 w-32 bg-gray-200 rounded animate-pulse" />
+            {/* Filas */}
+            {[...Array(5)].map((_, i) => (
+              <div key={i} className="flex gap-4">
+                <div className="h-4 bg-gray-100 rounded animate-pulse flex-1" />
+                <div className="h-4 bg-gray-100 rounded animate-pulse w-20" />
+                <div className="h-4 bg-gray-100 rounded animate-pulse w-12" />
+              </div>
+            ))}
+          </div>
+        )}
 
-        {error && <p className="text-red-500">{error}</p>}
+        {error && (
+          <div className="mx-6 my-4 flex items-center gap-2 rounded-lg bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-600">
+            <span>⚠</span>
+            <span>{error}</span>
+          </div>
+        )}
+
         {!loading && !error && (
           <Table
             title={"Products"}
@@ -81,21 +111,53 @@ const Products = () => {
           />
         )}
       </div>
-      <div className="flex flex-col justify-center items-center min-w-md">
-        <h2 className="mb-3">Add a New Product</h2>
+
+      {/* Form section */}
+      <div className="w-full max-w-3xl flex flex-col items-center gap-4">
+        <button
+          className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white text-sm font-medium px-5 py-2.5 rounded-xl shadow-sm transition-all duration-150 cursor-pointer"
+          onClick={() => setForm(!form)}
+        >
+          {form ? (
+            <>
+              <span>✕</span> Close Form
+            </>
+          ) : (
+            <>
+              <span>＋</span> Add New Product
+            </>
+          )}
+        </button>
+
+        {/* Status messages */}
         {submitStatus === "error" && (
-          <h3 className="text-red-500 ">Could Not Create New Product!</h3>
+          <div className="w-full flex items-center gap-2 rounded-lg bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-600">
+            <span>✕</span>
+            <span>Could not create new product. Please try again.</span>
+          </div>
         )}
         {submitStatus === "success" && (
-          <h3 className="text-green-500 ">Product created successfully!</h3>
+          <div className="w-full flex items-center gap-2 rounded-lg bg-emerald-50 border border-emerald-200 px-4 py-3 text-sm text-emerald-700">
+            <span>✓</span>
+            <span>Product created successfully!</span>
+          </div>
         )}
-        <Form
-          inputs={FormData}
-          submitType={isSubmitting ? "Adding product..." : "Add Product"}
-          path="our-products"
-          setIsSubmitting={setIsSubmitting}
-          setSubmitStatus={setSubmitStatus}
-        />
+
+        {/* Form container */}
+        {form && (
+          <div className="w-full bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+            <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-widest mb-5">
+              New Product
+            </h2>
+            <Form
+              inputs={FormData}
+              submitType={isSubmitting ? "Adding product..." : "Add Product"}
+              path="our-products"
+              setIsSubmitting={setIsSubmitting}
+              setSubmitStatus={setSubmitStatus}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

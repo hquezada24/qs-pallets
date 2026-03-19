@@ -62,7 +62,7 @@ const DashboardHeader = ({ isOpen }) => {
       `}</style>
 
       <header
-        className={`header-font max-[680px]:min-h-[10vh] max-[680px]:w-full sticky top-0 z-40 border-b border-emerald-800/30 bg-linear-to-r from-[#1e5631] via-[#1f7a35] to-[#228b22] shadow-lg ${isOpen ? "w-[calc(100vw+260px)]" : "w-screen"} "w-screen"`}
+        className={`header-font max-[680px]:min-h-[10vh] max-[680px]:w-full sticky top-0 z-40 border-b border-emerald-800/30 bg-linear-to-r from-[#1e5631] via-[#1f7a35] to-[#228b22] shadow-lg ${isOpen ? "w-[calc(100vw+260px)]" : "w-screen"}`}
       >
         <div className="absolute inset-0 opacity-20 pointer-events-none bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.35),transparent_45%),radial-gradient(circle_at_80%_50%,rgba(255,255,255,0.2),transparent_35%)]" />
         <div className="relative flex flex-col max-[680px]:justify-end gap-4 px-8 py-6 items-end lg:px-10 xl:px-12 md:flex-row lg:items-center lg:justify-evenly lg:gap-5">

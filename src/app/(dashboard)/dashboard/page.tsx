@@ -83,7 +83,7 @@ const DashboardHome = () => {
         <div
           className="grid gap-6 p-4 bg-gray-200 
                 grid-cols-1 
-                lg:grid-cols-[2fr_1fr]"
+                lg:grid-cols-[2fr_1fr] px-4"
         >
           <DashboardHomeGraph />
           <div className="card table">
