@@ -1,7 +1,32 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Button from "./Button";
 import styles from "@/styles/QuoteForm.module.css";
+import { apiRequest } from "@/lib/apiRequest";
+import ProductsSkeleton from "@/components/ProductsSkeleton";
+
+type QuoteItem = {
+  _id: string;
+  name: string;
+  price?: number;
+  quantity: number;
+};
+
+type Product = {
+  _id: string;
+  name: string;
+  icon: string;
+  price?: number;
+  isCustom: boolean;
+};
+
+type Errors = {
+  fullName?: string;
+  email?: string;
+  phone?: string;
+  quantity?: string;
+  quantities?: string;
+};
 
 const QuoteForm = () => {
   const [formData, setFormData] = useState({
@@ -9,23 +34,73 @@ const QuoteForm = () => {
     companyName: "",
     email: "",
     phone: "",
-    palletType: "",
-    quantity: "",
     address: {
       street: "",
       city: "",
-      state: "",
+      state: "TX",
       zipCode: "",
     },
     additionalDetails: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
-  const [errors, setErrors] = useState({});
-  const API_BASE_URL = process.env.API_URL || "http://localhost:3000/api";
+  const [errors, setErrors] = useState<Errors>({});
+  const [products, setProducts] = useState(null);
+  const [loading, setLoading] = useState(true);
+  // const [quantities, setQuantities] = useState<Product[]>([]);
+  const customProduct = products?.products.find((p) => p.isCustom);
+  const [items, setItems] = useState<QuoteItem[]>([]);
+  const showCustomSection = customProduct
+    ? (items.find((i) => i._id === customProduct._id)?.quantity || 0) > 0
+    : false;
+
+  const [customDimensions, setCustomDimensions] = useState({
+    length: "",
+    width: "",
+    height: "",
+    weightCapacity: "",
+    notes: "",
+  });
+
+  const handleDimensionChange = (e) => {
+    const { name, value } = e.target;
+    setCustomDimensions((prev) => ({ ...prev, [name]: value }));
+  };
+
+  // Handler para actualizar cantidad por productId
+  const handleQuantityChange = (product: Product, value: number) => {
+    const clamped = Math.max(0, value);
+
+    setItems((prev) => {
+      const exists = prev.find((i) => i._id === product._id);
+
+      // Si quantity llega a 0, lo removemos del array
+      if (clamped === 0) {
+        return prev.filter((i) => i._id !== product._id);
+      }
+
+      // Si ya existe, solo actualizamos quantity
+      if (exists) {
+        return prev.map((i) =>
+          i._id === product._id ? { ...i, quantity: clamped } : i,
+        );
+      }
+
+      // Si no existe, lo agregamos con todos sus datos
+      return [
+        ...prev,
+        {
+          _id: product._id,
+          name: product.name,
+          ...(product.price !== null && { price: product.price }),
+          quantity: clamped,
+        },
+      ];
+    });
+  };
 
   const validateForm = () => {
-    const newErrors = {};
+    const newErrors: Errors = {};
 
     if (!formData.fullName.trim()) {
       newErrors.fullName = "Full name is required";
@@ -45,14 +120,17 @@ const QuoteForm = () => {
       newErrors.phone = "Please enter a valid phone number";
     }
 
-    if (!formData.palletType) {
-      newErrors.palletType = "Please select a pallet type";
-    }
+    // const totalQuantity = Object.values(quantities).reduce(
+    //   (sum, q) => sum + q,
+    //   0,
+    // );
+    // if (totalQuantity === 0) {
+    //   newErrors.quantities = "Please select at least one product";
+    // }
 
-    if (!formData.quantity.trim()) {
-      newErrors.quantity = "Quantity is required";
-    } else if (parseInt(formData.quantity) < 1) {
-      newErrors.quantity = "Quantity must be at least 1";
+    // En validateForm()
+    if (items.length === 0) {
+      newErrors.quantities = "Please select at least one product";
     }
 
     setErrors(newErrors);
@@ -97,25 +175,18 @@ const QuoteForm = () => {
 
     try {
       // Make the API call
-      console.log("Attempting to fetch from:", process.env.NEXT_PUBLIC_API_URL);
 
       const response = await fetch("/api/request-a-quote", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData), // Send the actual formData
+        body: JSON.stringify({
+          ...formData,
+          items,
+          ...(showCustomSection && { customDimensions }),
+        }),
       });
-      // const response = await fetch(
-      //   `${process.env.NEXT_PUBLIC_API_URL}/request-a-quote`,
-      //   {
-      //     method: "POST",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //     },
-      //     body: JSON.stringify(formData), // Send the actual formData
-      //   }
-      // );
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -128,8 +199,6 @@ const QuoteForm = () => {
         companyName: "",
         email: "",
         phone: "",
-        palletType: "",
-        quantity: "",
         address: {
           street: "",
           city: "",
@@ -145,6 +214,29 @@ const QuoteForm = () => {
       setIsSubmitting(false);
     }
   };
+
+  async function fetchProducts() {
+    try {
+      setLoading(true);
+      const res = await apiRequest("/api/our-products");
+
+      if (!res.ok) {
+        throw new Error("Failed to fetch data");
+      }
+
+      const data = await res.json();
+
+      setProducts(data);
+    } catch (error) {
+      console.error("Product fetching error: ", error.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
   return (
     <div className={styles.quotePage}>
@@ -211,12 +303,6 @@ const QuoteForm = () => {
               </div>
             )}
 
-            {/* <form
-              action="/api/request-a-quote"
-              method="post"
-              className={styles.form}
-              noValidate
-            > */}
             <form onSubmit={handleSubmit} className={styles.form} noValidate>
               {/* Contact Information */}
               <fieldset className={styles.fieldset}>
@@ -346,75 +432,162 @@ const QuoteForm = () => {
               <fieldset className={styles.fieldset}>
                 <legend className={styles.legend}>Pallet Specifications</legend>
 
-                <div className={styles.formRow}>
-                  <div className={styles.formGroup}>
-                    <label htmlFor="palletType" className={styles.label}>
-                      Pallet Type *
-                    </label>
-                    <select
-                      id="palletType"
-                      name="palletType"
-                      value={formData.palletType}
-                      onChange={handleInputChange}
-                      className={`${styles.select} ${
-                        errors.palletType ? styles.inputError : ""
-                      }`}
-                      required
-                      aria-required="true"
-                      aria-invalid={errors.palletType ? "true" : "false"}
-                      aria-describedby={
-                        errors.palletType ? "palletType-error" : undefined
-                      }
-                    >
-                      <option value="">Select pallet type</option>
-                      <option value="STANDARD">Standard Pallets</option>
-                      <option value="RECYCLED">Recycled Pallets</option>
-                      <option value="CUSTOM">Custom Pallets</option>
-                    </select>
-                    {errors.palletType && (
-                      <span
-                        id="palletType-error"
-                        className={styles.errorText}
-                        role="alert"
-                      >
-                        {errors.palletType}
-                      </span>
-                    )}
-                  </div>
+                {loading ? (
+                  <ProductsSkeleton />
+                ) : (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
+                    {products.products.map((item) => {
+                      const currentQty =
+                        items.find((i) => i._id === item._id)?.quantity || 0;
+                      return (
+                        <div
+                          key={item._id}
+                          className="flex items-center justify-between gap-4 bg-white border-2 border-[#e2e8f0] rounded-lg px-4 py-3 hover:border-[#32cd32] transition-colors duration-200 focus-within:border-[#228b22] focus-within:shadow-[0_0_0_3px_rgba(34,139,34,0.1)]"
+                        >
+                          {/* Product info */}
+                          <div className="flex items-center gap-2 min-w-0">
+                            {item.icon && (
+                              <span className="text-xl shrink-0">
+                                {item.icon}
+                              </span>
+                            )}
+                            <div className="min-w-0">
+                              <p className="text-[#2d3748] font-semibold text-sm leading-tight truncate">
+                                {item.name}
+                              </p>
+                              {item.price && (
+                                <p className="text-[#718096] text-xs mt-0.5">
+                                  ${item.price} / unit
+                                </p>
+                              )}
+                            </div>
+                          </div>
 
-                  <div className={styles.formGroup}>
-                    <label htmlFor="quantity" className={styles.label}>
-                      Quantity *
-                    </label>
-                    <input
-                      type="number"
-                      id="quantity"
-                      name="quantity"
-                      value={formData.quantity}
-                      onChange={handleInputChange}
-                      className={`${styles.input} ${
-                        errors.quantity ? styles.inputError : ""
-                      }`}
-                      placeholder="100"
-                      min="1"
-                      required
-                      aria-required="true"
-                      aria-invalid={errors.quantity ? "true" : "false"}
-                      aria-describedby={
-                        errors.quantity ? "quantity-error" : undefined
-                      }
-                    />
-                    {errors.quantity && (
-                      <span
-                        id="quantity-error"
-                        className={styles.errorText}
-                        role="alert"
-                      >
-                        {errors.quantity}
-                      </span>
-                    )}
+                          {/* Stepper */}
+                          <div className="flex items-center gap-1 shrink-0">
+                            <button
+                              type="button"
+                              aria-label={`Decrease quantity of ${item.name}`}
+                              onClick={() =>
+                                handleQuantityChange(item, currentQty - 1)
+                              }
+                              disabled={currentQty === 0}
+                              className="w-7 h-7 rounded-md border-2 border-[#e2e8f0] text-[#718096] font-bold text-base leading-none flex items-center justify-center hover:border-[#228b22] hover:text-[#228b22] transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                            >
+                              −
+                            </button>
+                            <input
+                              type="number"
+                              min="0"
+                              value={currentQty}
+                              onChange={(e) =>
+                                handleQuantityChange(
+                                  item,
+                                  parseInt(e.target.value) || 0,
+                                )
+                              }
+                              name={`quantity_${item._id}`}
+                              aria-label={`Quantity for ${item.name}`}
+                              className="w-12 text-center text-sm font-semibold text-[#2d3748] border-2 border-[#e2e8f0] rounded-md py-1 px-1 focus:outline-none focus:border-[#228b22] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                            />
+                            <button
+                              type="button"
+                              onClick={() =>
+                                handleQuantityChange(item, currentQty + 1)
+                              }
+                              aria-label={`Increase quantity of ${item.name}`}
+                              className="w-7 h-7 rounded-md border-2 border-[#e2e8f0] text-[#718096] font-bold text-base leading-none flex items-center justify-center hover:border-[#228b22] hover:text-[#228b22] transition-colors"
+                            >
+                              ＋
+                            </button>
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
-                </div>
+                )}
+                {errors.quantities && (
+                  <span className="text-[#e53e3e] text-sm font-medium mt-1 block">
+                    {errors.quantities}
+                  </span>
+                )}
+                {showCustomSection && (
+                  <div className="mt-4 p-4 bg-white border-2 border-[#e2e8f0] rounded-lg shadow-[0_0_0_3px_rgba(34,139,34,0.08)] transition-all duration-300">
+                    <div className="flex items-center gap-2 mb-4">
+                      <span className="text-[#228b22]">📐</span>
+                      <h4 className="text-[#2d3748] font-semibold text-sm">
+                        Custom Pallet Dimensions
+                      </h4>
+                    </div>
+
+                    {/* Medidas principales */}
+                    <div className="grid grid-cols-3 gap-3 mb-3">
+                      {[
+                        { name: "length", label: "Length (in)" },
+                        { name: "width", label: "Width (in)" },
+                        { name: "height", label: "Height (in)" },
+                      ].map(({ name, label }) => (
+                        <div key={name} className="flex flex-col gap-1">
+                          <label
+                            htmlFor={`dim_${name}`}
+                            className="text-[#2d3748] font-semibold text-xs"
+                          >
+                            {label}
+                          </label>
+                          <input
+                            type="number"
+                            id={`dim_${name}`}
+                            name={name}
+                            min="1"
+                            value={customDimensions[name]}
+                            onChange={handleDimensionChange}
+                            placeholder="0"
+                            className="text-sm text-center border-2 border-[#e2e8f0] rounded-md py-1.5 px-2 focus:outline-none focus:border-[#228b22] focus:shadow-[0_0_0_3px_rgba(34,139,34,0.1)] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                          />
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Capacidad de peso */}
+                    <div className="flex flex-col gap-1 mb-3">
+                      <label
+                        htmlFor="dim_weightCapacity"
+                        className="text-[#2d3748] font-semibold text-xs"
+                      >
+                        Weight Capacity (lbs)
+                      </label>
+                      <input
+                        type="number"
+                        id="dim_weightCapacity"
+                        name="weightCapacity"
+                        min="1"
+                        value={customDimensions.weightCapacity}
+                        onChange={handleDimensionChange}
+                        placeholder="e.g. 2000"
+                        className="text-sm border-2 border-[#e2e8f0] rounded-md py-1.5 px-3 focus:outline-none focus:border-[#228b22] focus:shadow-[0_0_0_3px_rgba(34,139,34,0.1)] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                      />
+                    </div>
+
+                    {/* Notas adicionales del custom */}
+                    <div className="flex flex-col gap-1">
+                      <label
+                        htmlFor="dim_notes"
+                        className="text-[#2d3748] font-semibold text-xs"
+                      >
+                        Additional Specifications
+                      </label>
+                      <textarea
+                        id="dim_notes"
+                        name="notes"
+                        rows={2}
+                        value={customDimensions.notes}
+                        onChange={handleDimensionChange}
+                        placeholder="Wood type, notch placement, special treatments..."
+                        className="text-sm border-2 border-[#e2e8f0] rounded-md py-1.5 px-3 resize-none focus:outline-none focus:border-[#228b22] focus:shadow-[0_0_0_3px_rgba(34,139,34,0.1)]"
+                      />
+                    </div>
+                  </div>
+                )}
               </fieldset>
 
               {/* Delivery Address */}
@@ -466,54 +639,9 @@ const QuoteForm = () => {
                       className={styles.select}
                       autoComplete="address-level1"
                     >
-                      <option value="AL">Alabama</option>
-                      <option value="AZ">Arizona</option>
                       <option value="AR">Arkansas</option>
-                      <option value="CA">California</option>
-                      <option value="CO">Colorado</option>
-                      <option value="CT">Connecticut</option>
-                      <option value="DE">Delaware</option>
-                      <option value="FL">Florida</option>
-                      <option value="GA">Georgia</option>
-                      <option value="ID">Idaho</option>
-                      <option value="IL">Illinois</option>
-                      <option value="IN">Indiana</option>
-                      <option value="IA">Iowa</option>
-                      <option value="KS">Kansas</option>
-                      <option value="KY">Kentucky</option>
-                      <option value="LA">Louisiana</option>
-                      <option value="ME">Maine</option>
-                      <option value="MD">Maryland</option>
-                      <option value="MA">Massachusetts</option>
-                      <option value="MI">Michigan</option>
-                      <option value="MN">Minnesota</option>
-                      <option value="MS">Mississippi</option>
-                      <option value="MO">Missouri</option>
-                      <option value="MT">Montana</option>
-                      <option value="NE">Nebraska</option>
-                      <option value="NV">Nevada</option>
-                      <option value="NH">New Hampshire</option>
-                      <option value="NJ">New Jersey</option>
-                      <option value="NM">New Mexico</option>
-                      <option value="NY">New York</option>
-                      <option value="NC">North Carolina</option>
-                      <option value="ND">North Dakota</option>
-                      <option value="OH">Ohio</option>
                       <option value="OK">Oklahoma</option>
-                      <option value="OR">Oregon</option>
-                      <option value="PA">Pennsylvania</option>
-                      <option value="RI">Rhode Island</option>
-                      <option value="SC">South Carolina</option>
-                      <option value="SD">South Dakota</option>
-                      <option value="TN">Tennessee</option>
                       <option value="TX">Texas</option>
-                      <option value="UT">Utah</option>
-                      <option value="VT">Vermont</option>
-                      <option value="VA">Virginia</option>
-                      <option value="WA">Washington</option>
-                      <option value="WV">West Virginia</option>
-                      <option value="WI">Wisconsin</option>
-                      <option value="WY">Wyoming</option>
                     </select>
                   </div>
 
@@ -547,8 +675,7 @@ const QuoteForm = () => {
                   value={formData.additionalDetails}
                   onChange={handleInputChange}
                   className={styles.textarea}
-                  placeholder="Please provide details about your pallet requirements, quantities, specifications, or any questions you have."
-                  rows="4"
+                  rows={4}
                   aria-describedby="comments-hint"
                 />
                 <span id="comments-hint" className="sr-only">

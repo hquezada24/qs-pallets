@@ -10,62 +10,70 @@ export const POST = async (request) => {
 
     const body = await request.json();
 
-    const customerEmail = await Customer.findOne({
+    // Fetch customer from DB
+    let customer = await Customer.findOne({
       email: body.email,
     });
 
-    if (customerEmail !== null) {
-      return new Response(
-        JSON.stringify({ message: "Customer already exists" }),
-        { status: 400 }, // Changed to 400 for bad request
-      );
+    // Create and save Customer if it doesn't exist
+    if (!customer) {
+      const customerData = {
+        fullName: body.fullName,
+        companyName: body.companyName || "",
+        email: body.email,
+        phone: body.phone,
+      };
+      const newCustomer = await Customer.create(customerData);
+      customer = newCustomer;
     }
 
-    const customerAddress = await Address.findOne({
+    // Fetch address from DB
+    let customerAddress = await Address.findOne({
       street: body.address.street,
       city: body.address.city,
       state: body.address.state,
       zipCode: body.address.zipCode,
     });
 
-    if (customerAddress !== null) {
-      return new Response(
-        JSON.stringify({ message: "Address is already registered" }),
-        { status: 400 }, // Changed to 400 for bad request
-      );
+    // Create and save Address if it doesn't exist
+    if (!customerAddress) {
+      const addressData = {
+        street: body.address.street,
+        city: body.address.city,
+        state: body.address.state,
+        zipCode: body.address.zipCode,
+      };
+      const newAddress = await Address.create(addressData);
+      customerAddress = newAddress;
     }
-
-    // Create and save Address first
-    const addressData = {
-      street: body.address.street,
-      city: body.address.city,
-      state: body.address.state,
-      zipCode: body.address.zipCode,
-    };
-    const newAddress = new Address(addressData);
-    await newAddress.save();
-
-    // Create and save Customer with address reference
-    const customerData = {
-      fullName: body.fullName,
-      companyName: body.companyName || "",
-      email: body.email,
-      phone: body.phone,
-      address: newAddress._id, // Add address reference
-    };
-    const newCustomer = new Customer(customerData);
-    await newCustomer.save();
 
     // Create and save Quote with customer and address references
+    console.log(body);
     const quoteData = {
-      palletType: body.palletType,
-      quantity: body.quantity,
+      items: body.items.map(({ _id, ...rest }) => ({
+        id: _id,
+        ...rest,
+      })),
       additionalDetails: body.additionalDetails,
-      customer: newCustomer._id, // Add customer reference
-      address: newAddress._id, // Add address reference
+      customDimensions: {
+        length: Number(body.customDimensions.length),
+        width: Number(body.customDimensions.width),
+        height: Number(body.customDimensions.height),
+        weightCapacity: Number(body.customDimensions.weightCapacity),
+        notes: body.customDimensions.notes,
+      },
+      customer: {
+        id: customer._id,
+        name: customer.fullName,
+        phone: customer.phone,
+      },
+      address: {
+        id: customerAddress._id,
+        street: customerAddress.street,
+        city: customerAddress.city,
+      },
     };
-    const newQuote = new Quote(quoteData);
-    await newQuote.save();
+    const newQuote = await Quote.create(quoteData);
 
     return new Response(
       JSON.stringify({

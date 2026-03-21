@@ -4,6 +4,7 @@ import Form from "@/components/Form";
 import { apiRequest } from "@/lib/apiRequest";
 import { useState, useEffect } from "react";
 import { Product } from "@/types/product";
+import TableSkeleton from "@/components/TableSkeleton";
 
 type ProductsResponse = {
   products: Product[];
@@ -81,20 +82,7 @@ const Products = () => {
     <div className="min-h-screen bg-gray-50 px-6 py-10 flex flex-col items-center gap-8">
       {/* Table section */}
       <div className="w-full max-w-3xl bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden px-2 py-4">
-        {loading && (
-          <div className="p-6 space-y-3">
-            {/* Header */}
-            <div className="h-5 w-32 bg-gray-200 rounded animate-pulse" />
-            {/* Filas */}
-            {[...Array(5)].map((_, i) => (
-              <div key={i} className="flex gap-4">
-                <div className="h-4 bg-gray-100 rounded animate-pulse flex-1" />
-                <div className="h-4 bg-gray-100 rounded animate-pulse w-20" />
-                <div className="h-4 bg-gray-100 rounded animate-pulse w-12" />
-              </div>
-            ))}
-          </div>
-        )}
+        {loading && <TableSkeleton />}
 
         {error && (
           <div className="mx-6 my-4 flex items-center gap-2 rounded-lg bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-600">

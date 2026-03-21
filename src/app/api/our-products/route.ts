@@ -39,7 +39,7 @@ export const GET = async (req: NextRequest) => {
     await connectDB();
 
     console.log("Accessing the db");
-    const products = await Product.find().select("name price icon");
+    const products = await Product.find().select("name price icon isCustom");
 
     console.log("Returning response");
     return new Response(JSON.stringify({ products }), {
