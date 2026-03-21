@@ -1,8 +1,6 @@
 import { NextRequest } from "next/server";
 import connectDB from "@/config/database";
 import Product from "@/models/Product";
-import { model } from "mongoose";
-import { Schema } from "mongoose";
 
 export const POST = async (req: NextRequest) => {
   try {
@@ -21,7 +19,6 @@ export const POST = async (req: NextRequest) => {
       isCustom: Boolean(isCustom),
     });
 
-    console.log("Product created successfully");
     return new Response(JSON.stringify({ newProduct }), {
       status: 200,
     });
@@ -38,10 +35,8 @@ export const GET = async (req: NextRequest) => {
   try {
     await connectDB();
 
-    console.log("Accessing the db");
     const products = await Product.find().select("name price icon isCustom");
 
-    console.log("Returning response");
     return new Response(JSON.stringify({ products }), {
       status: 200,
     });
