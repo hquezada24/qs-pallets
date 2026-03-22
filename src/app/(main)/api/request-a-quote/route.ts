@@ -55,13 +55,15 @@ export const POST = async (request) => {
         ...rest,
       })),
       additionalDetails: body.additionalDetails,
-      customDimensions: {
-        length: Number(body.customDimensions.length),
-        width: Number(body.customDimensions.width),
-        height: Number(body.customDimensions.height),
-        weightCapacity: Number(body.customDimensions.weightCapacity),
-        notes: body.customDimensions.notes,
-      },
+      customDimensions: body.customDimensions
+        ? {
+            length: Number(body.customDimensions.length),
+            width: Number(body.customDimensions.width),
+            height: Number(body.customDimensions.height),
+            weightCapacity: Number(body.customDimensions.weightCapacity),
+            notes: body.customDimensions.notes,
+          }
+        : {},
       customer: {
         id: customer._id,
         name: customer.fullName,

@@ -37,7 +37,7 @@ const QuoteForm = () => {
     address: {
       street: "",
       city: "",
-      state: "TX",
+      state: "AR",
       zipCode: "",
     },
     additionalDetails: "",
@@ -120,15 +120,6 @@ const QuoteForm = () => {
       newErrors.phone = "Please enter a valid phone number";
     }
 
-    // const totalQuantity = Object.values(quantities).reduce(
-    //   (sum, q) => sum + q,
-    //   0,
-    // );
-    // if (totalQuantity === 0) {
-    //   newErrors.quantities = "Please select at least one product";
-    // }
-
-    // En validateForm()
     if (items.length === 0) {
       newErrors.quantities = "Please select at least one product";
     }
@@ -207,6 +198,7 @@ const QuoteForm = () => {
         },
         additionalDetails: "",
       });
+      setItems([]);
     } catch (error) {
       setSubmitStatus("error");
       console.error("Quote submission error:", error);
@@ -236,7 +228,15 @@ const QuoteForm = () => {
 
   useEffect(() => {
     fetchProducts();
-  }, []);
+    if (!submitStatus) return;
+
+    const delay = 5000;
+    const timer = setTimeout(() => {
+      setSubmitStatus(null);
+    }, delay);
+
+    return () => clearTimeout(timer);
+  }, [submitStatus]);
 
   return (
     <div className={styles.quotePage}>

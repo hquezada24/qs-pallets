@@ -2,11 +2,11 @@ import { Schema, model, models, Types } from "mongoose";
 import { Model } from "mongoose";
 
 type Dimensions = {
-  height: string;
-  length: string;
+  height: number;
+  length: number;
   notes: string;
-  weightCapacity: string;
-  width: string;
+  weightCapacity: number;
+  width: number;
 };
 
 export interface IQuote {
