@@ -9,14 +9,15 @@ export const GET = async (req: NextRequest) => {
   try {
     await connectDB();
 
-    const quotesObj = await Quote.find()
-      .select("-createdAt -updatedAt -__v")
-      .lean();
+    const quotesObj = await Quote.find().select("-updatedAt -__v").lean();
 
     const quotes = await Promise.all(
       quotesObj.map(async (quote) => {
-        const city = await Address.findById(quote.address).select("city -_id");
-        const customer = await Customer.findById(quote.customer).select(
+        const city = await Address.findById(quote.address.id).select(
+          "city state zipCode -_id",
+        );
+
+        const customer = await Customer.findById(quote.customer.id).select(
           "fullName email phone -_id",
         );
 

@@ -1,45 +1,12 @@
 import { Schema, model, models, Types } from "mongoose";
 import { Model } from "mongoose";
-
-type Dimensions = {
-  height: number;
-  length: number;
-  notes: string;
-  weightCapacity: number;
-  width: number;
-};
-
-export interface IQuote {
-  items: {
-    id: Types.ObjectId;
-    quantity?: number;
-  }[];
-
-  customer: {
-    id: Types.ObjectId;
-    name: string;
-    phone?: string;
-  };
-
-  address: {
-    id: Types.ObjectId;
-    street: string;
-    city: string;
-  };
-
-  additionalDetails?: string;
-
-  status: "NEW" | "PENDING" | "APPROVED" | "REJECTED";
-
-  customDimensions?: Dimensions;
-
-  total?: number;
-}
+import { IQuote } from "@/types/quote";
 
 const QuoteSchema = new Schema<IQuote>(
   {
     items: [
       {
+        _id: false,
         id: {
           type: Schema.Types.ObjectId,
           ref: "Product",
@@ -58,7 +25,8 @@ const QuoteSchema = new Schema<IQuote>(
         required: true,
       },
       name: { type: String, required: true },
-      phone: { type: String },
+      phone: { type: String, required: true },
+      email: { type: String, required: true },
     },
 
     address: {
@@ -69,6 +37,8 @@ const QuoteSchema = new Schema<IQuote>(
       },
       street: { type: String, required: true },
       city: { type: String, required: true },
+      state: { type: String, required: true },
+      zipCode: { type: String, required: true },
     },
 
     additionalDetails: {
@@ -81,7 +51,13 @@ const QuoteSchema = new Schema<IQuote>(
       default: "NEW",
     },
 
-    customDimensions: {},
+    customDimensions: {
+      height: { type: Number },
+      length: { type: Number },
+      notes: { type: String },
+      weightCapacity: { type: Number },
+      width: { type: Number },
+    },
 
     total: {
       type: Number,

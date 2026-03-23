@@ -48,7 +48,6 @@ export const POST = async (request) => {
     }
 
     // Create and save Quote with customer and address references
-    console.log(body);
     const quoteData = {
       items: body.items.map(({ _id, ...rest }) => ({
         id: _id,
@@ -68,11 +67,14 @@ export const POST = async (request) => {
         id: customer._id,
         name: customer.fullName,
         phone: customer.phone,
+        email: customer.email,
       },
       address: {
         id: customerAddress._id,
         street: customerAddress.street,
         city: customerAddress.city,
+        state: customerAddress.state,
+        zipCode: customerAddress.zipCode,
       },
     };
     const newQuote = await Quote.create(quoteData);

@@ -6,7 +6,7 @@ import { apiRequest } from "@/lib/apiRequest";
 import ProductsSkeleton from "@/components/ProductsSkeleton";
 
 type QuoteItem = {
-  _id: string;
+  id: string;
   name: string;
   price?: number;
   quantity: number;
@@ -51,7 +51,7 @@ const QuoteForm = () => {
   const customProduct = products?.products.find((p) => p.isCustom);
   const [items, setItems] = useState<QuoteItem[]>([]);
   const showCustomSection = customProduct
-    ? (items.find((i) => i._id === customProduct._id)?.quantity || 0) > 0
+    ? (items.find((i) => i.id === customProduct._id)?.quantity || 0) > 0
     : false;
 
   const [customDimensions, setCustomDimensions] = useState({
@@ -72,17 +72,17 @@ const QuoteForm = () => {
     const clamped = Math.max(0, value);
 
     setItems((prev) => {
-      const exists = prev.find((i) => i._id === product._id);
+      const exists = prev.find((i) => i.id === product._id);
 
       // Si quantity llega a 0, lo removemos del array
       if (clamped === 0) {
-        return prev.filter((i) => i._id !== product._id);
+        return prev.filter((i) => i.id !== product._id);
       }
 
       // Si ya existe, solo actualizamos quantity
       if (exists) {
         return prev.map((i) =>
-          i._id === product._id ? { ...i, quantity: clamped } : i,
+          i.id === product._id ? { ...i, quantity: clamped } : i,
         );
       }
 
@@ -90,7 +90,7 @@ const QuoteForm = () => {
       return [
         ...prev,
         {
-          _id: product._id,
+          id: product._id,
           name: product.name,
           ...(product.price !== null && { price: product.price }),
           quantity: clamped,
@@ -199,6 +199,13 @@ const QuoteForm = () => {
         additionalDetails: "",
       });
       setItems([]);
+      setCustomDimensions({
+        length: "",
+        width: "",
+        height: "",
+        weightCapacity: "",
+        notes: "",
+      });
     } catch (error) {
       setSubmitStatus("error");
       console.error("Quote submission error:", error);
@@ -438,7 +445,7 @@ const QuoteForm = () => {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
                     {products.products.map((item) => {
                       const currentQty =
-                        items.find((i) => i._id === item._id)?.quantity || 0;
+                        items.find((i) => i.id === item._id)?.quantity || 0;
                       return (
                         <div
                           key={item._id}
