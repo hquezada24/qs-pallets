@@ -31,6 +31,7 @@ export interface IQuote {
   customer: {
     id: Types.ObjectId;
     name: string;
+    companyName?: string;
     phone: string;
     email: string;
   };
@@ -50,4 +51,6 @@ export interface IQuote {
   customDimensions?: Dimensions;
 
   total?: number;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

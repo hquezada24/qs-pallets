@@ -1,4 +1,17 @@
-export default function Table({ title, columns, data }) {
+type Table = {
+  title: string;
+  columns: any[];
+  data: any[];
+  hover?: "Yes" | "No";
+};
+
+export default function Table({ title, columns, data, hover = "Yes" }) {
+  const hoverStyle = {
+    Yes: "hover:bg-gray-50",
+    No: "",
+  };
+
+  const hoverClass = hoverStyle[hover];
   return (
     <>
       <h2 className="text-lg font-semibold mb-4 text-center">{title}</h2>
@@ -21,7 +34,7 @@ export default function Table({ title, columns, data }) {
             {data.map((row, i) => (
               <tr
                 key={i}
-                className="border-b border-gray-100 hover:bg-gray-50 transition"
+                className={`border-b border-gray-100 ${hoverClass} transition`}
               >
                 {columns.map((col) => (
                   <td key={col.key} className="px-4 py-3 text-gray-800">

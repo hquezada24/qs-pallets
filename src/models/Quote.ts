@@ -25,6 +25,7 @@ const QuoteSchema = new Schema<IQuote>(
         required: true,
       },
       name: { type: String, required: true },
+      companyName: { type: String },
       phone: { type: String, required: true },
       email: { type: String, required: true },
     },

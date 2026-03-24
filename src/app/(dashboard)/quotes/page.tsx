@@ -1,9 +1,10 @@
 "use client";
-import Form from "@/components/Form";
 import Table from "@/components/Table";
+import { MdArrowRightAlt } from "react-icons/md";
 import { useState, useEffect } from "react";
 import { apiRequest } from "@/lib/apiRequest";
 import { Quote } from "@/types/quote";
+import Link from "next/link";
 
 type QuotesResponse = {
   quotes: Quote[];
@@ -13,12 +14,16 @@ const Quotes = () => {
   const [quotes, setQuotes] = useState<QuotesResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  //const [isSubmitting, setIsSubmitting] = useState(false);
-  //const [submitStatus, setSubmitStatus] = useState(null);
 
   const orderColumns = [
-    { key: "_id", header: "Order #" },
+    {
+      key: "createdAt",
+      header: "Date Created",
+      render: (value: string) =>
+        new Date(value).toLocaleDateString("en-US", { timeZone: "UTC" }),
+    },
     { key: "fullName", header: "Client" },
+    { key: "companyName", header: "Company" },
     { key: "email", header: "Email" },
     {
       key: "phone",
@@ -26,9 +31,20 @@ const Quotes = () => {
       render: (value: string) =>
         `${value.replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3")}`,
     },
-    { key: "palletType", header: "Pallet" },
-    { key: "quantity", header: "Quantity" },
     { key: "city", header: "City" },
+    { key: "status", header: "Status" },
+    {
+      key: "actions",
+      header: "See",
+      render: (value: string) => (
+        <Link
+          className="inline-flex items-center justify-center w-7 h-7 rounded-full text-green-700 hover:bg-green-300 hover:text-green-800 transition-colors"
+          href={value}
+        >
+          <MdArrowRightAlt size={20} />
+        </Link>
+      ),
+    },
   ];
 
   async function fetchQuotes() {
@@ -57,8 +73,6 @@ const Quotes = () => {
     fetchQuotes();
   }, []);
 
-  console.log(quotes);
-
   return (
     <div className="p-8 flex flex-col sm:flex-row justify-evenly space-y-4">
       <div className="users-left">
@@ -66,7 +80,12 @@ const Quotes = () => {
 
         {error && <p className="text-red-500">{error}</p>}
         {!loading && !error && (
-          <Table title={"Quotes"} columns={orderColumns} data={quotes.quotes} />
+          <Table
+            title={"Quotes"}
+            columns={orderColumns}
+            data={quotes.quotes}
+            hover={"No"}
+          />
         )}
       </div>
       <div className="users-"></div>

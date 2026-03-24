@@ -9,24 +9,29 @@ export const GET = async (req: NextRequest) => {
   try {
     await connectDB();
 
-    const quotesObj = await Quote.find().select("-updatedAt -__v").lean();
+    const quotesObj = await Quote.find()
+      .select("_id customer address createdAt status")
+      .lean();
 
     const quotes = await Promise.all(
       quotesObj.map(async (quote) => {
-        const city = await Address.findById(quote.address.id).select(
-          "city state zipCode -_id",
-        );
-
-        const customer = await Customer.findById(quote.customer.id).select(
-          "fullName email phone -_id",
-        );
+        const [customer, address] = await Promise.all([
+          Customer.findById(quote.customer.id).select(
+            "fullName companyName email phone -_id",
+          ),
+          Address.findById(quote.address.id).select("city -_id"),
+        ]);
 
         return {
-          ...quote,
-          city: city?.city,
+          _id: quote._id,
+          status: quote.status,
+          createdAt: quote.createdAt,
           fullName: customer?.fullName,
-          phone: customer?.phone,
+          companyName: customer?.companyName || "",
           email: customer?.email,
+          phone: customer?.phone,
+          city: address?.city,
+          actions: `/quotes/${quote._id}`,
         };
       }),
     );

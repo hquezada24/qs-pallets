@@ -66,6 +66,7 @@ export const POST = async (request) => {
       customer: {
         id: customer._id,
         name: customer.fullName,
+        companyName: customer.companyName || "",
         phone: customer.phone,
         email: customer.email,
       },
