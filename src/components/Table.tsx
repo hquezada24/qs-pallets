@@ -1,11 +1,24 @@
-type Table = {
-  title: string;
-  columns: any[];
-  data: any[];
-  hover?: "Yes" | "No";
+type Column<T> = {
+  key: string;
+  header: string;
+  render?: (value: any, row: T) => React.ReactNode;
 };
 
-export default function Table({ title, columns, data, hover = "Yes" }) {
+type TableProps<T> = {
+  title: string;
+  columns: Column<T>[];
+  data: T[];
+  hover?: "Yes" | "No";
+  keyField: keyof T;
+};
+
+export default function Table<T>({
+  title,
+  columns,
+  data,
+  keyField,
+  hover = "Yes",
+}: TableProps<T>) {
   const hoverStyle = {
     Yes: "hover:bg-gray-50",
     No: "",
@@ -33,7 +46,7 @@ export default function Table({ title, columns, data, hover = "Yes" }) {
           <tbody>
             {data.map((row, i) => (
               <tr
-                key={i}
+                key={String(row[keyField]) | i}
                 className={`border-b border-gray-100 ${hoverClass} transition`}
               >
                 {columns.map((col) => (

@@ -96,6 +96,7 @@ const Products = () => {
             title={"Products"}
             columns={orderColumns}
             data={products.products}
+            keyField={"name"}
           />
         )}
       </div>
