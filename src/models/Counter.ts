@@ -1,0 +1,17 @@
+// lib/models/Counter.ts
+import mongoose, { Schema, Model } from "mongoose";
+
+interface ICounter {
+  _id: string;
+  seq: number;
+}
+
+const CounterSchema = new Schema<ICounter>({
+  _id: { type: String, required: true },
+  seq: { type: Number, default: 0 },
+});
+
+const Counter: Model<ICounter> =
+  mongoose.models.Counter || mongoose.model("Counter", CounterSchema);
+
+export default Counter;

@@ -10,7 +10,7 @@ export const GET = async (req: NextRequest) => {
     await connectDB();
 
     const quotesObj = await Quote.find()
-      .select("_id customer address createdAt status")
+      .select("_id customer address createdAt status quoteNumber")
       .lean();
 
     const quotes = await Promise.all(
@@ -32,6 +32,7 @@ export const GET = async (req: NextRequest) => {
           phone: customer?.phone,
           city: address?.city,
           actions: `/quotes/${quote._id}`,
+          quoteNumber: quote.quoteNumber,
         };
       }),
     );

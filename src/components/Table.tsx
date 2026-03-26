@@ -9,7 +9,7 @@ type TableProps<T> = {
   columns: Column<T>[];
   data: T[];
   hover?: "Yes" | "No";
-  keyField: keyof T;
+  keyField: string;
 };
 
 export default function Table<T>({
@@ -44,9 +44,9 @@ export default function Table<T>({
           </thead>
 
           <tbody>
-            {data.map((row, i) => (
+            {data.map((row) => (
               <tr
-                key={String(row[keyField]) | i}
+                key={String((row as Record<string, unknown>)[keyField])}
                 className={`border-b border-gray-100 ${hoverClass} transition`}
               >
                 {columns.map((col) => (

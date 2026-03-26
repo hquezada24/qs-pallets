@@ -59,6 +59,7 @@ const QuoteSchema = new Schema<IQuote>(
       weightCapacity: { type: Number },
       width: { type: Number },
     },
+    quoteNumber: { type: String, unique: true },
 
     total: {
       type: Number,

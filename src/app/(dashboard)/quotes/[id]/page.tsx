@@ -8,14 +8,6 @@ import { apiRequest } from "@/lib/apiRequest";
 import { useParams } from "next/navigation";
 import Table from "@/components/Table";
 
-interface CustomDimensions {
-  length?: number;
-  width?: number;
-  height?: number;
-  weightCapacity?: number;
-  notes?: string;
-}
-
 interface QuoteData extends IQuote {
   _id: string;
 }
@@ -118,7 +110,6 @@ const ApproveModal = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm px-4">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
-        {/* Header */}
         <div className="bg-green-50 border-b border-green-100 px-6 py-5">
           <div className="flex items-center gap-3">
             <span className="text-xl">✅</span>
@@ -127,28 +118,26 @@ const ApproveModal = ({
                 Approve & Create Order
               </h3>
               <p className="text-xs text-green-600 mt-0.5">
-                Quote #{quote._id} · {quote.customer.name}
+                Quote #{quote.quoteNumber} · {quote.customer.name}
               </p>
             </div>
           </div>
         </div>
 
-        {/* Quote summary */}
         <div className="px-6 py-4 border-b border-gray-100 bg-gray-50">
           <div className="flex justify-between text-sm">
-            <span className="text-gray-500">{/* {quote.productName} */}</span>
+            {/* <span className="text-gray-500">{quote.name}</span>
             <span className="font-medium text-gray-800">
-              {/* {quote.quantity.toLocaleString()} units
+              {quote.quantity.toLocaleString()} units
               {quote.price != null && (
                 <span className="text-gray-400 font-normal ml-1">
                   · ${(quote.price * quote.quantity).toFixed(2)}
                 </span>
-              )} */}
-            </span>
+              )}
+            </span> */}
           </div>
         </div>
 
-        {/* Form */}
         <div className="px-6 py-5 flex flex-col gap-4">
           <div>
             <label className="text-xs text-gray-400 mb-1.5 block">
@@ -187,7 +176,6 @@ const ApproveModal = ({
           </div>
         </div>
 
-        {/* Actions */}
         <div className="px-6 pb-6 flex gap-3 justify-end">
           <button
             onClick={onCancel}
@@ -216,9 +204,7 @@ const Quote = () => {
   const [products, setProducts] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [pendingStatus, setPendingStatus] = useState<
-    QuoteResponse["quote"]["status"] | null
-  >(null);
+  const [pendingStatus, setPendingStatus] = useState<boolean>(false);
   const { id } = useParams();
 
   useEffect(() => {
@@ -295,19 +281,17 @@ const Quote = () => {
     setPendingStatus(null);
   };
 
-  console.log(quote);
-  console.log(products);
   if (loading) return <QuoteSkeleton />;
 
   return (
     <>
-      {/* {pendingStatus === "APPROVED" && quote && (
+      {pendingStatus && quote && (
         <ApproveModal
-          quote={quote}
+          quote={quote.quote}
           onConfirm={handleApproveConfirm}
           onCancel={() => setPendingStatus(null)}
         />
-      )} */}
+      )}
 
       <div className="min-h-screen bg-gray-50 px-6 py-10 flex flex-col items-center gap-4">
         {/* ── Back button ──────────────────────────────────────────────────── */}
@@ -348,7 +332,7 @@ const Quote = () => {
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <p className="text-xs text-gray-400 mb-1">
-                    Quote #{quote.quote._id}
+                    Quote #{quote.quote.quoteNumber}
                   </p>
                   <h1 className="text-xl font-semibold text-gray-900">
                     {quote.quote.customer.name}
@@ -360,7 +344,10 @@ const Quote = () => {
                   )}
                 </div>
                 <div className="flex flex-col items-end gap-2 shrink-0">
-                  <StatusDropdown current={quote.quote.status} />
+                  <StatusDropdown
+                    current={quote.quote.status}
+                    setPendingStatus={setPendingStatus}
+                  />
                   <span className="text-xs text-gray-400">
                     {formatDate(quote.quote.createdAt)}
                   </span>

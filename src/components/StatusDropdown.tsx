@@ -43,7 +43,13 @@ const STATUS_CONFIG: Record<
   },
 };
 
-const StatusDropdown = ({ current }: { current: QuoteData["status"] }) => {
+const StatusDropdown = ({
+  current,
+  setPendingStatus,
+}: {
+  current: QuoteData["status"];
+  setPendingStatus: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const [open, setOpen] = useState(false);
   const [error, setError] = useState(null);
   const [status, setStatus] = useState<QuoteData["status"]>(current);
@@ -68,6 +74,10 @@ const StatusDropdown = ({ current }: { current: QuoteData["status"] }) => {
       const data: StatusResponse = await res.json();
 
       setStatus(data.status.status);
+
+      if (data.status.status === "APPROVED") {
+        setPendingStatus(true);
+      }
     } catch {
       setError("Failed to update status.");
       console.error("Failed to update status.");

@@ -8,6 +8,7 @@ export type Quote = {
   status: "NEW" | "PENDING" | "APPROVED" | "REJECTED";
   customer: Types.ObjectId;
   address: Types.ObjectId;
+  quoteNumber: string;
 };
 
 type Dimensions = {
@@ -53,4 +54,5 @@ export interface IQuote {
   total?: number;
   createdAt?: Date;
   updatedAt?: Date;
+  quoteNumber: string;
 }

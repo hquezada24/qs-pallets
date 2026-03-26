@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { apiRequest } from "@/lib/apiRequest";
 import { Quote } from "@/types/quote";
 import Link from "next/link";
+import TableSkeleton from "@/components/TableSkeleton";
 
 type QuotesResponse = {
   quotes: Quote[];
@@ -16,6 +17,7 @@ const Quotes = () => {
   const [error, setError] = useState(null);
 
   const orderColumns = [
+    { key: "quoteNumber", header: "Quote #" },
     {
       key: "createdAt",
       header: "Date Created",
@@ -32,7 +34,25 @@ const Quotes = () => {
         `${value.replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3")}`,
     },
     { key: "city", header: "City" },
-    { key: "status", header: "Status" },
+    {
+      key: "status",
+      header: "Status",
+      render: (value) => (
+        <span
+          className={`px-2 py-1 rounded-full text-xs font-medium ${
+            value === "NEW"
+              ? "bg-blue-50 text-blue-700 border border-blue-200"
+              : value === "PENDING"
+                ? "bg-amber-50 text-amber-700 border border-amber-200"
+                : value === "APPROVED"
+                  ? "bg-green-50 text-green-700 border border-green-200"
+                  : "bg-red-50   text-red-600   border border-red-200"
+          }`}
+        >
+          {value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()}
+        </span>
+      ),
+    },
     {
       key: "actions",
       header: "See",
@@ -74,9 +94,9 @@ const Quotes = () => {
   }, []);
 
   return (
-    <div className="p-8 flex flex-col sm:flex-row justify-evenly space-y-4">
-      <div className="users-left">
-        {loading && <p>Loading quotes...</p>}
+    <div className="min-h-screen bg-gray-50 px-6 py-10 flex flex-col items-center gap-8">
+      <div className="w-full max-w-5xl bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden px-2 py-4">
+        {loading && <TableSkeleton />}
 
         {error && <p className="text-red-500">{error}</p>}
         {!loading && !error && (
@@ -85,10 +105,10 @@ const Quotes = () => {
             columns={orderColumns}
             data={quotes.quotes}
             hover={"No"}
+            keyField="createdAt"
           />
         )}
       </div>
-      <div className="users-"></div>
     </div>
   );
 };
