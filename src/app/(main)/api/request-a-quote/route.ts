@@ -2,7 +2,7 @@ import connectDB from "../../../../config/database.js";
 import Customer from "@/models/Customer";
 import Quote from "@/models/Quote";
 import Address from "@/models/Address";
-import getNextQuoteNumber from "@/lib/getNextQuoteNumber";
+import { getNextSequenceNumber } from "@/lib/getNextSequenceNumber";
 
 // POST /api/quote
 export const POST = async (request) => {
@@ -10,7 +10,7 @@ export const POST = async (request) => {
     await connectDB();
 
     const body = await request.json();
-    const quoteNumber = await getNextQuoteNumber();
+    const quoteNumber = await getNextSequenceNumber("quoteNumber", "Q");
 
     // Fetch customer from DB
     let customer = await Customer.findOne({

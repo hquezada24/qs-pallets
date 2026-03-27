@@ -18,7 +18,14 @@ type QuoteResponse = {
 
 interface OrderDetails {
   deliveryDate: string;
-  poNumber: string;
+  deliveryType: "DELIVERY" | "PICKUP";
+  address: string;
+  city: string;
+  state: string;
+  zip: string;
+  taxExempt: boolean;
+  taxRate: string;
+  tax: string;
   internalNotes: string;
 }
 
@@ -95,7 +102,14 @@ const ApproveModal = ({
 }) => {
   const [form, setForm] = useState<OrderDetails>({
     deliveryDate: "",
-    poNumber: "",
+    deliveryType: "DELIVERY", // 👈
+    address: "", // 👈
+    city: "", // 👈
+    state: "", // 👈
+    zip: "", // 👈
+    taxExempt: true, // 👈 true por default ya que la mayoría son exentos
+    taxRate: "", // 👈
+    tax: "",
     internalNotes: "",
   });
 
@@ -109,7 +123,8 @@ const ApproveModal = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm px-4">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden max-h-[90vh] overflow-y-auto">
+        {/* Header */}
         <div className="bg-green-50 border-b border-green-100 px-6 py-5">
           <div className="flex items-center gap-3">
             <span className="text-xl">✅</span>
@@ -124,21 +139,30 @@ const ApproveModal = ({
           </div>
         </div>
 
+        {/* Items */}
         <div className="px-6 py-4 border-b border-gray-100 bg-gray-50">
           <div className="flex justify-between text-sm">
-            {/* <span className="text-gray-500">{quote.name}</span>
-            <span className="font-medium text-gray-800">
-              {quote.quantity.toLocaleString()} units
-              {quote.price != null && (
-                <span className="text-gray-400 font-normal ml-1">
-                  · ${(quote.price * quote.quantity).toFixed(2)}
+            {quote.items.map((item) => (
+              <div
+                key={item.id.toString()}
+                className="flex justify-between items-center"
+              >
+                <span className="text-gray-500">{item.name}</span>
+                <span className="font-medium text-gray-800 pl-1.5">
+                  {item.quantity.toLocaleString()} units
+                  {item.price != null && (
+                    <span className="text-gray-400 font-normal ml-1">
+                      · ${(item.price * item.quantity).toFixed(2)}
+                    </span>
+                  )}
                 </span>
-              )}
-            </span> */}
+              </div>
+            ))}
           </div>
         </div>
 
-        <div className="px-6 py-5 flex flex-col gap-4">
+        <div className="px-6 py-5 flex flex-col gap-5">
+          {/* Delivery Date */}
           <div>
             <label className="text-xs text-gray-400 mb-1.5 block">
               Estimated Delivery Date <span className="text-red-400">*</span>
@@ -150,18 +174,150 @@ const ApproveModal = ({
               className={inputClass}
             />
           </div>
+
+          {/* Delivery / Pickup Toggle */}
           <div>
-            <label className="text-xs text-gray-400 mb-1.5 block">
-              PO / Reference Number
+            <label className="text-xs text-gray-400 mb-2 block">
+              Fulfillment Type
             </label>
-            <input
-              type="text"
-              placeholder="e.g. PO-2026-084"
-              value={form.poNumber}
-              onChange={set("poNumber")}
-              className={inputClass}
-            />
+            <div className="flex items-center gap-3">
+              <span
+                className={`text-sm ${form.deliveryType === "PICKUP" ? "text-gray-400" : "font-medium text-gray-700"}`}
+              >
+                Delivery
+              </span>
+              <button
+                type="button"
+                onClick={() =>
+                  set("deliveryType")({
+                    target: {
+                      value:
+                        form.deliveryType === "DELIVERY"
+                          ? "PICKUP"
+                          : "DELIVERY",
+                    },
+                  } as any)
+                }
+                className={`relative w-10 h-5 rounded-full transition-colors ${
+                  form.deliveryType === "PICKUP" ? "bg-blue-500" : "bg-gray-200"
+                }`}
+              >
+                <span
+                  className={`absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform ${
+                    form.deliveryType === "PICKUP"
+                      ? "translate-x-5"
+                      : "translate-x-0"
+                  }`}
+                />
+              </button>
+              <span
+                className={`text-sm ${form.deliveryType === "PICKUP" ? "font-medium text-gray-700" : "text-gray-400"}`}
+              >
+                Pickup
+              </span>
+            </div>
+
+            {/* Address fields — only when DELIVERY */}
+            {form.deliveryType === "DELIVERY" && (
+              <div className="mt-3 flex flex-col gap-3">
+                <input
+                  type="text"
+                  placeholder="Street address"
+                  value={form.address}
+                  onChange={set("address")}
+                  className={inputClass}
+                />
+                <div className="grid grid-cols-3 gap-2">
+                  <input
+                    type="text"
+                    placeholder="City"
+                    value={form.city}
+                    onChange={set("city")}
+                    className={inputClass}
+                  />
+                  <input
+                    type="text"
+                    placeholder="State"
+                    maxLength={2}
+                    value={form.state}
+                    onChange={set("state")}
+                    className={`${inputClass} uppercase`}
+                  />
+                  <input
+                    type="text"
+                    placeholder="ZIP"
+                    maxLength={5}
+                    value={form.zip}
+                    onChange={set("zip")}
+                    className={inputClass}
+                  />
+                </div>
+              </div>
+            )}
           </div>
+
+          {/* Tax Toggle */}
+          <div>
+            <label className="text-xs text-gray-400 mb-2 block">Tax</label>
+            <div className="flex items-center gap-3">
+              <span
+                className={`text-sm ${form.taxExempt ? "text-gray-400" : "font-medium text-gray-700"}`}
+              >
+                Taxable
+              </span>
+              <button
+                type="button"
+                onClick={() =>
+                  set("taxExempt")({
+                    target: { value: !form.taxExempt },
+                  } as any)
+                }
+                className={`relative w-10 h-5 rounded-full transition-colors ${
+                  form.taxExempt ? "bg-green-500" : "bg-gray-200"
+                }`}
+              >
+                <span
+                  className={`absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform ${
+                    form.taxExempt ? "translate-x-5" : "translate-x-0"
+                  }`}
+                />
+              </button>
+              <span
+                className={`text-sm ${form.taxExempt ? "font-medium text-gray-700" : "text-gray-400"}`}
+              >
+                Tax Exempt
+              </span>
+            </div>
+
+            {/* Tax Rate input — only when taxable */}
+            {!form.taxExempt && (
+              <div className="mt-3">
+                <label className="text-xs text-gray-400 mb-1.5 block">
+                  Tax Rate <span className="text-red-400">*</span>
+                </label>
+                <div className="relative">
+                  <input
+                    type="number"
+                    step="0.0001"
+                    min="0"
+                    max="1"
+                    placeholder="0.0825"
+                    value={form.taxRate}
+                    onChange={set("taxRate")}
+                    className={`${inputClass} pr-8`}
+                  />
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-400">
+                    %
+                  </span>
+                </div>
+                <p className="text-xs text-gray-400 mt-1">
+                  Enter as decimal · TX: 0.0825 · NM: 0.05125
+                </p>
+              </div>
+            )}
+          </div>
+
+          {/* Internal Notes */}
           <div>
             <label className="text-xs text-gray-400 mb-1.5 block">
               Internal Notes
@@ -176,6 +332,7 @@ const ApproveModal = ({
           </div>
         </div>
 
+        {/* Footer */}
         <div className="px-6 pb-6 flex gap-3 justify-end">
           <button
             onClick={onCancel}
@@ -184,7 +341,12 @@ const ApproveModal = ({
             Cancel
           </button>
           <button
-            disabled={!form.deliveryDate}
+            disabled={
+              !form.deliveryDate ||
+              (!form.taxExempt && !form.taxRate) ||
+              (form.deliveryType === "DELIVERY" &&
+                (!form.address || !form.city || !form.state || !form.zip))
+            }
             onClick={() => onConfirm(form)}
             className="px-5 py-2 text-sm font-medium rounded-lg bg-green-600 text-white hover:bg-green-700 disabled:opacity-40 disabled:cursor-not-allowed transition"
           >
@@ -233,51 +395,7 @@ const Quote = () => {
     fetchQuote();
   }, [id]);
 
-  const handleStatusChange = (newStatus: QuoteData["status"]) => {
-    // if (newStatus === "APPROVED") {
-    //   setPendingStatus("APPROVED");
-    // } else {
-    //   applyStatus(newStatus);
-    // }
-    if (!quote) return;
-    try {
-      // await fetch(`/api/quotes/${quote.id}/status`, {
-      //   method: "PATCH",
-      //   body: JSON.stringify({ status: newStatus, orderDetails }),
-      // });
-    } catch {
-      setError("Failed to update status.");
-    }
-  };
-
-  const applyStatus = async (
-    newStatus: QuoteData["status"],
-    orderDetails?: OrderDetails,
-  ) => {
-    if (!quote) return;
-    try {
-      // await fetch(`/api/quotes/${quote.id}/status`, {
-      //   method: "PATCH",
-      //   body: JSON.stringify({ status: newStatus, orderDetails }),
-      // });
-      setQuote((prev) => (prev ? { ...prev, status: newStatus } : prev));
-      if (orderDetails) {
-        // await fetch("/api/orders", {
-        //   method: "POST",
-        //   body: JSON.stringify({ quoteId: quote.id, ...orderDetails }),
-        // });
-        console.log("Order created:", {
-          quoteId: quote.quote._id,
-          ...orderDetails,
-        });
-      }
-    } catch {
-      setError("Failed to update status.");
-    }
-  };
-
   const handleApproveConfirm = (details: OrderDetails) => {
-    applyStatus("APPROVED", details);
     setPendingStatus(null);
   };
 
@@ -289,7 +407,7 @@ const Quote = () => {
         <ApproveModal
           quote={quote.quote}
           onConfirm={handleApproveConfirm}
-          onCancel={() => setPendingStatus(null)}
+          onCancel={() => setPendingStatus(false)}
         />
       )}
 

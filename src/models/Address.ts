@@ -4,7 +4,7 @@ import { Model } from "mongoose";
 interface IAddress {
   street: string;
   city: string;
-  state: string;
+  state: "TX" | "AR" | "OK";
   zipCode: string;
 }
 
@@ -20,6 +20,7 @@ const AddressSchema = new Schema<IAddress>(
     },
     state: {
       type: String,
+      enum: ["TX", "AR", "OK"],
       required: true,
     },
     zipCode: {
