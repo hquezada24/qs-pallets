@@ -141,21 +141,36 @@ const ApproveModal = ({
 
         {/* Items */}
         <div className="px-6 py-4 border-b border-gray-100 bg-gray-50">
-          <div className="flex justify-between text-sm">
+          <div className="flex flex-col justify-between text-sm space-y-2">
             {quote.items.map((item) => (
               <div
                 key={item.id.toString()}
                 className="flex justify-between items-center"
               >
-                <span className="text-gray-500">{item.name}</span>
-                <span className="font-medium text-gray-800 pl-1.5">
-                  {item.quantity.toLocaleString()} units
-                  {item.price != null && (
-                    <span className="text-gray-400 font-normal ml-1">
-                      · ${(item.price * item.quantity).toFixed(2)}
-                    </span>
-                  )}
-                </span>
+                <div className="flex justify-start w-[50%]">
+                  <span className="text-gray-500">{item.name}</span>
+                </div>
+                <div className="flex justify-start w-[50%]">
+                  <span className="font-medium text-gray-800 pl-1.5">
+                    {item.price !== 0 &&
+                      `${item.quantity.toLocaleString()} units ·`}
+                    {item.price != null && (
+                      <span className="text-gray-400 font-normal ml-1">
+                        {" "}
+                        {item.price === 0 ? (
+                          <input
+                            placeholder="$ per unit"
+                            type="number"
+                            min={0}
+                            className="w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-800 outline-none focus:border-green-400 focus:bg-white focus:ring-2 focus:ring-green-100 transition placeholder-gray-300"
+                          />
+                        ) : (
+                          `$${(item.price * item.quantity).toFixed(2)}`
+                        )}
+                      </span>
+                    )}
+                  </span>
+                </div>
               </div>
             ))}
           </div>
@@ -486,13 +501,13 @@ const Quote = () => {
 
               <Divider />
 
-              <SectionTitle>Address</SectionTitle>
+              {/* <SectionTitle>Address</SectionTitle>
               <div className="grid grid-cols-2 gap-x-12 gap-y-4">
                 <Field label="Street" value={quote.quote.address.street} />
                 <Field label="City" value={quote.quote.address.city} />
                 <Field label="State" value={quote.quote.address.state} />
                 <Field label="ZIP Code" value={quote.quote.address.zipCode} />
-              </div>
+              </div> */}
             </div>
 
             {/* ── Product ───────────────────────────────────────────────────── */}

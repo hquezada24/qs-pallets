@@ -11,21 +11,16 @@ interface QuoteData extends IQuote {
 type StatusResponse = {
   status: {
     _id: string;
-    status: "NEW" | "PENDING" | "APPROVED" | "REJECTED";
+    status: "PENDING" | "APPROVED" | "SOLVED";
   };
 };
 
-const STATUSES = ["NEW", "PENDING", "APPROVED", "REJECTED"] as const;
+const STATUSES = ["PENDING", "APPROVED", "SOLVED"] as const;
 
 const STATUS_CONFIG: Record<
   QuoteData["status"],
   { label: string; pill: string; option: string }
 > = {
-  NEW: {
-    label: "New",
-    pill: "bg-blue-50 text-blue-700 border border-blue-200",
-    option: "text-blue-700",
-  },
   PENDING: {
     label: "Pending",
     pill: "bg-amber-50 text-amber-700 border border-amber-200",
@@ -36,10 +31,10 @@ const STATUS_CONFIG: Record<
     pill: "bg-green-50 text-green-700 border border-green-200",
     option: "text-green-700",
   },
-  REJECTED: {
-    label: "Rejected",
-    pill: "bg-red-50   text-red-600   border border-red-200",
-    option: "text-red-600",
+  SOLVED: {
+    label: "Solved",
+    pill: "bg-gray-50   text-gray-600   border border-gray-200",
+    option: "text-gray-600",
   },
 };
 

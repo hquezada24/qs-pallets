@@ -30,26 +30,14 @@ const QuoteSchema = new Schema<IQuote>(
       email: { type: String, required: true },
     },
 
-    address: {
-      id: {
-        type: Schema.Types.ObjectId,
-        ref: "Address",
-        required: true,
-      },
-      street: { type: String, required: true },
-      city: { type: String, required: true },
-      state: { type: String, required: true },
-      zipCode: { type: String, required: true },
-    },
-
     additionalDetails: {
       type: String,
     },
 
     status: {
       type: String,
-      enum: ["NEW", "PENDING", "APPROVED", "REJECTED"],
-      default: "NEW",
+      enum: ["PENDING", "APPROVED", "SOLVED"],
+      default: "PENDING",
     },
 
     customDimensions: {

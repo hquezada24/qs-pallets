@@ -1,7 +1,6 @@
 import connectDB from "../../../../config/database.js";
 import Customer from "@/models/Customer";
 import Quote from "@/models/Quote";
-import Address from "@/models/Address";
 import { getNextSequenceNumber } from "@/lib/getNextSequenceNumber";
 
 // POST /api/quote
@@ -29,27 +28,7 @@ export const POST = async (request) => {
       customer = newCustomer;
     }
 
-    // Fetch address from DB
-    let customerAddress = await Address.findOne({
-      street: body.address.street,
-      city: body.address.city,
-      state: body.address.state,
-      zipCode: body.address.zipCode,
-    });
-
-    // Create and save Address if it doesn't exist
-    if (!customerAddress) {
-      const addressData = {
-        street: body.address.street,
-        city: body.address.city,
-        state: body.address.state,
-        zipCode: body.address.zipCode,
-      };
-      const newAddress = await Address.create(addressData);
-      customerAddress = newAddress;
-    }
-
-    // Create and save Quote with customer and address references
+    // Create and save Quote with customer reference
     const quoteData = {
       items: body.items.map(({ _id, ...rest }) => ({
         id: _id,
@@ -72,13 +51,6 @@ export const POST = async (request) => {
         companyName: customer.companyName || "",
         phone: customer.phone,
         email: customer.email,
-      },
-      address: {
-        id: customerAddress._id,
-        street: customerAddress.street,
-        city: customerAddress.city,
-        state: customerAddress.state,
-        zipCode: customerAddress.zipCode,
       },
     };
     const newQuote = await Quote.create(quoteData);

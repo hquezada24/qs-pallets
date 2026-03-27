@@ -34,12 +34,6 @@ const QuoteForm = () => {
     companyName: "",
     email: "",
     phone: "",
-    address: {
-      street: "",
-      city: "",
-      state: "AR",
-      zipCode: "",
-    },
     additionalDetails: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -47,7 +41,6 @@ const QuoteForm = () => {
   const [errors, setErrors] = useState<Errors>({});
   const [products, setProducts] = useState(null);
   const [loading, setLoading] = useState(true);
-  // const [quantities, setQuantities] = useState<Product[]>([]);
   const customProduct = products?.products.find((p) => p.isCustom);
   const [items, setItems] = useState<QuoteItem[]>([]);
   const showCustomSection = customProduct
@@ -130,23 +123,7 @@ const QuoteForm = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-
-    if (
-      name === "street" ||
-      name === "city" ||
-      name === "zipCode" ||
-      name === "state"
-    ) {
-      setFormData((prev) => ({
-        ...prev,
-        address: {
-          ...prev.address,
-          [name]: value,
-        },
-      }));
-    } else {
-      setFormData((prev) => ({ ...prev, [name]: value }));
-    }
+    setFormData((prev) => ({ ...prev, [name]: value }));
 
     // Clear error for this field when user starts typing
     if (errors[name]) {
@@ -190,12 +167,6 @@ const QuoteForm = () => {
         companyName: "",
         email: "",
         phone: "",
-        address: {
-          street: "",
-          city: "",
-          state: "",
-          zipCode: "",
-        },
         additionalDetails: "",
       });
       setItems([]);
@@ -595,80 +566,6 @@ const QuoteForm = () => {
                     </div>
                   </div>
                 )}
-              </fieldset>
-
-              {/* Delivery Address */}
-              <fieldset className={styles.fieldset}>
-                <legend className={styles.legend}>Delivery Information</legend>
-
-                <div className={styles.formRow}>
-                  <div className={styles.formGroup}>
-                    <label htmlFor="street" className={styles.label}>
-                      Street Address
-                    </label>
-                    <input
-                      type="text"
-                      id="street"
-                      name="street"
-                      value={formData.address.street}
-                      onChange={handleInputChange}
-                      className={styles.input}
-                      autoComplete="street-address"
-                    />
-                  </div>
-                </div>
-
-                <div className={styles.formRow}>
-                  <div className={styles.formGroup}>
-                    <label htmlFor="city" className={styles.label}>
-                      City
-                    </label>
-                    <input
-                      type="text"
-                      id="city"
-                      name="city"
-                      value={formData.address.city}
-                      onChange={handleInputChange}
-                      className={styles.input}
-                      autoComplete="address-level2"
-                    />
-                  </div>
-
-                  <div className={styles.formGroup}>
-                    <label htmlFor="state" className={styles.label}>
-                      State
-                    </label>
-                    <select
-                      id="state"
-                      name="state"
-                      value={formData.address.state}
-                      onChange={handleInputChange}
-                      className={styles.select}
-                      autoComplete="address-level1"
-                    >
-                      <option value="AR">Arkansas</option>
-                      <option value="OK">Oklahoma</option>
-                      <option value="TX">Texas</option>
-                    </select>
-                  </div>
-
-                  <div className={styles.formGroup}>
-                    <label htmlFor="zipCode" className={styles.label}>
-                      ZIP Code
-                    </label>
-                    <input
-                      type="text"
-                      id="zipCode"
-                      name="zipCode"
-                      value={formData.address.zipCode}
-                      onChange={handleInputChange}
-                      className={styles.input}
-                      autoComplete="postal-code"
-                      pattern="[0-9]{5}(-[0-9]{4})?"
-                      aria-describedby="zipCode-hint"
-                    />
-                  </div>
-                </div>
               </fieldset>
 
               {/* Additional Details */}

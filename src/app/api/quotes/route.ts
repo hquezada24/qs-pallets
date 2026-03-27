@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import Quote from "@/models/Quote";
-import Address from "@/models/Address";
 import Customer from "@/models/Customer";
 
 import connectDB from "@/config/database";
@@ -15,12 +14,9 @@ export const GET = async (req: NextRequest) => {
 
     const quotes = await Promise.all(
       quotesObj.map(async (quote) => {
-        const [customer, address] = await Promise.all([
-          Customer.findById(quote.customer.id).select(
-            "fullName companyName email phone -_id",
-          ),
-          Address.findById(quote.address.id).select("city -_id"),
-        ]);
+        const customer = await Customer.findById(quote.customer.id).select(
+          "fullName companyName email phone -_id",
+        );
 
         return {
           _id: quote._id,
@@ -30,7 +26,6 @@ export const GET = async (req: NextRequest) => {
           companyName: customer?.companyName || "",
           email: customer?.email,
           phone: customer?.phone,
-          city: address?.city,
           actions: `/quotes/${quote._id}`,
           quoteNumber: quote.quoteNumber,
         };

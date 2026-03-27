@@ -5,9 +5,8 @@ export type Quote = {
   product: Types.ObjectId;
   quantity: number;
   additionalDetails?: string;
-  status: "NEW" | "PENDING" | "APPROVED" | "REJECTED";
+  status: "PENDING" | "APPROVED" | "SOLVED";
   customer: Types.ObjectId;
-  address: Types.ObjectId;
   quoteNumber: string;
 };
 
@@ -37,17 +36,9 @@ export interface IQuote {
     email: string;
   };
 
-  address: {
-    id: Types.ObjectId;
-    street: string;
-    city: string;
-    state: string;
-    zipCode: string;
-  };
-
   additionalDetails?: string;
 
-  status: "NEW" | "PENDING" | "APPROVED" | "REJECTED";
+  status: "PENDING" | "APPROVED" | "SOLVED";
 
   customDimensions?: Dimensions;
 

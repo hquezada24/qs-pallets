@@ -33,7 +33,6 @@ const Quotes = () => {
       render: (value: string) =>
         `${value.replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3")}`,
     },
-    { key: "city", header: "City" },
     {
       key: "status",
       header: "Status",
