@@ -15,6 +15,7 @@ const QuoteSchema = new Schema<IQuote>(
         name: { type: String, required: true },
         price: { type: Number, required: true },
         quantity: { type: Number, required: true },
+        isCustom: { type: Boolean, required: true },
       },
     ],
 

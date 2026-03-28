@@ -29,7 +29,6 @@ export interface IOrder {
     state: string;
     zipCode: string;
     scheduledDate: Date;
-    deliveredDate: Date;
   };
 
   subtotal: Number;
@@ -37,21 +36,13 @@ export interface IOrder {
   total: Number;
   status: "PENDING" | "IN_PRODUCTION" | "READY" | "DELIVERED" | "CANCELLED";
   notes: String;
-
-  // additionalDetails?: string;
-
-  // status: "NEW" | "PENDING" | "APPROVED" | "REJECTED";
-
-  // total?: number;
-  // createdAt?: Date;
-  // updatedAt?: Date;
 }
 
 const OrderSchema = new Schema<IOrder>(
   {
     orderNumber: { type: String, unique: true },
     quote: {
-      id: { type: Schema.Types.ObjectId, ref: "Quote", required: true },
+      id: { type: Schema.Types.ObjectId, ref: "Quote" },
       quoteNumber: { type: String },
     },
     items: [
@@ -91,10 +82,8 @@ const OrderSchema = new Schema<IOrder>(
       state: { type: String },
       zipCode: { type: String },
       scheduledDate: { type: Date },
-      deliveredDate: { type: Date },
     }, // Needed on input
     subtotal: Number,
-    // taxRate: { type: Number, default: 0 }, Needed on input
     tax: { type: Number, default: 0 },
     total: Number,
     status: {

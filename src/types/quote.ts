@@ -18,11 +18,12 @@ type Dimensions = {
   width: number;
 };
 
-interface QuoteItem {
+export interface QuoteItem {
   id: Types.ObjectId;
   name: string;
   price: number;
   quantity: number;
+  isCustom: Boolean;
 }
 
 export interface IQuote {

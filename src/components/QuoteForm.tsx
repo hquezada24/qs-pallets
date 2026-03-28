@@ -10,6 +10,7 @@ type QuoteItem = {
   name: string;
   price?: number;
   quantity: number;
+  isCustom: boolean;
 };
 
 type Product = {
@@ -87,6 +88,7 @@ const QuoteForm = () => {
           name: product.name,
           ...(product.price !== null && { price: product.price }),
           quantity: clamped,
+          isCustom: product.isCustom,
         },
       ];
     });
@@ -660,17 +662,6 @@ const QuoteForm = () => {
                     <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
                   </svg>
                   <span>Quantity needed</span>
-                </li>
-                <li className={styles.requirement}>
-                  <svg
-                    className={styles.checkIcon}
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-                  </svg>
-                  <span>Delivery location</span>
                 </li>
                 <li className={styles.requirement}>
                   <svg

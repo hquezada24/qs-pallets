@@ -19,10 +19,11 @@ type QuoteResponse = {
 interface OrderDetails {
   deliveryDate: string;
   deliveryType: "DELIVERY" | "PICKUP";
-  address: string;
+  customPalletCost: string;
+  street: string;
   city: string;
   state: string;
-  zip: string;
+  zipCode: string;
   taxExempt: boolean;
   taxRate: string;
   tax: string;
@@ -103,15 +104,18 @@ const ApproveModal = ({
   const [form, setForm] = useState<OrderDetails>({
     deliveryDate: "",
     deliveryType: "DELIVERY", // 👈
-    address: "", // 👈
+    customPalletCost: "",
+    street: "", // 👈
     city: "", // 👈
     state: "", // 👈
-    zip: "", // 👈
+    zipCode: "", // 👈
     taxExempt: true, // 👈 true por default ya que la mayoría son exentos
     taxRate: "", // 👈
     tax: "",
     internalNotes: "",
   });
+
+  console.log(form);
 
   const set =
     (key: keyof OrderDetails) =>
@@ -160,6 +164,8 @@ const ApproveModal = ({
                         {item.price === 0 ? (
                           <input
                             placeholder="$ per unit"
+                            value={form.customPalletCost}
+                            onChange={set("customPalletCost")}
                             type="number"
                             min={0}
                             className="w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-800 outline-none focus:border-green-400 focus:bg-white focus:ring-2 focus:ring-green-100 transition placeholder-gray-300"
@@ -238,8 +244,8 @@ const ApproveModal = ({
                 <input
                   type="text"
                   placeholder="Street address"
-                  value={form.address}
-                  onChange={set("address")}
+                  value={form.street}
+                  onChange={set("street")}
                   className={inputClass}
                 />
                 <div className="grid grid-cols-3 gap-2">
@@ -262,8 +268,8 @@ const ApproveModal = ({
                     type="text"
                     placeholder="ZIP"
                     maxLength={5}
-                    value={form.zip}
-                    onChange={set("zip")}
+                    value={form.zipCode}
+                    onChange={set("zipCode")}
                     className={inputClass}
                   />
                 </div>
@@ -360,7 +366,7 @@ const ApproveModal = ({
               !form.deliveryDate ||
               (!form.taxExempt && !form.taxRate) ||
               (form.deliveryType === "DELIVERY" &&
-                (!form.address || !form.city || !form.state || !form.zip))
+                (!form.street || !form.city || !form.state || !form.zipCode))
             }
             onClick={() => onConfirm(form)}
             className="px-5 py-2 text-sm font-medium rounded-lg bg-green-600 text-white hover:bg-green-700 disabled:opacity-40 disabled:cursor-not-allowed transition"
@@ -410,8 +416,23 @@ const Quote = () => {
     fetchQuote();
   }, [id]);
 
-  const handleApproveConfirm = (details: OrderDetails) => {
-    setPendingStatus(null);
+  const handleApproveConfirm = async (details: OrderDetails) => {
+    try {
+      const res = await apiRequest("/api/orders", {
+        method: "POST",
+        body: JSON.stringify({
+          ...details,
+          items: quote.quote.items,
+          id: quote.quote._id,
+          quoteNumber: quote.quote.quoteNumber,
+          customer: quote.quote.customer,
+        }),
+      });
+    } catch (error) {
+      console.error("Order registration error: ", error.message);
+    } finally {
+      setPendingStatus(false);
+    }
   };
 
   if (loading) return <QuoteSkeleton />;
@@ -500,14 +521,6 @@ const Quote = () => {
               </div>
 
               <Divider />
-
-              {/* <SectionTitle>Address</SectionTitle>
-              <div className="grid grid-cols-2 gap-x-12 gap-y-4">
-                <Field label="Street" value={quote.quote.address.street} />
-                <Field label="City" value={quote.quote.address.city} />
-                <Field label="State" value={quote.quote.address.state} />
-                <Field label="ZIP Code" value={quote.quote.address.zipCode} />
-              </div> */}
             </div>
 
             {/* ── Product ───────────────────────────────────────────────────── */}
