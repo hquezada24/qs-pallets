@@ -117,11 +117,6 @@ const ApproveModal = ({
 
   console.log(form);
 
-  const set =
-    (key: keyof OrderDetails) =>
-    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
-      setForm((prev) => ({ ...prev, [key]: e.target.value }));
-
   const inputClass =
     "w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-800 outline-none focus:border-green-400 focus:bg-white focus:ring-2 focus:ring-green-100 transition placeholder-gray-300";
 
@@ -160,12 +155,16 @@ const ApproveModal = ({
                       `${item.quantity.toLocaleString()} units ·`}
                     {item.price != null && (
                       <span className="text-gray-400 font-normal ml-1">
-                        {" "}
                         {item.price === 0 ? (
                           <input
                             placeholder="$ per unit"
                             value={form.customPalletCost}
-                            onChange={set("customPalletCost")}
+                            onChange={(e) =>
+                              setForm((prev) => ({
+                                ...prev,
+                                customPalletCost: e.target.value,
+                              }))
+                            }
                             type="number"
                             min={0}
                             className="w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-800 outline-none focus:border-green-400 focus:bg-white focus:ring-2 focus:ring-green-100 transition placeholder-gray-300"
@@ -191,7 +190,9 @@ const ApproveModal = ({
             <input
               type="date"
               value={form.deliveryDate}
-              onChange={set("deliveryDate")}
+              onChange={(e) =>
+                setForm((prev) => ({ ...prev, deliveryDate: e.target.value }))
+              }
               className={inputClass}
             />
           </div>
@@ -210,14 +211,11 @@ const ApproveModal = ({
               <button
                 type="button"
                 onClick={() =>
-                  set("deliveryType")({
-                    target: {
-                      value:
-                        form.deliveryType === "DELIVERY"
-                          ? "PICKUP"
-                          : "DELIVERY",
-                    },
-                  } as any)
+                  setForm((prev) => ({
+                    ...prev,
+                    deliveryType:
+                      prev.deliveryType === "DELIVERY" ? "PICKUP" : "DELIVERY",
+                  }))
                 }
                 className={`relative w-10 h-5 rounded-full transition-colors ${
                   form.deliveryType === "PICKUP" ? "bg-blue-500" : "bg-gray-200"
@@ -245,7 +243,9 @@ const ApproveModal = ({
                   type="text"
                   placeholder="Street address"
                   value={form.street}
-                  onChange={set("street")}
+                  onChange={(e) =>
+                    setForm((prev) => ({ ...prev, street: e.target.value }))
+                  }
                   className={inputClass}
                 />
                 <div className="grid grid-cols-3 gap-2">
@@ -253,7 +253,9 @@ const ApproveModal = ({
                     type="text"
                     placeholder="City"
                     value={form.city}
-                    onChange={set("city")}
+                    onChange={(e) =>
+                      setForm((prev) => ({ ...prev, city: e.target.value }))
+                    }
                     className={inputClass}
                   />
                   <input
@@ -261,7 +263,9 @@ const ApproveModal = ({
                     placeholder="State"
                     maxLength={2}
                     value={form.state}
-                    onChange={set("state")}
+                    onChange={(e) =>
+                      setForm((prev) => ({ ...prev, state: e.target.value }))
+                    }
                     className={`${inputClass} uppercase`}
                   />
                   <input
@@ -269,7 +273,9 @@ const ApproveModal = ({
                     placeholder="ZIP"
                     maxLength={5}
                     value={form.zipCode}
-                    onChange={set("zipCode")}
+                    onChange={(e) =>
+                      setForm((prev) => ({ ...prev, zipCode: e.target.value }))
+                    }
                     className={inputClass}
                   />
                 </div>
@@ -289,9 +295,7 @@ const ApproveModal = ({
               <button
                 type="button"
                 onClick={() =>
-                  set("taxExempt")({
-                    target: { value: !form.taxExempt },
-                  } as any)
+                  setForm((prev) => ({ ...prev, taxExempt: !prev.taxExempt }))
                 }
                 className={`relative w-10 h-5 rounded-full transition-colors ${
                   form.taxExempt ? "bg-green-500" : "bg-gray-200"
@@ -324,7 +328,9 @@ const ApproveModal = ({
                     max="1"
                     placeholder="0.0825"
                     value={form.taxRate}
-                    onChange={set("taxRate")}
+                    onChange={(e) =>
+                      setForm((prev) => ({ ...prev, taxRate: e.target.value }))
+                    }
                     className={`${inputClass} pr-8`}
                   />
                   <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-400">
@@ -347,7 +353,9 @@ const ApproveModal = ({
               rows={3}
               placeholder="Production notes, special instructions..."
               value={form.internalNotes}
-              onChange={set("internalNotes")}
+              onChange={(e) =>
+                setForm((prev) => ({ ...prev, internalNotes: e.target.value }))
+              }
               className={`${inputClass} resize-none`}
             />
           </div>

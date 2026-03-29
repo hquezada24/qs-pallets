@@ -31,7 +31,7 @@ const Quotes = () => {
       key: "phone",
       header: "Phone",
       render: (value: string) =>
-        `${value.replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3")}`,
+        value ? `${value.replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3")}` : "",
     },
     {
       key: "status",

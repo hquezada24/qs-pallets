@@ -51,7 +51,7 @@ export const POST = async (req: NextRequest) => {
       address = newAddress;
     }
 
-    const subtotal = body.items
+    const subtotal: string = body.items
       .map((item: QuoteItem) => {
         return item.isCustom
           ? item.quantity * parseFloat(body.customPalletCost)
@@ -64,7 +64,9 @@ export const POST = async (req: NextRequest) => {
       )
       .toFixed(2);
 
-    const tax = subtotal * body.taxRate;
+    const tax: string = body.taxRate
+      ? (parseFloat(subtotal) * parseFloat(body.taxRate)).toFixed(2)
+      : parseFloat(subtotal).toFixed(2);
 
     const orderData = {
       items: body.items.map(({ _id, ...rest }) => ({
@@ -79,14 +81,16 @@ export const POST = async (req: NextRequest) => {
       delivery: address
         ? {
             id: address._id,
-            type: body.type,
+            type: body.deliveryType,
             street: address.street,
             city: address.city,
             state: address.state,
             zipCode: address.zipCode,
             scheduledDate: body.deliveryDate,
           }
-        : {},
+        : {
+            type: body.deliveryType,
+          },
       customer: {
         id: customer._id,
         name: customer.fullName,
@@ -94,9 +98,9 @@ export const POST = async (req: NextRequest) => {
         phone: customer.phone,
         email: customer.email,
       },
-      subtotal: subtotal,
-      tax: tax,
-      total: subtotal + tax,
+      subtotal: parseFloat(subtotal),
+      tax: parseFloat(tax),
+      total: parseFloat(subtotal) + parseFloat(tax),
       notes: body.internalNotes,
     };
 
@@ -114,5 +118,37 @@ export const POST = async (req: NextRequest) => {
       JSON.stringify({ message: "Failed to register order" }),
       { status: 500 },
     );
+  }
+};
+
+export const GET = async (req: NextRequest) => {
+  try {
+    await connectDB();
+
+    const ordersObj = await Order.find().populate("customer").lean();
+
+    const orders = ordersObj.map((order) => ({
+      // customer flatten
+      customerName: order.customer?.name,
+      email: order.customer?.email,
+      phone: order.customer?.phone,
+
+      // address flatten
+      deliveryType: order.delivery.type,
+      street: order.delivery?.street,
+      city: order.delivery?.city,
+      zipCode: order.delivery?.zipCode,
+      ...order,
+    }));
+
+    return new Response(JSON.stringify({ orders }), {
+      status: 200,
+    });
+  } catch (error) {
+    console.error("GET /api/orders error:", error);
+
+    return new Response(JSON.stringify({ message: "Internal Server Error" }), {
+      status: 500,
+    });
   }
 };

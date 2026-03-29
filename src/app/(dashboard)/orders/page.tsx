@@ -10,27 +10,39 @@ type OrdersResponse = {
 };
 
 const Orders = () => {
-  // const [orders, setOrders] = useState<OrdersResponse | null>(null);
+  const [orders, setOrders] = useState<OrdersResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   //const [isSubmitting, setIsSubmitting] = useState(false);
   //const [submitStatus, setSubmitStatus] = useState(null);
 
+  console.log(orders);
+
   const orderColumns = [
-    { key: "id", header: "Order #" },
-    { key: "customer", header: "Client" },
-    { key: "address", header: "Address" },
-    { key: "product", header: "Product" },
-    { key: "quantity", header: "Quantity" },
+    { key: "orderNumber", header: "Order #" },
+    { key: "customerName", header: "Name" },
+    { key: "phone", header: "Phone" },
+    { key: "deliveryType", header: "Delivery Type" },
+    {
+      key: "total",
+      header: "Total",
+      render: (value: number) => `$${value.toFixed(2)}`,
+    },
     {
       key: "status",
       header: "Status",
       render: (value) => (
         <span
           className={`px-2 py-1 rounded-full text-xs font-medium ${
-            value === "Pagado"
-              ? "bg-green-100 text-green-700"
-              : "bg-yellow-100 text-yellow-700"
+            value === "PENDING"
+              ? "bg-amber-50 text-amber-700 border border-amber-200"
+              : value === "IN_PRODUCTION"
+                ? "bg-blue-50 text-blue-700 border border-blue-200"
+                : value === "READY"
+                  ? "bg-green-50 text-green-700 border border-green-200"
+                  : value === "CANCELED"
+                    ? "bg-red-50   text-red-600   border border-red-200"
+                    : "bg-gray-50   text-gray-600   border border-gray-200"
           }`}
         >
           {value}
@@ -39,18 +51,18 @@ const Orders = () => {
     },
   ];
 
-  const orders = {
-    orders: [
-      {
-        id: "1234",
-        customer: "John Smith",
-        address: "123 Street City, ST 12345",
-        product: "Standard",
-        quantity: 500,
-        status: "In Progress",
-      },
-    ],
-  };
+  // const orders = {
+  //   orders: [
+  //     {
+  //       id: "1234",
+  //       customer: "John Smith",
+  //       address: "123 Street City, ST 12345",
+  //       product: "Standard",
+  //       quantity: 500,
+  //       status: "In Progress",
+  //     },
+  //   ],
+  // };
 
   async function fetchOrders() {
     try {
@@ -65,7 +77,7 @@ const Orders = () => {
 
       const data: OrdersResponse = await res.json();
 
-      //setOrders(data);
+      setOrders(data);
     } catch (error) {
       setError(error.message);
       console.error("Quote fetching error: ", error.message);
@@ -88,7 +100,14 @@ const Orders = () => {
         {error && <p className="text-red-500">{error}</p>} */}
         {/* {!loading && !error && (
         )} */}
-        <Table title={"Orders"} columns={orderColumns} data={orders.orders} />
+        {!loading && orders && (
+          <Table
+            title={"Orders"}
+            columns={orderColumns}
+            data={orders.orders}
+            keyField="id"
+          />
+        )}
       </div>
       <div className="users-"></div>
     </div>
