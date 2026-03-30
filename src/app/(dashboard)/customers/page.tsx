@@ -57,8 +57,8 @@ const Customers = () => {
   console.log(customers);
 
   return (
-    <div className="p-8 flex flex-col sm:flex-row justify-evenly space-y-4">
-      <div className="users-left">
+    <div className="min-h-screen bg-gray-50 px-6 py-10 flex flex-col items-center gap-8">
+      <div className="w-full max-w-5xl bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden px-2 py-4">
         {loading && <p>Loading customers...</p>}
 
         {error && <p className="text-red-500">{error}</p>}
@@ -67,6 +67,7 @@ const Customers = () => {
             title={"Customers"}
             columns={orderColumns}
             data={customers.customers}
+            keyField="id"
           />
         )}
       </div>
