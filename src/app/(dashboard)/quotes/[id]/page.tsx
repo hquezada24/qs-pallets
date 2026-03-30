@@ -509,6 +509,7 @@ const Quote = () => {
                 </div>
                 <div className="flex flex-col items-end gap-2 shrink-0">
                   <StatusDropdown
+                    type="quote"
                     current={quote.quote.status}
                     setPendingStatus={setPendingStatus}
                   />

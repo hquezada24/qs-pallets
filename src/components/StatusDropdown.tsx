@@ -3,6 +3,7 @@ import { IQuote } from "@/types/quote";
 import { useState, useEffect, useRef } from "react";
 import { apiRequest } from "@/lib/apiRequest";
 import { useParams } from "next/navigation";
+import { IOrder } from "@/models/Order";
 
 interface QuoteData extends IQuote {
   _id: string;
@@ -11,11 +12,12 @@ interface QuoteData extends IQuote {
 type StatusResponse = {
   status: {
     _id: string;
-    status: "PENDING" | "APPROVED" | "SOLVED";
+    status: "PENDING" | "APPROVED" | "SOLVED" | "DELIVERED" | "CANCELLED";
   };
 };
 
 const STATUSES = ["PENDING", "APPROVED", "SOLVED"] as const;
+const ORDER_STATUSES = ["PENDING", "DELIVERED", "CANCELLED"] as const;
 
 const STATUS_CONFIG: Record<
   QuoteData["status"],
@@ -38,16 +40,41 @@ const STATUS_CONFIG: Record<
   },
 };
 
+const ORDER_STATUS: Record<
+  IOrder["status"],
+  { label: string; pill: string; option: string }
+> = {
+  PENDING: {
+    label: "Pending",
+    pill: "bg-amber-50 text-amber-700 border border-amber-200",
+    option: "text-amber-700",
+  },
+  DELIVERED: {
+    label: "Delivered",
+    pill: "bg-green-50 text-green-700 border border-green-200",
+    option: "text-green-700",
+  },
+  CANCELLED: {
+    label: "Cancelled",
+    pill: "bg-red-50 text-red-700 border border-red-200",
+    option: "text-red-700",
+  },
+};
+
 const StatusDropdown = ({
+  type,
   current,
   setPendingStatus,
 }: {
-  current: QuoteData["status"];
-  setPendingStatus: React.Dispatch<React.SetStateAction<boolean>>;
+  type: "quote" | "order";
+  current: QuoteData["status"] | IOrder["status"];
+  setPendingStatus?: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [open, setOpen] = useState(false);
   const [error, setError] = useState(null);
-  const [status, setStatus] = useState<QuoteData["status"]>(current);
+  const [status, setStatus] = useState<QuoteData["status"] | IOrder["status"]>(
+    current,
+  );
   const [loading, setLoading] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const params = useParams();
@@ -55,16 +82,19 @@ const StatusDropdown = ({
   const id = typeof params.id === "string" ? params.id : (params.id?.[0] ?? "");
 
   const handleStatusChange = async (
-    newStatus: QuoteData["status"],
+    newStatus: QuoteData["status"] | IOrder["status"],
     id: string,
   ) => {
     setLoading(true);
     setError(null);
     try {
-      const res = await apiRequest(`/api/quotes/${id}/status`, {
-        method: "PATCH",
-        body: JSON.stringify({ status: newStatus }),
-      });
+      const res = await apiRequest(
+        `/api/${type === "quote" ? "quotes" : "orders"}/${id}/status`,
+        {
+          method: "PATCH",
+          body: JSON.stringify({ status: newStatus }),
+        },
+      );
 
       const data: StatusResponse = await res.json();
 
@@ -120,9 +150,10 @@ const StatusDropdown = ({
       {!loading && !error && (
         <button
           onClick={() => setOpen((o) => !o)}
-          className={`flex items-center gap-2 text-xs font-medium px-3 py-1.5 rounded-full transition hover:opacity-80 ${STATUS_CONFIG[status].pill}`}
+          className={`flex items-center gap-2 text-xs font-medium px-3 py-1.5 rounded-full transition hover:opacity-80 ${type === "quote" ? STATUS_CONFIG[status].pill : ORDER_STATUS[status].pill}`}
         >
-          {STATUS_CONFIG[status].label}
+          {type === "quote" && STATUS_CONFIG[status].label}
+          {type === "order" && ORDER_STATUS[status].label}
           <svg
             className={`w-3 h-3 transition-transform ${open ? "rotate-180" : ""}`}
             viewBox="0 0 12 12"
@@ -141,33 +172,62 @@ const StatusDropdown = ({
 
       {open && !loading && !error && (
         <div className="absolute right-0 mt-1.5 w-36 bg-white rounded-xl border border-gray-100 shadow-lg overflow-hidden z-10">
-          {STATUSES.map((s) => (
-            <button
-              key={s}
-              onClick={() => {
-                handleStatusChange(s, id);
-                setOpen(false);
-              }}
-              className={`w-full text-left px-4 py-2.5 text-xs font-medium hover:bg-gray-50 transition flex items-center justify-between ${STATUS_CONFIG[s].option}`}
-            >
-              {STATUS_CONFIG[s].label}
-              {s === status && (
-                <svg
-                  className="w-3 h-3 opacity-60"
-                  viewBox="0 0 12 12"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <path
-                    d="M2 6l3 3 5-5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              )}
-            </button>
-          ))}
+          {type === "quote" &&
+            STATUSES.map((s) => (
+              <button
+                key={s}
+                onClick={() => {
+                  handleStatusChange(s, id);
+                  setOpen(false);
+                }}
+                className={`w-full text-left px-4 py-2.5 text-xs font-medium hover:bg-gray-50 transition flex items-center justify-between ${STATUS_CONFIG[s].option}`}
+              >
+                {STATUS_CONFIG[s].label}
+                {s === status && (
+                  <svg
+                    className="w-3 h-3 opacity-60"
+                    viewBox="0 0 12 12"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <path
+                      d="M2 6l3 3 5-5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                )}
+              </button>
+            ))}
+          {type === "order" &&
+            ORDER_STATUSES.map((s) => (
+              <button
+                key={s}
+                onClick={() => {
+                  handleStatusChange(s, id);
+                  setOpen(false);
+                }}
+                className={`w-full text-left px-4 py-2.5 text-xs font-medium hover:bg-gray-50 transition flex items-center justify-between ${ORDER_STATUS[s].option}`}
+              >
+                {ORDER_STATUS[s].label}
+                {s === status && (
+                  <svg
+                    className="w-3 h-3 opacity-60"
+                    viewBox="0 0 12 12"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <path
+                      d="M2 6l3 3 5-5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                )}
+              </button>
+            ))}
         </div>
       )}
     </div>

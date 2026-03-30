@@ -505,10 +505,7 @@ const Order = () => {
                   )}
                 </div>
                 <div className="flex flex-col items-end gap-2 shrink-0">
-                  {/* <StatusDropdown
-                    current={order.order.status}
-                    setPendingStatus={setPendingStatus}
-                  /> */}
+                  <StatusDropdown type="order" current={order.order.status} />
                   <span className="text-xs text-gray-400">
                     {formatDate(order.order.createdAt)}
                   </span>

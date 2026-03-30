@@ -39,7 +39,7 @@ export interface IOrder {
   subtotal: Number;
   tax: Number;
   total: Number;
-  status: "PENDING" | "IN_PRODUCTION" | "READY" | "DELIVERED" | "CANCELLED";
+  status: "PENDING" | "DELIVERED" | "CANCELLED";
   notes: String;
   createdAt?: Date;
 }
@@ -101,7 +101,7 @@ const OrderSchema = new Schema<IOrder>(
     total: Number,
     status: {
       type: String,
-      enum: ["PENDING", "IN_PRODUCTION", "READY", "DELIVERED", "CANCELLED"],
+      enum: ["PENDING", "DELIVERED", "CANCELLED"],
       default: "PENDING",
     },
 
