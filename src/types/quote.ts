@@ -10,7 +10,7 @@ export type Quote = {
   quoteNumber: string;
 };
 
-type Dimensions = {
+export type Dimensions = {
   height: number;
   length: number;
   notes: string;

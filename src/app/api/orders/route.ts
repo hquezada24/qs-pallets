@@ -68,6 +68,8 @@ export const POST = async (req: NextRequest) => {
       ? (parseFloat(subtotal) * parseFloat(body.taxRate)).toFixed(2)
       : parseFloat(subtotal).toFixed(2);
 
+    console.log(body);
+
     const orderData = {
       items: body.items.map(({ _id, ...rest }) => ({
         id: _id,
@@ -77,6 +79,7 @@ export const POST = async (req: NextRequest) => {
       quote: {
         id: body.id,
         quoteNumber: body.quoteNumber,
+        customDimensions: body.customDimensions,
       },
       delivery: address
         ? {
@@ -138,6 +141,7 @@ export const GET = async (req: NextRequest) => {
       street: order.delivery?.street,
       city: order.delivery?.city,
       zipCode: order.delivery?.zipCode,
+      actions: `/orders/${order.orderNumber}`,
       ...order,
     }));
 

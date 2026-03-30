@@ -1,9 +1,11 @@
 "use client";
-import Form from "@/components/Form";
+import Link from "next/link";
+import { MdArrowRightAlt } from "react-icons/md";
 import Table from "@/components/Table";
 import { useState, useEffect } from "react";
 import { apiRequest } from "@/lib/apiRequest";
 import { Order } from "@/types/order";
+import TableSkeleton from "@/components/TableSkeleton";
 
 type OrdersResponse = {
   orders: Order[];
@@ -13,8 +15,6 @@ const Orders = () => {
   const [orders, setOrders] = useState<OrdersResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  //const [isSubmitting, setIsSubmitting] = useState(false);
-  //const [submitStatus, setSubmitStatus] = useState(null);
 
   console.log(orders);
 
@@ -49,20 +49,19 @@ const Orders = () => {
         </span>
       ),
     },
+    {
+      key: "actions",
+      header: "See",
+      render: (value: string) => (
+        <Link
+          className="inline-flex items-center justify-center w-7 h-7 rounded-full text-green-700 hover:bg-green-300 hover:text-green-800 transition-colors"
+          href={value}
+        >
+          <MdArrowRightAlt size={20} />
+        </Link>
+      ),
+    },
   ];
-
-  // const orders = {
-  //   orders: [
-  //     {
-  //       id: "1234",
-  //       customer: "John Smith",
-  //       address: "123 Street City, ST 12345",
-  //       product: "Standard",
-  //       quantity: 500,
-  //       status: "In Progress",
-  //     },
-  //   ],
-  // };
 
   async function fetchOrders() {
     try {
@@ -93,13 +92,11 @@ const Orders = () => {
   console.log(orders);
 
   return (
-    <div className="p-8 flex flex-col sm:flex-row justify-evenly space-y-4">
-      <div className="users-left">
-        {/* {loading && <p>Loading orders...</p>}
+    <div className="min-h-screen bg-gray-50 px-6 py-10 flex flex-col items-center gap-8">
+      <div className="w-full max-w-5xl bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden px-2 py-4">
+        {loading && <TableSkeleton />}
 
-        {error && <p className="text-red-500">{error}</p>} */}
-        {/* {!loading && !error && (
-        )} */}
+        {error && <p className="text-red-500">{error}</p>}
         {!loading && orders && (
           <Table
             title={"Orders"}

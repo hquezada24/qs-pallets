@@ -1,6 +1,7 @@
 import { Schema, model, models } from "mongoose";
 import { Types } from "mongoose";
 import { Model } from "mongoose";
+import { Dimensions } from "@/types/quote";
 
 interface Item {
   id: Types.ObjectId;
@@ -11,7 +12,11 @@ interface Item {
 
 export interface IOrder {
   orderNumber: string;
-  quote: { id: Types.ObjectId; quoteNumber: string };
+  quote: {
+    id: Types.ObjectId;
+    quoteNumber: string;
+    customDimensions: Dimensions;
+  };
   items: Item[];
   customer: {
     id: Types.ObjectId;
@@ -36,6 +41,7 @@ export interface IOrder {
   total: Number;
   status: "PENDING" | "IN_PRODUCTION" | "READY" | "DELIVERED" | "CANCELLED";
   notes: String;
+  createdAt?: Date;
 }
 
 const OrderSchema = new Schema<IOrder>(
@@ -44,6 +50,13 @@ const OrderSchema = new Schema<IOrder>(
     quote: {
       id: { type: Schema.Types.ObjectId, ref: "Quote" },
       quoteNumber: { type: String },
+      customDimensions: {
+        length: { type: Number },
+        height: { type: Number },
+        notes: { type: String },
+        weightCapacity: { type: Number },
+        width: { type: Number },
+      },
     },
     items: [
       {

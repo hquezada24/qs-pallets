@@ -426,6 +426,7 @@ const Quote = () => {
 
   const handleApproveConfirm = async (details: OrderDetails) => {
     try {
+      console.log(quote.quote.customDimensions);
       const res = await apiRequest("/api/orders", {
         method: "POST",
         body: JSON.stringify({
@@ -433,6 +434,7 @@ const Quote = () => {
           items: quote.quote.items,
           id: quote.quote._id,
           quoteNumber: quote.quote.quoteNumber,
+          customDimensions: quote.quote.customDimensions,
           customer: quote.quote.customer,
         }),
       });
