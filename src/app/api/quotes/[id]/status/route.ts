@@ -13,14 +13,14 @@ export const PATCH = async (
     await connectDB();
 
     await Quote.updateOne(
-      { _id: id },
+      { quoteNumber: id },
       {
         $set: { status: body.status },
         $currentDate: { lastModified: true },
       },
     );
 
-    const status = await Quote.findById(id).select("status");
+    const status = await Quote.findOne({ quoteNumber: id }).select("status");
 
     return new Response(JSON.stringify({ status }), {
       status: 200,
@@ -43,7 +43,7 @@ export const GET = async (
 
     await connectDB();
 
-    const status = await Quote.findById(id).select("status");
+    const status = await Quote.findOne({ quoteNumber: id }).select("status");
 
     return new Response(JSON.stringify({ status }), {
       status: 200,

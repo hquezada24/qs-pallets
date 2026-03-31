@@ -13,6 +13,8 @@ export const POST = async (req: NextRequest) => {
     const body = await req.json();
     const orderNumber = await getNextSequenceNumber("orderNumber", "O");
 
+    console.log(body);
+
     // Fetch customer from DB
     let customer = await Customer.findOne({
       email: body.customer.email,
@@ -21,7 +23,7 @@ export const POST = async (req: NextRequest) => {
     // Create and save Customer if it doesn't exist
     if (!customer) {
       const customerData = {
-        fullName: body.customer.fullName,
+        fullName: body.customer.name,
         companyName: body.customer.companyName || "",
         email: body.customer.email,
         phone: body.customer.phone,
@@ -66,9 +68,7 @@ export const POST = async (req: NextRequest) => {
 
     const tax: string = body.taxRate
       ? (parseFloat(subtotal) * parseFloat(body.taxRate)).toFixed(2)
-      : parseFloat(subtotal).toFixed(2);
-
-    console.log(body);
+      : "0.00";
 
     const orderData = {
       items: body.items.map(({ _id, ...rest }) => ({

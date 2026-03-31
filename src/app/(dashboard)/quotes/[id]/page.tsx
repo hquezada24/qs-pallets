@@ -20,6 +20,7 @@ interface OrderDetails {
   deliveryDate: string;
   deliveryType: "DELIVERY" | "PICKUP";
   customPalletCost: string;
+  hasCustomPallets: boolean;
   street: string;
   city: string;
   state: string;
@@ -101,13 +102,15 @@ const ApproveModal = ({
   onConfirm: (details: OrderDetails) => void;
   onCancel: () => void;
 }) => {
+  const hasZeroPrice: boolean = quote.items.some((item) => item.price === 0);
   const [form, setForm] = useState<OrderDetails>({
     deliveryDate: "",
     deliveryType: "DELIVERY", // 👈
     customPalletCost: "",
+    hasCustomPallets: hasZeroPrice,
     street: "", // 👈
     city: "", // 👈
-    state: "", // 👈
+    state: "TX", // 👈
     zipCode: "", // 👈
     taxExempt: true, // 👈 true por default ya que la mayoría son exentos
     taxRate: "", // 👈
@@ -258,7 +261,16 @@ const ApproveModal = ({
                     }
                     className={inputClass}
                   />
-                  <input
+                  <select
+                    onChange={(e) =>
+                      setForm((prev) => ({ ...prev, state: e.target.value }))
+                    }
+                  >
+                    <option value={form.state}>Texas</option>
+                    <option value={form.state}>Oklahoma</option>
+                    <option value={form.state}>Arkansas</option>
+                  </select>
+                  {/* <input
                     type="text"
                     placeholder="State"
                     maxLength={2}
@@ -267,7 +279,7 @@ const ApproveModal = ({
                       setForm((prev) => ({ ...prev, state: e.target.value }))
                     }
                     className={`${inputClass} uppercase`}
-                  />
+                  /> */}
                   <input
                     type="text"
                     placeholder="ZIP"
@@ -374,7 +386,8 @@ const ApproveModal = ({
               !form.deliveryDate ||
               (!form.taxExempt && !form.taxRate) ||
               (form.deliveryType === "DELIVERY" &&
-                (!form.street || !form.city || !form.state || !form.zipCode))
+                (!form.street || !form.city || !form.state || !form.zipCode)) ||
+              (form.hasCustomPallets && !form.customPalletCost)
             }
             onClick={() => onConfirm(form)}
             className="px-5 py-2 text-sm font-medium rounded-lg bg-green-600 text-white hover:bg-green-700 disabled:opacity-40 disabled:cursor-not-allowed transition"

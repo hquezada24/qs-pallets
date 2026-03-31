@@ -17,8 +17,6 @@ const Orders = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  console.log(orders);
-
   const orderColumns = [
     { key: "orderNumber", header: "Order #" },
     { key: "customerName", header: "Name" },

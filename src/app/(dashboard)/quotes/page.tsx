@@ -26,7 +26,6 @@ const Quotes = () => {
     },
     { key: "fullName", header: "Client" },
     { key: "companyName", header: "Company" },
-    { key: "email", header: "Email" },
     {
       key: "phone",
       header: "Phone",

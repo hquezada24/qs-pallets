@@ -11,7 +11,9 @@ export const GET = async (
 
     await connectDB();
 
-    const quote = await Quote.findById(id).select("-__v -updatedAt");
+    const quote = await Quote.findOne({ quoteNumber: id }).select(
+      "-__v -updatedAt",
+    );
 
     return new Response(JSON.stringify({ quote }), {
       status: 200,
