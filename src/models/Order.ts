@@ -1,48 +1,14 @@
 import { Schema, model, models } from "mongoose";
-import { Types } from "mongoose";
 import { Model } from "mongoose";
-import { Dimensions } from "@/types/quote";
+import { IOrder, IPayment } from "@/types/order";
 
-interface Item {
-  id: Types.ObjectId;
-  name: string;
-  price: number;
-  quantity: number;
-}
-
-export interface IOrder {
-  orderNumber: string;
-  quote: {
-    id: Types.ObjectId;
-    quoteNumber: string;
-    customDimensions: Dimensions;
-  };
-  items: Item[];
-  customer: {
-    id: Types.ObjectId;
-    name: string;
-    companyName?: string;
-    phone: string;
-    email: string;
-  };
-
-  delivery?: {
-    id: Types.ObjectId;
-    type: "DELIVERY" | "PICKUP";
-    street: string;
-    city: string;
-    state: string;
-    zipCode: string;
-    scheduledDate: Date;
-  };
-
-  subtotal: Number;
-  tax: Number;
-  total: Number;
-  status: "PENDING" | "DELIVERED" | "CANCELLED";
-  notes: String;
-  createdAt?: Date;
-}
+const paymentSchema = new Schema<IPayment>({
+  amount: { type: Number, required: true },
+  method: { type: String, enum: ["cash", "transfer", "check", "other"] },
+  reference: { type: String, default: "" },
+  notes: { type: String, default: "" },
+  paidAt: { type: Date, default: Date.now },
+});
 
 const OrderSchema = new Schema<IOrder>(
   {
@@ -106,6 +72,13 @@ const OrderSchema = new Schema<IOrder>(
     },
 
     notes: String,
+    paymentStatus: {
+      type: String,
+      enum: ["pending", "partial", "paid"],
+      default: "pending",
+    },
+    payments: [paymentSchema], // array embebido
+    amountPaid: { type: Number, default: 0 },
   },
   {
     timestamps: true,

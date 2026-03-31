@@ -1,14 +1,5 @@
 import { Schema, model, models } from "mongoose";
-
-interface IProduct {
-  name: string;
-  index_page_description: string;
-  description: string;
-  price: number;
-  imageURL?: string[];
-  icon: string;
-  isCustom: boolean;
-}
+import { IProduct } from "@/types/product";
 
 const ProductSchema = new Schema<IProduct>(
   {
@@ -32,7 +23,6 @@ const ProductSchema = new Schema<IProduct>(
     imageURL: {
       type: [String],
       default: [],
-      required: false,
     },
     icon: {
       type: String,
@@ -43,6 +33,8 @@ const ProductSchema = new Schema<IProduct>(
       required: true,
       default: false,
     },
+    stockTotal: { type: Number, default: 0 },
+    stockReserved: { type: Number, default: 0 },
   },
   {
     timestamps: true,
