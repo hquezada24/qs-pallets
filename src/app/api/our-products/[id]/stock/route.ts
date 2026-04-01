@@ -15,7 +15,8 @@ export const PATCH = async (
     await Product.updateOne(
       { _id: id },
       {
-        $set: { stockTotal: body.quantity, notes: body.notes },
+        $set: { notes: body.notes },
+        $inc: { stockTotal: body.quantity },
         $currentDate: { lastModified: true },
       },
     );

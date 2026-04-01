@@ -4,6 +4,7 @@ import Form from "@/components/Form";
 import { apiRequest } from "@/lib/apiRequest";
 import { useState, useEffect } from "react";
 import { Product } from "@/types/product";
+import { useApiQuery } from "@/hooks/useApiQuery";
 import TableSkeleton from "@/components/TableSkeleton";
 import StockModal from "@/components/StockModal";
 
@@ -12,11 +13,17 @@ type ProductsResponse = {
 };
 
 const Products = () => {
-  const [products, setProducts] = useState<ProductsResponse | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
+  const {
+    data: products,
+    loading,
+    error,
+    refetch,
+  } = useApiQuery<ProductsResponse>("/api/our-products", {
+    deps: [submitStatus],
+    enabled: true,
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [form, setForm] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
@@ -54,7 +61,12 @@ const Products = () => {
       render: (_: unknown, row: Product) =>
         !row.isCustom ? (
           <div className="flex justify-center w-full">
-            <button onClick={() => setSelectedProduct(row)}>+</button>
+            <button
+              className="w-7 h-7 flex items-center justify-center rounded-full bg-green-50 text-green-600 font-bold text-lg hover:bg-green-100 hover:text-green-700 transition-colors duration-150 cursor-pointer"
+              onClick={() => setSelectedProduct(row)}
+            >
+              +
+            </button>
           </div>
         ) : (
           <div className="flex justify-center w-full">—</div>
@@ -62,30 +74,7 @@ const Products = () => {
     },
   ];
 
-  async function fetchProducts() {
-    try {
-      setLoading(true);
-      setError(null);
-
-      const res = await apiRequest("/api/our-products");
-
-      if (!res.ok) {
-        throw new Error("Failed to fetch data");
-      }
-
-      const data: ProductsResponse = await res.json();
-
-      setProducts(data);
-    } catch (error) {
-      setError(error.message);
-      console.error("Product fetching error: ", error.message);
-    } finally {
-      setLoading(false);
-    }
-  }
-
   useEffect(() => {
-    fetchProducts();
     if (!submitStatus) return;
 
     const delay = submitStatus === "success" ? 1500 : 4000;
@@ -122,8 +111,9 @@ const Products = () => {
           <StockModal
             product={selectedProduct}
             onClose={() => setSelectedProduct(null)}
-            onSuccess={() => {
+            onSuccess={async () => {
               setSelectedProduct(null);
+              await refetch();
               // refreshProducts(); // o router.refresh() si usas Server Components
             }}
           />

@@ -1,49 +1,27 @@
 "use client";
 import Form from "@/components/Form";
 import Table from "@/components/Table";
-import { apiRequest } from "@/lib/apiRequest";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { User } from "@/types/user";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useApiQuery } from "@/hooks/useApiQuery";
 
 type UsersResponse = {
   users: User[];
 };
 
 const Users = () => {
-  const [users, setUsers] = useState<UsersResponse | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
   const { data: session, status } = useSession();
   const router = useRouter();
-
-  async function fetchUsers() {
-    try {
-      setLoading(true);
-      setError(null);
-
-      const res = await apiRequest("/api/users");
-
-      if (!res.ok) {
-        throw new Error("Failed to fetch data");
-      }
-
-      const data: UsersResponse = await res.json();
-      setUsers(data);
-    } catch (error) {
-      setError(error.message);
-      console.error("User fetching error: ", error.message);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  useEffect(() => {
-    fetchUsers();
-  }, [submitStatus]);
+  const { data: users, loading, error } = useApiQuery<UsersResponse>(
+    "/api/users",
+    {
+      deps: [submitStatus],
+    },
+  );
 
   console.log(users);
 
@@ -88,8 +66,13 @@ const Users = () => {
             <p className="text-red-500">Failed to fetch users: {error}</p>
           )}
 
-          {!loading && !error && (
-            <Table title={"Users"} columns={userColumns} data={users.users} />
+          {!loading && !error && users && (
+            <Table
+              title={"Users"}
+              columns={userColumns}
+              data={users.users}
+              keyField="_id"
+            />
           )}
         </div>
         <div className="users-">

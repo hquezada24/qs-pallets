@@ -24,8 +24,6 @@ export default function Table<T>({
     No: "",
   };
 
-  console.log(data);
-
   const hoverClass = hoverStyle[hover];
   return (
     <>
@@ -37,7 +35,7 @@ export default function Table<T>({
               {columns.map((col) => (
                 <th
                   key={col.key}
-                  className="text-left px-4 py-3 font-medium text-gray-600"
+                  className="text-center px-4 py-3 font-medium text-gray-600"
                 >
                   {col.header}
                 </th>
@@ -52,7 +50,10 @@ export default function Table<T>({
                 className={`border-b border-gray-100 ${hoverClass} transition`}
               >
                 {columns.map((col) => (
-                  <td key={col.key} className="px-4 py-3 text-gray-800">
+                  <td
+                    key={col.key}
+                    className="px-4 py-3 text-gray-800 text-center"
+                  >
                     {col.render ? col.render(row[col.key], row) : row[col.key]}
                   </td>
                 ))}
