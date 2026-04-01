@@ -5,6 +5,7 @@ import { apiRequest } from "@/lib/apiRequest";
 import { useState, useEffect } from "react";
 import { Product } from "@/types/product";
 import TableSkeleton from "@/components/TableSkeleton";
+import StockModal from "@/components/StockModal";
 
 type ProductsResponse = {
   products: Product[];
@@ -17,6 +18,7 @@ const Products = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
   const [form, setForm] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   const FormData = [
     { key: "name", label: "Name", type: "text" },
@@ -38,9 +40,26 @@ const Products = () => {
 
   const orderColumns = [
     { key: "name", header: "Name" },
-    { key: "price", header: "Price" },
+    {
+      key: "price",
+      header: "Price",
+      render: (value: number) => `$${value.toFixed(2)}`,
+    },
     { key: "icon", header: "Icon" },
-    { key: "see", header: "" },
+    { key: "stockTotal", header: "Available" },
+    { key: "stockReserved", header: "Reserved" },
+    {
+      key: "",
+      header: "Add Stock",
+      render: (_: unknown, row: Product) =>
+        !row.isCustom ? (
+          <div className="flex justify-center w-full">
+            <button onClick={() => setSelectedProduct(row)}>+</button>
+          </div>
+        ) : (
+          <div className="flex justify-center w-full">—</div>
+        ),
+    },
   ];
 
   async function fetchProducts() {
@@ -97,6 +116,16 @@ const Products = () => {
             columns={orderColumns}
             data={products.products}
             keyField={"name"}
+          />
+        )}
+        {selectedProduct && (
+          <StockModal
+            product={selectedProduct}
+            onClose={() => setSelectedProduct(null)}
+            onSuccess={() => {
+              setSelectedProduct(null);
+              // refreshProducts(); // o router.refresh() si usas Server Components
+            }}
           />
         )}
       </div>

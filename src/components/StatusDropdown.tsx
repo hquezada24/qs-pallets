@@ -3,7 +3,7 @@ import { IQuote } from "@/types/quote";
 import { useState, useEffect, useRef } from "react";
 import { apiRequest } from "@/lib/apiRequest";
 import { useParams } from "next/navigation";
-import { IOrder } from "@/models/Order";
+import { IOrder } from "@/types/order";
 
 interface QuoteData extends IQuote {
   _id: string;
@@ -65,10 +65,12 @@ const StatusDropdown = ({
   type,
   current,
   setPendingStatus,
+  resourceId,
 }: {
   type: "quote" | "order";
   current: QuoteData["status"] | IOrder["status"];
   setPendingStatus?: React.Dispatch<React.SetStateAction<boolean>>;
+  resourceId?: string;
 }) => {
   const [open, setOpen] = useState(false);
   const [error, setError] = useState(null);
@@ -79,7 +81,9 @@ const StatusDropdown = ({
   const ref = useRef<HTMLDivElement>(null);
   const params = useParams();
 
-  const id = typeof params.id === "string" ? params.id : (params.id?.[0] ?? "");
+  const id =
+    resourceId ||
+    (typeof params.id === "string" ? params.id : (params.id?.[0] ?? ""));
 
   const handleStatusChange = async (
     newStatus: QuoteData["status"] | IOrder["status"],
@@ -88,6 +92,10 @@ const StatusDropdown = ({
     setLoading(true);
     setError(null);
     try {
+      if (!id) {
+        throw new Error("Missing resource id");
+      }
+
       const res = await apiRequest(
         `/api/${type === "quote" ? "quotes" : "orders"}/${id}/status`,
         {
@@ -95,6 +103,10 @@ const StatusDropdown = ({
           body: JSON.stringify({ status: newStatus }),
         },
       );
+
+      if (!res.ok) {
+        throw new Error(`Failed to update status: ${res.status}`);
+      }
 
       const data: StatusResponse = await res.json();
 

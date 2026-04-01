@@ -35,7 +35,9 @@ export const GET = async (req: NextRequest) => {
   try {
     await connectDB();
 
-    const products = await Product.find().select("name price icon isCustom");
+    const products = await Product.find().select(
+      "_id name price icon isCustom isMadeToOrder stockTotal stockReserved",
+    );
 
     return new Response(JSON.stringify({ products }), {
       status: 200,

@@ -24,6 +24,8 @@ export default function Table<T>({
     No: "",
   };
 
+  console.log(data);
+
   const hoverClass = hoverStyle[hover];
   return (
     <>

@@ -12,6 +12,8 @@ export const PATCH = async (
 
     await connectDB();
 
+    console.log(body);
+
     await Order.updateOne(
       { orderNumber: id },
       {

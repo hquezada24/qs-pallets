@@ -20,8 +20,23 @@ const Orders = () => {
   const orderColumns = [
     { key: "orderNumber", header: "Order #" },
     { key: "customerName", header: "Name" },
-    { key: "phone", header: "Phone" },
-    { key: "deliveryType", header: "Delivery Type" },
+    {
+      key: "phone",
+      header: "Phone",
+      render: (value: string) =>
+        value ? `${value.replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3")}` : "",
+    },
+    {
+      key: "deliveryType",
+      header: "Delivery Type",
+      render: (value: "DELIVERY" | "PICKUP") => {
+        return (
+          (value === "PICKUP" ? "📍 " : "🚚 ") +
+          value.charAt(0).toUpperCase() +
+          value.slice(1).toLowerCase()
+        );
+      },
+    },
     {
       key: "total",
       header: "Total",
@@ -30,8 +45,15 @@ const Orders = () => {
     {
       key: "status",
       header: "Status",
-      render: (value: "PENDING" | "DELIVERED" | "CANCELLED") => (
-        <StatusDropdown type="order" current={value} />
+      render: (
+        value: "PENDING" | "DELIVERED" | "CANCELLED",
+        row: Order,
+      ) => (
+        <StatusDropdown
+          type="order"
+          current={value}
+          resourceId={row.orderNumber}
+        />
       ),
     },
     {
@@ -73,8 +95,6 @@ const Orders = () => {
   useEffect(() => {
     fetchOrders();
   }, []);
-
-  console.log(orders);
 
   return (
     <div className="min-h-screen bg-gray-50 px-6 py-10 flex flex-col items-center gap-8">

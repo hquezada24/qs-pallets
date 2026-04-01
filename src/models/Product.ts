@@ -33,8 +33,10 @@ const ProductSchema = new Schema<IProduct>(
       required: true,
       default: false,
     },
+    isMadeToOrder: { type: Boolean, default: false },
     stockTotal: { type: Number, default: 0 },
     stockReserved: { type: Number, default: 0 },
+    notes: { type: String },
   },
   {
     timestamps: true,

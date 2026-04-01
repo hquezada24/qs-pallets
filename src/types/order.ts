@@ -7,6 +7,7 @@ export type Order = {
   customer: Types.ObjectId;
   address: Types.ObjectId;
   quantity: Number;
+  orderNumber: string;
 };
 
 interface Item {
