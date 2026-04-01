@@ -43,70 +43,53 @@ const DashboardHome = () => {
   const percentageChange =
     ((currentMonthTotal - lastMonthTotal) / lastMonthTotal) * 100;
   return (
-    <>
-      <style>{`
-   
+    <div className="min-h-screen bg-gray-50 py-8 px-4">
+      {/* Nav Pills */}
+      <div className="flex justify-center gap-3 mb-8 flex-wrap">
+        <DashboardNav bg={"blue"} text={"Orders"} link={"/orders"} />
+        <DashboardNav bg={"red"} text={"Quotes"} link={"/quotes"} />
+        <DashboardNav bg={"green"} text={"Inventory"} link={"/our-products"} />
+        <DashboardNav bg={"yellow"} text={"Customers"} link={"/customers"} />
+      </div>
 
-.card {
-  background: white;
-  border-radius: 12px;
-  padding: 1.25rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-}
-
-/* Desktop layout */
-@media (min-width: 1024px) {
-  .dashboard-grid {
-    grid-template-columns: 2fr 1fr;
-  }
-
-  .chart {
-    grid-column: 1 / 2;
-  }
-
-  .table {
-    grid-column: 2 / 3;
-  } 
-}
-    `}</style>
-      <div className="items-center py-8 space-y-5">
-        <div className="nav-options flex justify-evenly">
-          <DashboardNav bg={"blue"} text={"Orders"} link={"/orders"} />
-          <DashboardNav bg={"red"} text={"Quotes"} link={"/quotes"} />
-          <DashboardNav
-            bg={"green"}
-            text={"Inventory"}
-            link={"/our-products"}
-          />
-          <DashboardNav bg={"yellow"} text={"Customers"} link={"/customers"} />
-        </div>
-        <div
-          className="grid gap-6 p-4 bg-gray-200 
-                grid-cols-1 
-                lg:grid-cols-[2fr_1fr] px-4"
-        >
+      {/* Main Grid */}
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-6">
+        {/* Chart Card */}
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
           <DashboardHomeGraph />
-          <div className="card table">
-            <Table
-              title={"Sales This Month"}
-              columns={orderColumns}
-              data={orderData}
-            />
-            <p className="text-lg font-bold text-gray-900">
-              Month total ${currentMonthTotal.toLocaleString()}
+        </div>
+
+        {/* Sales Summary Card */}
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 flex flex-col gap-4">
+          <Table
+            title={"Sales This Month"}
+            columns={orderColumns}
+            data={orderData}
+            keyField="id"
+          />
+
+          {/* Footer stats */}
+          <div className="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between">
+            <p className="text-base font-semibold text-gray-800">
+              ${currentMonthTotal.toLocaleString()}
+              <span className="block text-xs font-normal text-gray-400">
+                Month total
+              </span>
             </p>
-            <div
-              className={`text-sm font-medium ${
-                percentageChange >= 0 ? "text-green-600" : "text-red-600"
+            <span
+              className={`inline-flex items-center gap-1 text-sm font-semibold px-3 py-1 rounded-full ${
+                percentageChange >= 0
+                  ? "bg-green-50 text-green-600"
+                  : "bg-red-50 text-red-600"
               }`}
             >
-              {percentageChange >= 0 ? "▲" : "▼"}{" "}
-              {Math.abs(percentageChange).toFixed(0)}% from last month
-            </div>
+              {percentageChange >= 0 ? "▲" : "▼"}
+              {Math.abs(percentageChange).toFixed(0)}% vs last month
+            </span>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
