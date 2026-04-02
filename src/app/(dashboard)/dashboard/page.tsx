@@ -1,27 +1,23 @@
 import DashboardNav from "@/components/DashboardNav";
 import DashboardHomeGraph from "@/components/DashboardHomeGraph";
 import SalesSummaryCard from "@/components/SalesSummaryCard";
+import connectDB from "@/config/database";
 import Order from "@/models/Order";
 import { IOrder } from "@/types/order";
 
-const orderColumns = [
-  { key: "orderNumber", header: "Orden #" },
-  { key: "name", header: "Cliente" },
-  { key: "companyName", header: "Company" },
-  {
-    key: "total",
-    header: "Total",
-    render: (value) => `$${value.toLocaleString()}`,
-  },
-];
-
-const orderData = [
-  { id: 101, customer: "Juan Pérez", total: 1500, status: "Pagado" },
-  { id: 102, customer: "Empresa XYZ", total: 2300, status: "Pendiente" },
-];
-
 const DashboardHome = async () => {
-  const orders: IOrder[] = await Order.find({ status: "DELIVERED" })
+  await connectDB();
+  const now = new Date();
+
+  const lastMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+  const currentMonthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+
+  const orders: IOrder[] = await Order.find({
+    status: "DELIVERED",
+    deliveredAt: {
+      $gte: currentMonthStart,
+    },
+  })
     .populate("customer")
     .lean();
 
@@ -32,11 +28,6 @@ const DashboardHome = async () => {
     companyName: order.customer?.companyName,
     total: order.total,
   }));
-
-  const now = new Date();
-
-  const lastMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1);
-  const currentMonthStart = new Date(now.getFullYear(), now.getMonth(), 1);
 
   const lastMonthEnd = new Date(
     now.getFullYear(),
@@ -49,15 +40,15 @@ const DashboardHome = async () => {
 
   const lastMonthSales = await Order.find({
     status: "DELIVERED",
-    createdAt: {
+    deliveredAt: {
       $gte: lastMonthStart,
       $lte: lastMonthEnd,
     },
   }).lean();
 
   const currentMonthSales = await Order.find({
-    status: "delivered",
-    createdAt: {
+    status: "DELIVERED",
+    deliveredAt: {
       $gte: currentMonthStart,
     },
   }).lean();
@@ -71,9 +62,6 @@ const DashboardHome = async () => {
     (acc, item) => acc + item.total,
     0,
   );
-
-  console.log("Last Month: ", lastMonthTotal);
-  console.log("Current Month: ", currentMonthTotal);
 
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4">
@@ -89,12 +77,16 @@ const DashboardHome = async () => {
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-6">
         {/* Chart Card */}
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-          <DashboardHomeGraph />
+          <DashboardHomeGraph sales={currentMonthSales} />
         </div>
 
         {/* Sales Summary Card */}
 
-        <SalesSummaryCard sales={ordersObj} lastMonthSales={lastMonthTotal} />
+        <SalesSummaryCard
+          sales={ordersObj}
+          currentMonthTotal={currentMonthTotal}
+          lastMonthSales={lastMonthTotal}
+        />
       </div>
     </div>
   );

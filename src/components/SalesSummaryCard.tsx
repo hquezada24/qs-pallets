@@ -4,11 +4,10 @@ import Table from "./Table";
 const orderColumns = [
   { key: "orderNumber", header: "Orden #" },
   { key: "name", header: "Cliente" },
-  { key: "companyName", header: "Company" },
   {
     key: "total",
     header: "Total",
-    render: (value: number) => `$${value.toLocaleString()}`,
+    render: (value: number) => `$${value.toFixed(2)}`,
   },
 ];
 
@@ -22,24 +21,34 @@ interface Sales {
 interface SalesSummaryCardProps {
   sales: Sales[];
   lastMonthSales: number;
+  currentMonthTotal: number;
 }
 
 const SalesSummaryCard = ({
   sales,
+  currentMonthTotal,
   lastMonthSales = 0,
 }: SalesSummaryCardProps) => {
-  const currentMonthTotal = sales.reduce((acc, item) => acc + item.total, 0);
-
   const percentageChange =
-    ((currentMonthTotal - lastMonthSales) / lastMonthSales) * 100;
+    lastMonthSales === 0
+      ? null
+      : ((currentMonthTotal - lastMonthSales) / lastMonthSales) * 100;
+
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 flex flex-col gap-4">
-      <Table
-        title={"Sales This Month"}
-        columns={orderColumns}
-        data={sales}
-        keyField="id"
-      />
+      {sales.length === 0 ? (
+        <div className="flex flex-col items-center justify-center py-12 text-gray-400 gap-2">
+          <span className="text-4xl">📭</span>
+          <p className="text-sm font-medium">No sales this month</p>
+        </div>
+      ) : (
+        <Table
+          title={"Sales This Month"}
+          columns={orderColumns}
+          data={sales}
+          keyField="id"
+        />
+      )}
 
       {/* Footer stats */}
       <div className="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between">
@@ -49,16 +58,20 @@ const SalesSummaryCard = ({
             Month total
           </span>
         </p>
-        <span
-          className={`inline-flex items-center gap-1 text-sm font-semibold px-3 py-1 rounded-full ${
-            percentageChange > 0
-              ? "bg-green-50 text-green-600"
-              : "bg-red-50 text-red-600"
-          }`}
-        >
-          {percentageChange >= 0 ? "▲" : "▼"}
-          {Math.abs(percentageChange).toFixed(0)}% vs last month
-        </span>
+        {percentageChange === null ? (
+          <span className="text-xs text-gray-400">No data from last month</span>
+        ) : (
+          <span
+            className={`inline-flex items-center gap-1 text-sm font-semibold px-3 py-1 rounded-full ${
+              percentageChange > 0
+                ? "bg-green-50 text-green-600"
+                : "bg-red-50 text-red-600"
+            }`}
+          >
+            {percentageChange >= 0 ? "+" : "-"}
+            {Math.abs(percentageChange).toFixed(0)}% vs last month
+          </span>
+        )}
       </div>
     </div>
   );

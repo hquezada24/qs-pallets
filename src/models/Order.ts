@@ -71,6 +71,10 @@ const OrderSchema = new Schema<IOrder>(
       default: "PENDING",
     },
 
+    deliveredAt: { type: Date, default: null },
+    cancelledAt: { type: Date, default: null },
+    cancellationReason: { type: String, default: "" },
+
     notes: String,
     paymentStatus: {
       type: String,

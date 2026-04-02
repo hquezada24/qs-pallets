@@ -10,7 +10,11 @@ interface QuoteData extends IQuote {
 }
 
 type StatusResponse = {
-  status: {
+  status?: {
+    _id: string;
+    status: "PENDING" | "APPROVED" | "SOLVED" | "DELIVERED" | "CANCELLED";
+  };
+  updated?: {
     _id: string;
     status: "PENDING" | "APPROVED" | "SOLVED" | "DELIVERED" | "CANCELLED";
   };
@@ -81,6 +85,11 @@ const StatusDropdown = ({
   const ref = useRef<HTMLDivElement>(null);
   const params = useParams();
 
+  useEffect(() => {
+    setStatus(current);
+    setError(null);
+  }, [current]);
+
   const id =
     resourceId ||
     (typeof params.id === "string" ? params.id : (params.id?.[0] ?? ""));
@@ -109,10 +118,15 @@ const StatusDropdown = ({
       }
 
       const data: StatusResponse = await res.json();
+      const nextStatus = data.status?.status ?? data.updated?.status;
 
-      setStatus(data.status.status);
+      if (!nextStatus) {
+        throw new Error("Missing status in response");
+      }
 
-      if (data.status.status === "APPROVED") {
+      setStatus(nextStatus);
+
+      if (nextStatus === "APPROVED") {
         setPendingStatus(true);
       }
     } catch {

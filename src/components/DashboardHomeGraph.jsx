@@ -20,7 +20,7 @@ const data = [
   { name: "28", day: 250 },
 ];
 
-const DashboardHomeGraph = () => {
+const DashboardHomeGraph = ({ sales }) => {
   return (
     // <div
     //   style={{ width: "100%", height: 400 }}

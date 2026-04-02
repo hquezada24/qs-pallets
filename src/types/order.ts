@@ -58,6 +58,9 @@ export interface IOrder {
   status: "PENDING" | "DELIVERED" | "CANCELLED";
   notes: string;
   createdAt?: Date;
+  deliveredAt: Date;
+  cancelledAt: Date;
+  cancellationReason: string;
   paymentStatus: "pending" | "partial" | "paid";
   payments: IPayment[]; // array embebido
   amountPaid: number;

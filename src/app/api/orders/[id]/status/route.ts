@@ -9,22 +9,36 @@ export const PATCH = async (
   try {
     const { id } = await params;
     const body = await req.json();
+    const { status } = body;
 
     await connectDB();
 
-    console.log(body);
+    const $set: Record<string, unknown> = { status };
+    const $unset: Record<string, 1> = {};
+
+    if (status === "DELIVERED") {
+      $set.deliveredAt = new Date();
+      $unset.cancelledAt = 1;
+    } else if (status === "CANCELLED") {
+      $set.cancelledAt = new Date();
+      $unset.deliveredAt = 1;
+    } else if (status === "PENDING") {
+      // Reverting — clear both dates
+      $unset.deliveredAt = 1;
+      $unset.cancelledAt = 1;
+    }
 
     await Order.updateOne(
       { orderNumber: id },
       {
-        $set: { status: body.status },
-        $currentDate: { lastModified: true },
+        $set,
+        ...(Object.keys($unset).length > 0 && { $unset }),
       },
     );
 
-    const status = await Order.findOne({ orderNumber: id }).select("status");
+    const updated = await Order.findOne({ orderNumber: id }).select("status");
 
-    return new Response(JSON.stringify({ status }), {
+    return new Response(JSON.stringify({ updated }), {
       status: 200,
     });
   } catch (error) {
@@ -45,7 +59,7 @@ export const GET = async (
 
     await connectDB();
 
-    const status = await Order.findById(id).select("status");
+    const status = await Order.findOne({ orderNumber: id }).select("status");
 
     return new Response(JSON.stringify({ status }), {
       status: 200,
