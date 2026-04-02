@@ -1,29 +1,17 @@
 import DashboardNav from "@/components/DashboardNav";
 import DashboardHomeGraph from "@/components/DashboardHomeGraph";
-import Table from "@/components/Table";
+import SalesSummaryCard from "@/components/SalesSummaryCard";
+import Order from "@/models/Order";
+import { IOrder } from "@/types/order";
 
 const orderColumns = [
-  { key: "id", header: "Orden #" },
-  { key: "customer", header: "Cliente" },
+  { key: "orderNumber", header: "Orden #" },
+  { key: "name", header: "Cliente" },
+  { key: "companyName", header: "Company" },
   {
     key: "total",
     header: "Total",
     render: (value) => `$${value.toLocaleString()}`,
-  },
-  {
-    key: "status",
-    header: "Estado",
-    render: (value) => (
-      <span
-        className={`px-2 py-1 rounded-full text-xs font-medium ${
-          value === "Pagado"
-            ? "bg-green-100 text-green-700"
-            : "bg-yellow-100 text-yellow-700"
-        }`}
-      >
-        {value}
-      </span>
-    ),
   },
 ];
 
@@ -32,16 +20,61 @@ const orderData = [
   { id: 102, customer: "Empresa XYZ", total: 2300, status: "Pendiente" },
 ];
 
-const DashboardHome = () => {
-  const currentMonthTotal = orderData.reduce(
+const DashboardHome = async () => {
+  const orders: IOrder[] = await Order.find({ status: "DELIVERED" })
+    .populate("customer")
+    .lean();
+
+  const ordersObj = orders.map((order) => ({
+    // customer flatten
+    orderNumber: order.orderNumber,
+    name: order.customer?.name,
+    companyName: order.customer?.companyName,
+    total: order.total,
+  }));
+
+  const now = new Date();
+
+  const lastMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+  const currentMonthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+
+  const lastMonthEnd = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    0,
+    23,
+    59,
+    59,
+  );
+
+  const lastMonthSales = await Order.find({
+    status: "DELIVERED",
+    createdAt: {
+      $gte: lastMonthStart,
+      $lte: lastMonthEnd,
+    },
+  }).lean();
+
+  const currentMonthSales = await Order.find({
+    status: "delivered",
+    createdAt: {
+      $gte: currentMonthStart,
+    },
+  }).lean();
+
+  const lastMonthTotal = lastMonthSales.reduce(
     (acc, item) => acc + item.total,
     0,
   );
 
-  const lastMonthTotal = 5200; // ejemplo real vendría del backend
+  const currentMonthTotal = currentMonthSales.reduce(
+    (acc, item) => acc + item.total,
+    0,
+  );
 
-  const percentageChange =
-    ((currentMonthTotal - lastMonthTotal) / lastMonthTotal) * 100;
+  console.log("Last Month: ", lastMonthTotal);
+  console.log("Current Month: ", currentMonthTotal);
+
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4">
       {/* Nav Pills */}
@@ -60,34 +93,8 @@ const DashboardHome = () => {
         </div>
 
         {/* Sales Summary Card */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 flex flex-col gap-4">
-          <Table
-            title={"Sales This Month"}
-            columns={orderColumns}
-            data={orderData}
-            keyField="id"
-          />
 
-          {/* Footer stats */}
-          <div className="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between">
-            <p className="text-base font-semibold text-gray-800">
-              ${currentMonthTotal.toLocaleString()}
-              <span className="block text-xs font-normal text-gray-400">
-                Month total
-              </span>
-            </p>
-            <span
-              className={`inline-flex items-center gap-1 text-sm font-semibold px-3 py-1 rounded-full ${
-                percentageChange >= 0
-                  ? "bg-green-50 text-green-600"
-                  : "bg-red-50 text-red-600"
-              }`}
-            >
-              {percentageChange >= 0 ? "▲" : "▼"}
-              {Math.abs(percentageChange).toFixed(0)}% vs last month
-            </span>
-          </div>
-        </div>
+        <SalesSummaryCard sales={ordersObj} lastMonthSales={lastMonthTotal} />
       </div>
     </div>
   );

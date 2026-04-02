@@ -126,9 +126,13 @@ export const POST = async (req: NextRequest) => {
 
 export const GET = async (req: NextRequest) => {
   try {
+    const status = req.nextUrl.searchParams.get("status");
+
+    const query = status ? { status } : {};
+
     await connectDB();
 
-    const ordersObj = await Order.find().populate("customer").lean();
+    const ordersObj = await Order.find(query).populate("customer").lean();
 
     const orders = ordersObj.map((order) => ({
       // customer flatten

@@ -6,7 +6,7 @@ export type Order = {
   product: Types.ObjectId;
   customer: Types.ObjectId;
   address: Types.ObjectId;
-  quantity: Number;
+  quantity: number;
   orderNumber: string;
 };
 
@@ -52,13 +52,13 @@ export interface IOrder {
     scheduledDate: Date;
   };
 
-  subtotal: Number;
-  tax: Number;
-  total: Number;
+  subtotal: number;
+  tax: number;
+  total: number;
   status: "PENDING" | "DELIVERED" | "CANCELLED";
-  notes: String;
+  notes: string;
   createdAt?: Date;
   paymentStatus: "pending" | "partial" | "paid";
   payments: IPayment[]; // array embebido
-  amountPaid: Number;
+  amountPaid: number;
 }
