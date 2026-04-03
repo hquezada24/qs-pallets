@@ -16,7 +16,14 @@ export default function LogoutButton() {
   };
 
   return (
-    <button className="logout-btn" onClick={handleLogout}>
+    <button
+      className="flex items-center justify-center gap-2 w-full px-4 py-2 rounded-lg
+             text-green-200 text-sm font-medium
+             hover:bg-white/10 hover:text-white
+             active:bg-white/20
+             transition-colors duration-150"
+      onClick={handleLogout}
+    >
       <svg
         viewBox="0 0 24 24"
         fill="none"
@@ -24,7 +31,7 @@ export default function LogoutButton() {
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
-        style={{ width: 16, height: 16 }}
+        className="w-4 h-4 shrink-0"
       >
         <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
         <polyline points="16 17 21 12 16 7" />
