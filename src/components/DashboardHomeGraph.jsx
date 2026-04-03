@@ -10,38 +10,39 @@ import {
   Tooltip,
 } from "recharts";
 
-const data = [
-  { name: "1", day: 400 },
-  { name: "5", day: 200 },
-  { name: "10", day: 230 },
-  { name: "15", day: 200 },
-  { name: "20", day: 200 },
-  { name: "25", day: 200 },
-  { name: "28", day: 250 },
-];
+const TARGET_POINTS = 7;
+
+const buildMonthlySalesGraphData = (sales) => {
+  const today = new Date();
+  const currentDayOfMonth = today.getDate();
+  const totalPoints = Math.min(TARGET_POINTS, currentDayOfMonth);
+  const startDay = currentDayOfMonth - totalPoints + 1;
+
+  const salesByDay = sales.reduce((accumulator, order) => {
+    const deliveredDate = new Date(order.deliveredAt);
+    const dayOfMonth = deliveredDate.getDate();
+    const currentTotal = accumulator.get(dayOfMonth) || 0;
+
+    accumulator.set(dayOfMonth, currentTotal + Number(order.total || 0));
+
+    return accumulator;
+  }, new Map());
+
+  return Array.from(
+    { length: totalPoints },
+    (_, index) => startDay + index,
+  ).map((dayOfMonth) => ({
+    name: dayOfMonth.toString(),
+    day: Math.round(salesByDay.get(dayOfMonth) || 0),
+  }));
+};
 
 const DashboardHomeGraph = ({ sales }) => {
-  return (
-    // <div
-    //   style={{ width: "100%", height: 400 }}
-    //   className="bg-white py-8 px-8 rounded-[10px]"
-    // >
-    //   <LineChart
-    //     style={{ width: "100%", height: "100%" }}
-    //     responsive
-    //     className="bg-blue-200"
-    //     data={data}
-    //   >
-    //     <CartesianGrid />
-    //     <Line dataKey="day" />
-    //     <XAxis dataKey="name" interval={0} />
-    //     <YAxis />
-    //     <Legend />
-    //   </LineChart>
-    // </div>
+  const data = buildMonthlySalesGraphData(sales);
 
+  return (
     <div className="h-100 bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-      <h2 className="text-lg font-semibold mb-4">Monthly sales</h2>
+      <h2 className="text-lg font-semibold mb-4">Weekly sales</h2>
       <ResponsiveContainer width="100%" height="100%">
         <LineChart data={data}>
           <CartesianGrid
