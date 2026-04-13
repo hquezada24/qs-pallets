@@ -1,12 +1,7 @@
 import { Schema, model, models } from "mongoose";
 import { Model } from "mongoose";
-
-interface ICustomer {
-  fullName: string;
-  companyName?: string;
-  email: string;
-  phone: string;
-}
+import Address from "./Address";
+import { ICustomer } from "@/types/customer";
 
 const CustomerSchema = new Schema<ICustomer>(
   {
@@ -27,6 +22,10 @@ const CustomerSchema = new Schema<ICustomer>(
       type: String,
       unique: true,
       required: true,
+    },
+    addresses: {
+      type: [Address],
+      default: [],
     },
   },
   {

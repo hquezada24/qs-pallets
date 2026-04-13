@@ -1,7 +1,8 @@
 import { Schema, model, models } from "mongoose";
 import { Model } from "mongoose";
 
-interface IAddress {
+export interface IAddress {
+  _id?: string;
   street: string;
   city: string;
   state: "TX" | "AR" | "OK";
