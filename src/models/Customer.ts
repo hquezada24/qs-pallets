@@ -1,7 +1,31 @@
 import { Schema, model, models } from "mongoose";
 import { Model } from "mongoose";
-import Address from "./Address";
-import { ICustomer } from "@/types/customer";
+import { ICustomer, IAddress } from "@/types/customer";
+
+const AddressSchema = new Schema<IAddress>(
+  {
+    street: {
+      type: String,
+      required: true,
+    },
+    city: {
+      type: String,
+      required: true,
+    },
+    state: {
+      type: String,
+      enum: ["TX", "AR", "OK"],
+      required: true,
+    },
+    zipCode: {
+      type: String,
+      required: true,
+    },
+  },
+  {
+    timestamps: true,
+  },
+);
 
 const CustomerSchema = new Schema<ICustomer>(
   {
@@ -24,7 +48,7 @@ const CustomerSchema = new Schema<ICustomer>(
       required: true,
     },
     addresses: {
-      type: [Address],
+      type: [AddressSchema],
       default: [],
     },
   },
