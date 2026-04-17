@@ -25,6 +25,7 @@ export default function Table<T>({
   };
 
   const hoverClass = hoverStyle[hover];
+
   return (
     <>
       <h2 className="text-lg font-semibold mb-4 text-center">{title}</h2>
@@ -46,7 +47,7 @@ export default function Table<T>({
           <tbody>
             {data.map((row) => (
               <tr
-                key={String((row as Record<string, unknown>)[keyField])}
+                key={row.orderNumber}
                 className={`border-b border-gray-100 ${hoverClass} transition`}
               >
                 {columns.map((col) => (

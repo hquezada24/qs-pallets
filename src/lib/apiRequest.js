@@ -5,11 +5,14 @@ export async function apiRequest(url, options = {}) {
       ...options,
     });
 
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    if (!res.ok) {
+      const data = await res.json();
+      throw new Error(data.message || `Error ${res.status}`);
+    }
 
     return res;
   } catch (err) {
-    console.error("API Request error:", err);
+    console.error("apiRequest:", err);
     throw err;
   }
 }

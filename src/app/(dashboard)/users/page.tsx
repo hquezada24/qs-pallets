@@ -16,12 +16,13 @@ const Users = () => {
   const [submitStatus, setSubmitStatus] = useState(null);
   const { data: session, status } = useSession();
   const router = useRouter();
-  const { data: users, loading, error } = useApiQuery<UsersResponse>(
-    "/api/users",
-    {
-      deps: [submitStatus],
-    },
-  );
+  const {
+    data: users,
+    loading,
+    error,
+  } = useApiQuery<UsersResponse>("/api/users", {
+    deps: [submitStatus],
+  });
 
   console.log(users);
 
@@ -38,6 +39,7 @@ const Users = () => {
       key: "role",
       label: "Role",
       type: "select",
+      default: "employee",
       options: ["employee", "admin"],
     },
     { key: "password", label: "Password", type: "password" },
@@ -84,6 +86,7 @@ const Users = () => {
             <h3 className="text-green-500 ">User Created Successfully!</h3>
           )}
           <Form
+            products={false}
             inputs={FormData}
             setIsSubmitting={setIsSubmitting}
             setSubmitStatus={setSubmitStatus}

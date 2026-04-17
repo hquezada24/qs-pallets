@@ -15,24 +15,7 @@ export const POST = async (req: NextRequest) => {
 
     console.log(body);
 
-    // Fetch customer from DB
-    let customer = await Customer.findOne({
-      email: body.customer.email,
-    });
-
-    // Create and save Customer if it doesn't exist
-    if (!customer) {
-      const customerData = {
-        fullName: body.customer.name,
-        companyName: body.customer.companyName || "",
-        email: body.customer.email,
-        phone: body.customer.phone,
-      };
-      const newCustomer = await Customer.create(customerData);
-      customer = newCustomer;
-    }
-
-    // Fetch customer from DB
+    // Fetch address from DB
     let address = await Address.findOne({
       street: body.street,
       city: body.city,
@@ -40,7 +23,7 @@ export const POST = async (req: NextRequest) => {
       zipCode: body.zipCode,
     });
 
-    // Create and save Customer if it doesn't exist
+    // Create and save address if it doesn't exist
     if (!address && body.street && body.city && body.state && body.zipCode) {
       console.log("Creating address");
       const addressData = {
@@ -51,6 +34,24 @@ export const POST = async (req: NextRequest) => {
       };
       const newAddress = await Address.create(addressData);
       address = newAddress;
+    }
+
+    // Fetch customer from DB
+    let customer = await Customer.findOne({
+      email: body.email || body.customer.email,
+    });
+
+    // Create and save Customer if it doesn't exist
+    if (!customer) {
+      const customerData = {
+        fullName: body.name || body.customer.name,
+        companyName: body.companyName || body.customer.companyName || "",
+        email: body.email || body.customer.email,
+        phone: body.phone || body.customer.phone,
+        addresses: [address],
+      };
+      const newCustomer = await Customer.create(customerData);
+      customer = newCustomer;
     }
 
     const subtotal: string = body.items

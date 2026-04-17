@@ -53,6 +53,13 @@ const DashboardHome = async () => {
     },
   }).lean();
 
+  const currentMonthSalesGraph = currentMonthSales.map((order) => ({
+    total: Number(order.total ?? 0),
+    deliveredAt: order.deliveredAt
+      ? new Date(order.deliveredAt).toISOString()
+      : null,
+  }));
+
   const lastMonthTotal = lastMonthSales.reduce(
     (acc, item) => acc + item.total,
     0,
@@ -77,7 +84,7 @@ const DashboardHome = async () => {
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-6">
         {/* Chart Card */}
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-          <DashboardHomeGraph sales={currentMonthSales} />
+          <DashboardHomeGraph sales={currentMonthSalesGraph} />
         </div>
 
         {/* Sales Summary Card */}

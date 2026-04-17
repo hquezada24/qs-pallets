@@ -7,6 +7,10 @@ import { apiRequest } from "@/lib/apiRequest";
 import { Order } from "@/types/order";
 import TableSkeleton from "@/components/TableSkeleton";
 import StatusDropdown from "@/components/StatusDropdown";
+import Form from "@/components/Form";
+import { MdSearch } from "react-icons/md";
+import SearchCustomer from "@/components/SearchCustomer";
+import Toggle from "@/components/Toggle";
 
 type OrdersResponse = {
   orders: Order[];
@@ -16,6 +20,104 @@ const Orders = () => {
   const [orders, setOrders] = useState<OrdersResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [customer, setCustomer] = useState(null);
+  const [submitStatus, setSubmitStatus] = useState(null);
+  const [form, setForm] = useState(false);
+  const [taxRate, setTaxRate] = useState(false);
+  const [searchCustomer, setSearchCustomer] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const isEmpty = Object.keys(customer || {}).length === 0;
+
+  const FormData = [
+    // deliveryType: "DELIVERY", // 👈
+    // customPalletCost: "",
+    // hasCustomPallets: hasZeroPrice,
+    // street: "", // 👈
+    // city: "", // 👈
+    // state: "TX", // 👈
+    // zipCode: "", // 👈
+    // taxExempt: true, // 👈 true por default ya que la mayoría son exentos
+    // taxRate: "", // 👈
+    // tax: "",
+    !searchCustomer &&
+      isEmpty && { key: "name", label: "Full Name", type: "text" },
+    !searchCustomer &&
+      isEmpty && { key: "companyName", label: "Company Name", type: "text" },
+    !searchCustomer &&
+      isEmpty && { key: "phone", label: "Phone", type: "number" },
+    !searchCustomer &&
+      isEmpty && { key: "email", label: "Email", type: "email" },
+    // !searchCustomer &&
+    //   isEmpty && { key: "street", label: "Street", type: "text" },
+    // !searchCustomer && isEmpty && { key: "city", label: "City", type: "text" },
+    // !searchCustomer &&
+    //   isEmpty && {
+    //     key: "state",
+    //     label: "State",
+    //     type: "select",
+    //     options: [
+    //       { key: "TX", label: "TX", value: "TX" },
+    //       { key: "OK", label: "OK", value: "OK" },
+    //       { key: "AR", label: "AR", value: "AR" },
+    //     ],
+    //   },
+    // !searchCustomer &&
+    //   isEmpty && { key: "zipCode", label: "Zip Code", type: "text" },
+    { key: "deliveryDate", label: "Delivery Date", type: "date" },
+    {
+      key: "deliveryType",
+      label: "Delivery Type",
+      type: "select",
+      default: "PICKUP",
+      options: [
+        { key: "PICKUP", label: "Pickup", value: "PICKUP" },
+        { key: "DELIVERY", label: "Delivery", value: "DELIVERY" },
+      ],
+    },
+
+    {
+      key: "street",
+      label: "Street",
+      type: "comparison",
+      leftOperand: "deliveryType",
+      rightOperand: "DELIVERY",
+    },
+    {
+      key: "city",
+      label: "City",
+      type: "comparison",
+      leftOperand: "deliveryType",
+      rightOperand: "DELIVERY",
+    },
+    {
+      key: "state",
+      label: "State",
+      type: "comparison",
+      inputType: "select",
+      options: [
+        { key: "TX", label: "TX", value: "TX" },
+        { key: "OK", label: "OK", value: "OK" },
+        { key: "AR", label: "AR", value: "AR" },
+      ],
+      leftOperand: "deliveryType",
+      rightOperand: "DELIVERY",
+    },
+    {
+      key: "zipCode",
+      label: "Zip Code",
+      type: "comparison",
+      leftOperand: "deliveryType",
+      rightOperand: "DELIVERY",
+    },
+    { key: "notes", label: "Notes", type: "textarea" },
+    {
+      key: "taxRate",
+      label: "Tax Rate",
+      type: "number",
+      message: "Enter as decimal · TX: 0.0825 · NM: 0.05125",
+    },
+  ];
 
   const orderColumns = [
     { key: "orderNumber", header: "Order #" },
@@ -45,10 +147,7 @@ const Orders = () => {
     {
       key: "status",
       header: "Status",
-      render: (
-        value: "PENDING" | "DELIVERED" | "CANCELLED",
-        row: Order,
-      ) => (
+      render: (value: "PENDING" | "DELIVERED" | "CANCELLED", row: Order) => (
         <StatusDropdown
           type="order"
           current={value}
@@ -111,7 +210,113 @@ const Orders = () => {
           />
         )}
       </div>
-      <div className="users-"></div>
+      {/* Form section */}
+      <div className="w-full max-w-3xl flex flex-col items-center gap-4">
+        <button
+          className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white text-sm font-medium px-5 py-2.5 rounded-xl shadow-sm transition-all duration-150 cursor-pointer"
+          onClick={() => setForm(!form)}
+        >
+          {form ? (
+            <>
+              <span>✕</span> Close Form
+            </>
+          ) : (
+            <>
+              <span>＋</span> Create New Order
+            </>
+          )}
+        </button>
+
+        {/* Status messages */}
+        {submitStatus === "error" && (
+          <div className="w-full flex items-center gap-2 rounded-lg bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-600">
+            <span>✕</span>
+            <span>Could not register new order. Please try again.</span>
+          </div>
+        )}
+        {submitStatus === "success" && (
+          <div className="w-full flex items-center gap-2 rounded-lg bg-emerald-50 border border-emerald-200 px-4 py-3 text-sm text-emerald-700">
+            <span>✓</span>
+            <span>Order registered successfully!</span>
+          </div>
+        )}
+
+        {/* Form container */}
+        {form && (
+          <div className="w-full bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+            <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-widest mb-5">
+              New Order
+            </h2>
+            <div className="mt-4">
+              <div className="flex justify-center mb-4">
+                <button
+                  className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white text-sm font-medium px-5 py-2.5 rounded-xl shadow-sm transition-all duration-150 cursor-pointer"
+                  onClick={() => setSearchCustomer(!searchCustomer)}
+                >
+                  {searchCustomer ? (
+                    <>
+                      <span>✕</span> Close Search
+                    </>
+                  ) : (
+                    <>
+                      <span>＋</span> Existing User
+                    </>
+                  )}
+                </button>
+              </div>
+              {/* {searchCustomer && (
+                <>
+                  <form action="">
+                    <div className="flex flex-col items-center space-y-3">
+                      <div className="space-y-0.5 flex flex-col items-center">
+                        <label htmlFor="filter" className="mr-2">
+                          Search By
+                        </label>
+                        <select
+                          name="filter"
+                          id="filter"
+                          className="w-full px-2 py-1 rounded-xl border border-gray-300 focus:ring-2 focus:ring-green-600 focus:outline-none transition mr-2"
+                        >
+                          <option value="name">Name</option>
+                          <option value="companyName">Company Name</option>
+                          <option value="email">Email</option>
+                          <option value="phone">Phone</option>
+                          <option value="city">City</option>
+                        </select>
+                      </div>
+                      <div className="flex justify-center">
+                        <input
+                          type="text"
+                          className="px-4 py-2 rounded-xl border border-gray-300 focus:ring-2 focus:ring-green-600 focus:outline-none transition mr-2"
+                        />
+                        <button className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white text-sm font-medium px-2.5 py-2.5 rounded-4xl shadow-sm transition-all duration-150 cursor-pointer">
+                          <MdSearch color="white" />
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                  <div>
+                    
+                  </div>
+                </>
+              )} */}
+              <SearchCustomer
+                searchCustomer={searchCustomer}
+                customer={customer}
+                setCustomer={setCustomer}
+              />
+              <Form
+                inputs={FormData}
+                submitType={isSubmitting ? "Creating Order..." : "Create Order"}
+                path="orders"
+                setIsSubmitting={setIsSubmitting}
+                setSubmitStatus={setSubmitStatus}
+                products={true}
+              />
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

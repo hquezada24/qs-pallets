@@ -1,5 +1,3 @@
-import { IAddress } from "@/models/Address";
-
 export type Customer = {
   _id: string;
   fullName: string;
@@ -8,6 +6,14 @@ export type Customer = {
   phone: string;
   addresses: IAddress[];
 };
+
+export interface IAddress {
+  _id?: string;
+  street: string;
+  city: string;
+  state: "TX" | "AR" | "OK";
+  zipCode: string;
+}
 
 export interface ICustomer {
   fullName: string;

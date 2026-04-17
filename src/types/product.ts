@@ -25,3 +25,11 @@ export interface IProduct {
   stockReserved: number;
   notes?: string;
 }
+
+export type Item = {
+  id: string;
+  name: string;
+  price?: number;
+  quantity: number;
+  isCustom: boolean;
+};
