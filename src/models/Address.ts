@@ -1,0 +1,41 @@
+import { Schema, model, models } from "mongoose";
+import { Model } from "mongoose";
+
+export interface IAddress {
+  _id?: string;
+  street: string;
+  city: string;
+  state: "TX" | "AR" | "OK";
+  zipCode: string;
+}
+
+const AddressSchema = new Schema<IAddress>(
+  {
+    street: {
+      type: String,
+      required: true,
+    },
+    city: {
+      type: String,
+      required: true,
+    },
+    state: {
+      type: String,
+      enum: ["TX", "AR", "OK"],
+      required: true,
+    },
+    zipCode: {
+      type: String,
+      required: true,
+    },
+  },
+  {
+    timestamps: true,
+  },
+);
+
+const Address =
+  (models.Address as Model<IAddress>) ||
+  model<IAddress>("Address", AddressSchema);
+
+export default Address;

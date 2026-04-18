@@ -10,7 +10,6 @@ const Button = ({
   size = "medium",
   disabled = false,
   loading = false,
-  onClick,
   ariaLabel,
   className = "",
   ...props
@@ -31,7 +30,6 @@ const Button = ({
       e.preventDefault();
       return;
     }
-    onClick?.(e);
   };
 
   return (

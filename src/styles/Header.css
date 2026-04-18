@@ -25,10 +25,10 @@
   align-items: center;
 }
 
-.logo {
+/* .logo {
   flex-shrink: 0;
   padding: 0 5px;
-}
+} */
 
 .logoLink {
   display: flex;
@@ -50,7 +50,7 @@
 
 .logoPng {
   width: 100px;
-  height: 100px;
+  height: 67px;
   margin: 0;
 }
 

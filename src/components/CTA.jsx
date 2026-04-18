@@ -1,5 +1,4 @@
 import styles from "@/styles/CTA.module.css";
-import Link from "next/link";
 
 const CTA = () => {
   return (
@@ -25,25 +24,20 @@ const CTA = () => {
             role="group"
             aria-label="Call to action buttons"
           >
-            {/* <Link
-              className={styles.primaryCtaButton}
-              href="/request-a-quote"
-              aria-label="Request a custom pallet quote"
-            >
-              Request Quote
-            </Link>
-            <Link className={styles.secondaryCtaButton} href="/contact">
-              Contact Us
-            </Link> */}
-            <Link
-              href="mailto:qspallets@gmail.com"
-              className={styles.primaryCtaButton}
+            <a
+              className={`${styles.primaryCtaButton} mr-2`}
+              aria-label="Contact QS Pallets"
+              href={"mailto:qspallets@gmail.com"}
             >
               Email us
-            </Link>
-            <Link href="tel:+19034010536" className={styles.primaryCtaButton}>
+            </a>
+            <a
+              className={styles.secondaryCtaButton}
+              aria-label="Contact QS Pallets"
+              href={"tel:+19034010536"}
+            >
               Text us
-            </Link>
+            </a>
           </div>
         </div>
       </div>
