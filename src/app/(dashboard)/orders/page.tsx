@@ -191,7 +191,7 @@ const Orders = () => {
             title={"Orders"}
             columns={orderColumns}
             data={orders.orders}
-            keyField="id"
+            keyField="orderNumber"
           />
         )}
       </div>

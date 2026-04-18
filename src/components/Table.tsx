@@ -9,7 +9,7 @@ type TableProps<T> = {
   columns: Column<T>[];
   data: T[];
   hover?: "Yes" | "No";
-  keyField: string;
+  keyField: keyof T & string;
 };
 
 export default function Table<T>({
@@ -47,17 +47,23 @@ export default function Table<T>({
           <tbody>
             {data.map((row) => (
               <tr
-                key={row.orderNumber}
+                key={String(row[keyField])}
                 className={`border-b border-gray-100 ${hoverClass} transition`}
               >
-                {columns.map((col) => (
-                  <td
-                    key={col.key}
-                    className="px-4 py-3 text-gray-800 text-center"
-                  >
-                    {col.render ? col.render(row[col.key], row) : row[col.key]}
-                  </td>
-                ))}
+                {columns.map((col) => {
+                  const value = row[col.key];
+
+                  return (
+                    <td
+                      key={col.key}
+                      className="px-4 py-3 text-gray-800 text-center"
+                    >
+                      {col.render
+                        ? col.render(value, row)
+                        : (value as React.ReactNode)}
+                    </td>
+                  );
+                })}
               </tr>
             ))}
           </tbody>
