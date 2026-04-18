@@ -1,21 +1,12 @@
 # QS Pallets
 
-QS Pallets is a full-stack business website built with Next.js, serving as the company's first online presence. The site allows clients to explore the company's product catalog, view detailed product information, and submit inquiries through interactive forms.
+A full-stack Next.js monorepo containing the public-facing marketing site and an internal business dashboard for managing the day-to-day operations of a pallet sales company.
 
-The application features:
+## Marketing Site
 
-- A quote request form, enabling clients to request a free quote tailored to their specific needs
-- A contact form, giving visitors a direct way to ask questions or request additional information
-- Server-side rendering for improved SEO and performance
-- Integrated backend API routes for form submissions and data handling
+The company's first online presence, allowing clients to explore the product catalog, view detailed product information, and submit inquiries directly through the site.
 
-## Tech Stack
-
-Frontend: Next.js and React with server-side rendering
-Backend: Next.js API routes
-Deployment: Render
-
-## Features
+### Features
 
 - Server-side rendered pages for optimal SEO and performance
 - Responsive layout for desktop and mobile devices
@@ -23,11 +14,28 @@ Deployment: Render
 - Quote request form with validation
 - Contact form for general inquiries
 - API routes for form processing and business logic
-- Single repository for both frontend and backend
 
-## Live Demo
+### Tech Stack
 
-[QS Pallets](https://www.qspallets.com)
+Next.js · React · Next.js API Routes · Render
+
+### Live Demo: [QS Pallets](https://www.qspallets.com)
+
+## Dashboard (Internal)
+
+An internal management platform built for QS Pallets staff to handle the full sales lifecycle — from quote generation and status tracking to order creation and fulfillment.
+
+### Dashboard Features
+
+- Quote management with status tracking and detail views
+- Order creation flow with tax calculation
+- Customer and inventory data management
+- Protected routes with role-based access control
+- Authentication via NextAuth.js with a Credentials Provider
+
+### Dashboard Tech Stack
+
+Next.js App Router · TypeScript · MongoDB · Mongoose · Tailwind CSS · NextAuth.js
 
 ## Screenshots
 
@@ -35,3 +43,4 @@ Deployment: Render
 ![Products](/public/Screenshots/Products.png)
 ![Quote](/public/Screenshots/Quote.png)
 ![Contact](/public/Screenshots/Contact.png)
+![Dashboard](/public/dashboard-orders.png)
