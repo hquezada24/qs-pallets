@@ -24,7 +24,7 @@ const DashboardHome = async () => {
   const ordersObj = orders.map((order) => ({
     // customer flatten
     orderNumber: order.orderNumber,
-    name: order.customer?.name,
+    name: order.customer?.fullName,
     companyName: order.customer?.companyName,
     total: order.total,
   }));
