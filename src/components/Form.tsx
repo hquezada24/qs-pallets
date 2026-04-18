@@ -1,10 +1,9 @@
 "use client";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { FormEvent, useState } from "react";
 import { apiRequest } from "@/lib/apiRequest";
 import ProductsCatalog from "./ProductsCatalog";
 import { Item } from "@/types/product";
 import { Option, Col, FormProps } from "@/types/form";
-import { format } from "path/posix";
 
 interface CustomDimensions {
   length: string;
@@ -24,10 +23,10 @@ const Form = ({
   setIsSubmitting,
   setSubmitStatus,
   path,
-  products,
+  products = false,
+  options = {},
 }: FormProps) => {
   const formKeys = inputs.map((input) => [input.key, input.default]);
-  console.log(formKeys);
   const formObject = Object.fromEntries(
     formKeys.map((m) => (m[1] ? [m[0], m[1]] : [m[0], ""])),
   );
@@ -35,7 +34,6 @@ const Form = ({
   const [form, setForm] = useState(formObject);
   const [items, setItems] = useState<Item[]>([]);
   const [errors, setErrors] = useState<Errors>({});
-  const [on, setOn] = useState<boolean>(false);
   const customProduct = items?.find((p) => p.isCustom);
   const showCustomSection = customProduct
     ? (items.find((i) => i.id === customProduct.id)?.quantity || 0) > 0
@@ -84,6 +82,7 @@ const Form = ({
           ...form,
           items,
           ...(showCustomSection && { customDimensions }),
+          ...(options && options),
         }),
       });
 

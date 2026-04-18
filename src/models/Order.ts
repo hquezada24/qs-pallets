@@ -44,7 +44,7 @@ const OrderSchema = new Schema<IOrder>(
         ref: "Customer",
         required: true,
       },
-      name: { type: String, required: true },
+      fullName: { type: String, required: true },
       companyName: { type: String },
       phone: { type: String, required: true },
       email: { type: String, required: true },

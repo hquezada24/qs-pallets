@@ -8,7 +8,7 @@ export type Customer = {
 };
 
 export interface IAddress {
-  _id?: string;
+  id?: string;
   street: string;
   city: string;
   state: "TX" | "AR" | "OK";

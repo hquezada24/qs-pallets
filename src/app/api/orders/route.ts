@@ -5,6 +5,8 @@ import Order from "@/models/Order";
 import Customer from "@/models/Customer";
 import Address from "@/models/Address";
 import { QuoteItem } from "@/types/quote";
+import { OrderData } from "@/types/order";
+import { Types } from "mongoose";
 
 export const POST = async (req: NextRequest) => {
   try {
@@ -13,45 +15,80 @@ export const POST = async (req: NextRequest) => {
     const body = await req.json();
     const orderNumber = await getNextSequenceNumber("orderNumber", "O");
 
-    console.log(body);
+    const hasDeliveryAddress =
+      body.deliveryType === "DELIVERY" &&
+      body.street &&
+      body.city &&
+      body.state &&
+      body.zipCode;
 
-    // Fetch address from DB
-    let address = await Address.findOne({
-      street: body.street,
-      city: body.city,
-      state: body.state,
-      zipCode: body.zipCode,
-    });
+    // Find or create address only when this is a delivery with full address data
+    let address = null;
 
-    // Create and save address if it doesn't exist
-    if (!address && body.street && body.city && body.state && body.zipCode) {
-      console.log("Creating address");
-      const addressData = {
+    if (hasDeliveryAddress) {
+      address = await Address.findOne({
         street: body.street,
         city: body.city,
         state: body.state,
         zipCode: body.zipCode,
-      };
-      const newAddress = await Address.create(addressData);
-      address = newAddress;
+      });
+
+      if (!address) {
+        address = await Address.create({
+          street: body.street,
+          city: body.city,
+          state: body.state,
+          zipCode: body.zipCode,
+        });
+      }
     }
 
-    // Fetch customer from DB
+    // Find customer
     let customer = await Customer.findOne({
-      email: body.email || body.customer.email,
+      email: body.email || body.customer?.email,
     });
 
-    // Create and save Customer if it doesn't exist
+    // Create customer if it doesn't exist
     if (!customer) {
-      const customerData = {
-        fullName: body.name || body.customer.name,
-        companyName: body.companyName || body.customer.companyName || "",
-        email: body.email || body.customer.email,
-        phone: body.phone || body.customer.phone,
-        addresses: [address],
-      };
-      const newCustomer = await Customer.create(customerData);
-      customer = newCustomer;
+      customer = await Customer.create({
+        fullName: body.fullName || body.customer?.fullName,
+        companyName: (body.companyName || body.customer?.companyName) ?? "",
+        email: body.email || body.customer?.email,
+        phone: body.phone || body.customer?.phone,
+        addresses:
+          hasDeliveryAddress && address
+            ? [
+                {
+                  street: address.street,
+                  city: address.city,
+                  state: address.state,
+                  zipCode: address.zipCode,
+                },
+              ]
+            : [],
+      });
+    }
+
+    // If customer exists and this delivery address is new, append it
+    if (customer && hasDeliveryAddress && address) {
+      const addressExists = customer.addresses.some(
+        (addr) =>
+          addr?.street === address.street &&
+          addr?.city === address.city &&
+          addr?.state === address.state &&
+          addr?.zipCode === address.zipCode,
+      );
+
+      if (!addressExists) {
+        customer.addresses.push({
+          street: address.street,
+          city: address.city,
+          state: address.state,
+          zipCode: address.zipCode,
+        });
+
+        await customer.save();
+      }
     }
 
     const subtotal: string = body.items
@@ -71,14 +108,14 @@ export const POST = async (req: NextRequest) => {
       ? (parseFloat(subtotal) * parseFloat(body.taxRate)).toFixed(2)
       : "0.00";
 
-    const orderData = {
+    const orderData: OrderData = {
       items: body.items.map(({ _id, ...rest }) => ({
         id: _id,
         ...rest,
       })),
-      orderNumber: orderNumber,
+      orderNumber,
       quote: {
-        id: body.id,
+        id: new Types.ObjectId(body.id),
         quoteNumber: body.quoteNumber,
         customDimensions: body.customDimensions,
       },
@@ -97,7 +134,7 @@ export const POST = async (req: NextRequest) => {
           },
       customer: {
         id: customer._id,
-        name: customer.fullName,
+        fullName: customer.fullName,
         companyName: customer.companyName || "",
         phone: customer.phone,
         email: customer.email,
@@ -137,7 +174,7 @@ export const GET = async (req: NextRequest) => {
 
     const orders = ordersObj.map((order) => ({
       // customer flatten
-      customerName: order.customer?.name,
+      fullName: order.customer?.fullName,
       email: order.customer?.email,
       phone: order.customer?.phone,
 

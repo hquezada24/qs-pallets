@@ -31,7 +31,7 @@ export interface IQuote {
 
   customer: {
     id: Types.ObjectId;
-    name: string;
+    fullName: string;
     companyName?: string;
     phone: string;
     email: string;

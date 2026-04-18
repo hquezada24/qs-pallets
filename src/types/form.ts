@@ -26,6 +26,6 @@ export interface FormProps {
   setIsSubmitting: React.Dispatch<React.SetStateAction<boolean>>;
   setSubmitStatus: React.Dispatch<React.SetStateAction<string>>;
   path: string;
-  products: boolean;
+  products?: boolean;
   options?: Record<string, unknown>;
 }

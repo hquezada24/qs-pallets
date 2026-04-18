@@ -9,7 +9,12 @@ type CustomersResponse = {
   customers: Customer[];
 };
 
-const SearchCustomer = ({ searchCustomer, customer, setCustomer }) => {
+const SearchCustomer = ({
+  searchCustomer,
+  customer,
+  setCustomer,
+  resetSignal,
+}) => {
   const [customers, setCustomers] = useState<CustomersResponse>();
   const [query, setQuery] = useState<string>("");
   const [error, setError] = useState<string>("");
@@ -39,6 +44,16 @@ const SearchCustomer = ({ searchCustomer, customer, setCustomer }) => {
     if (debouncedQuery.length < 1) return;
     fetchClientes({ field, q: debouncedQuery });
   }, [debouncedQuery, field]);
+
+  useEffect(() => {
+    function resetStates() {
+      setQuery("");
+      setCustomers(undefined);
+      setError("");
+      setField("fullName");
+    }
+    resetStates();
+  }, [resetSignal]);
 
   return (
     <>
@@ -80,21 +95,21 @@ const SearchCustomer = ({ searchCustomer, customer, setCustomer }) => {
               {error && <p className="text-red-500">{error}</p>}
               {customers &&
                 customers.customers.map((item) => {
-                  const isEmpty = Object.keys(customer).length === 0;
+                  const isEmpty = Object.keys(customer || {}).length === 0;
                   return (
                     <div
-                      key={item._id}
+                      key={item?._id}
                       className="flex items-center justify-between gap-4 bg-white border-2 border-[#e2e8f0] rounded-lg px-4 py-3 hover:border-[#32cd32] transition-colors duration-200 focus-within:border-[#228b22] focus-within:shadow-[0_0_0_3px_rgba(34,139,34,0.1)]"
                     >
                       {/* Product info */}
                       <div className="flex items-center gap-2 min-w-0">
                         <div className="min-w-0">
                           <p className="text-[#2d3748] font-semibold text-sm leading-tight truncate">
-                            {item.fullName}
+                            {item?.fullName}
                           </p>
-                          {item.companyName && (
+                          {item?.companyName && (
                             <p className="text-[#718096] text-xs mt-0.5">
-                              {item.companyName} / unit
+                              {item?.companyName} / unit
                             </p>
                           )}
                         </div>
@@ -106,13 +121,17 @@ const SearchCustomer = ({ searchCustomer, customer, setCustomer }) => {
                           type="button"
                           onClick={() => {
                             setCustomer((prev) =>
-                              prev._id === item._id ? {} : item,
+                              prev?._id === item?._id ? {} : item,
                             );
                           }}
-                          disabled={!isEmpty && customer._id !== item._id}
+                          disabled={!isEmpty && customer?._id !== item?._id}
                           className="w-7 h-7 rounded-md border-2 border-[#e2e8f0] text-[#718096] font-bold text-base leading-none flex items-center justify-center hover:border-[#228b22] hover:text-[#228b22] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                         >
-                          {customer._id !== item._id ? "+" : <IoMdCheckmark />}
+                          {customer?._id !== item?._id ? (
+                            "+"
+                          ) : (
+                            <IoMdCheckmark />
+                          )}
                         </button>
                       </div>
                     </div>

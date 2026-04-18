@@ -22,6 +22,7 @@ export const GET = async (req: NextRequest) => {
         [field]: { $regex: q, $options: "i" },
       })
         .limit(10)
+        .select("-__v")
         .lean();
 
       return new Response(JSON.stringify({ customers }), {

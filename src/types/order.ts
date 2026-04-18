@@ -36,7 +36,7 @@ export interface IOrder {
   items: Item[];
   customer: {
     id: Types.ObjectId;
-    name: string;
+    fullName: string;
     companyName?: string;
     phone: string;
     email: string;
@@ -64,4 +64,34 @@ export interface IOrder {
   paymentStatus: "pending" | "partial" | "paid";
   payments: IPayment[]; // array embebido
   amountPaid: number;
+}
+
+export interface OrderData {
+  items: Item[];
+  orderNumber: string;
+  quote: {
+    id: Types.ObjectId;
+    quoteNumber: string;
+    customDimensions: Dimensions;
+  };
+  delivery: {
+    id?: Types.ObjectId;
+    type: "DELIVERY" | "PICKUP";
+    street?: string;
+    city?: string;
+    state?: "TX" | "OK" | "AR";
+    zipCode?: string;
+    scheduledDate?: Date;
+  };
+  customer: {
+    id: Types.ObjectId;
+    fullName: string;
+    companyName: string;
+    phone: string;
+    email: string;
+  };
+  subtotal: number;
+  tax: number;
+  total: number;
+  notes: string;
 }

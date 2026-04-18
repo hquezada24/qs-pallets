@@ -135,7 +135,7 @@ const ApproveModal = ({
                 Approve & Create Order
               </h3>
               <p className="text-xs text-green-600 mt-0.5">
-                Quote #{quote.quoteNumber} · {quote.customer.name}
+                Quote #{quote.quoteNumber} · {quote.customer.fullName}
               </p>
             </div>
           </div>
@@ -512,7 +512,7 @@ const Quote = () => {
                     Quote #{quote.quote.quoteNumber}
                   </p>
                   <h1 className="text-xl font-semibold text-gray-900">
-                    {quote.quote.customer.name}
+                    {quote.quote.customer.fullName}
                   </h1>
                   {quote.quote.customer.companyName && (
                     <p className="text-sm text-gray-500 mt-0.5">

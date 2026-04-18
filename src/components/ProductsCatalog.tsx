@@ -19,14 +19,6 @@ type Product = {
   isCustom: boolean;
 };
 
-type Errors = {
-  fullName?: string;
-  email?: string;
-  phone?: string;
-  quantity?: string;
-  quantities?: string;
-};
-
 type Products = {
   icon: string;
   isCustom: boolean;
@@ -58,24 +50,6 @@ const ProductsCatalog = ({
     loading: boolean;
     error: string | null;
   } = useApiQuery("/api/our-products");
-
-  const customProduct = products?.products.find((p) => p.isCustom);
-  // const [items, setItems] = useState<QuoteItem[]>([]);
-  const [errors, setErrors] = useState<Errors>({});
-  // const showCustomSection = customProduct
-  //   ? (items.find((i: QuoteItem) => i.id === customProduct._id)?.quantity ||
-  //       0) > 0
-  //   : false;
-
-  // const [customDimensions, setCustomDimensions] = useState({
-  //   length: "",
-  //   width: "",
-  //   height: "",
-  //   weightCapacity: "",
-  //   notes: "",
-  // });
-
-  // console.log(products);
 
   const handleDimensionChange = (e) => {
     const { name, value } = e.target;
@@ -114,17 +88,6 @@ const ProductsCatalog = ({
       ];
     });
   };
-
-  //   const validateForm = () => {
-  //     const newErrors: Errors = {};
-
-  //     if (items.length === 0) {
-  //       newErrors.quantities = "Please select at least one product";
-  //     }
-
-  //     setErrors(newErrors);
-  //     return Object.keys(newErrors).length === 0;
-  //   };
 
   return (
     <>
@@ -193,11 +156,7 @@ const ProductsCatalog = ({
           })}
         </div>
       )}
-      {/* {errors.quantities && (
-        <span className="text-[#e53e3e] text-sm font-medium mt-1 block">
-          {errors.quantities}
-        </span>
-      )} */}
+
       {showCustomSection && (
         <div className="mt-4 p-4 bg-white border-2 border-[#e2e8f0] rounded-lg shadow-[0_0_0_3px_rgba(34,139,34,0.08)] transition-all duration-300">
           <div className="flex items-center gap-2 mb-4">

@@ -8,9 +8,7 @@ import { Order } from "@/types/order";
 import TableSkeleton from "@/components/TableSkeleton";
 import StatusDropdown from "@/components/StatusDropdown";
 import Form from "@/components/Form";
-import { MdSearch } from "react-icons/md";
 import SearchCustomer from "@/components/SearchCustomer";
-import Toggle from "@/components/Toggle";
 
 type OrdersResponse = {
   orders: Order[];
@@ -23,47 +21,22 @@ const Orders = () => {
   const [customer, setCustomer] = useState(null);
   const [submitStatus, setSubmitStatus] = useState(null);
   const [form, setForm] = useState(false);
-  const [taxRate, setTaxRate] = useState(false);
   const [searchCustomer, setSearchCustomer] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [resetSearchCustomer, setResetSearchCustomer] = useState(0);
 
   const isEmpty = Object.keys(customer || {}).length === 0;
 
   const FormData = [
-    // deliveryType: "DELIVERY", // 👈
-    // customPalletCost: "",
-    // hasCustomPallets: hasZeroPrice,
-    // street: "", // 👈
-    // city: "", // 👈
-    // state: "TX", // 👈
-    // zipCode: "", // 👈
-    // taxExempt: true, // 👈 true por default ya que la mayoría son exentos
-    // taxRate: "", // 👈
-    // tax: "",
     !searchCustomer &&
-      isEmpty && { key: "name", label: "Full Name", type: "text" },
+      isEmpty && { key: "fullName", label: "Full Name", type: "text" },
     !searchCustomer &&
       isEmpty && { key: "companyName", label: "Company Name", type: "text" },
     !searchCustomer &&
       isEmpty && { key: "phone", label: "Phone", type: "number" },
     !searchCustomer &&
       isEmpty && { key: "email", label: "Email", type: "email" },
-    // !searchCustomer &&
-    //   isEmpty && { key: "street", label: "Street", type: "text" },
-    // !searchCustomer && isEmpty && { key: "city", label: "City", type: "text" },
-    // !searchCustomer &&
-    //   isEmpty && {
-    //     key: "state",
-    //     label: "State",
-    //     type: "select",
-    //     options: [
-    //       { key: "TX", label: "TX", value: "TX" },
-    //       { key: "OK", label: "OK", value: "OK" },
-    //       { key: "AR", label: "AR", value: "AR" },
-    //     ],
-    //   },
-    // !searchCustomer &&
-    //   isEmpty && { key: "zipCode", label: "Zip Code", type: "text" },
+
     { key: "deliveryDate", label: "Delivery Date", type: "date" },
     {
       key: "deliveryType",
@@ -95,6 +68,7 @@ const Orders = () => {
       label: "State",
       type: "comparison",
       inputType: "select",
+      default: "TX",
       options: [
         { key: "TX", label: "TX", value: "TX" },
         { key: "OK", label: "OK", value: "OK" },
@@ -121,7 +95,7 @@ const Orders = () => {
 
   const orderColumns = [
     { key: "orderNumber", header: "Order #" },
-    { key: "customerName", header: "Name" },
+    { key: "fullName", header: "Name" },
     {
       key: "phone",
       header: "Phone",
@@ -193,7 +167,18 @@ const Orders = () => {
 
   useEffect(() => {
     fetchOrders();
-  }, []);
+    if (submitStatus === "success") {
+      setCustomer({});
+      setSearchCustomer(false);
+      setResetSearchCustomer((prev) => prev + 1);
+
+      const timeout = setTimeout(() => {
+        setSubmitStatus(null);
+      }, 3000);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [submitStatus]);
 
   return (
     <div className="min-h-screen bg-gray-50 px-6 py-10 flex flex-col items-center gap-8">
@@ -264,46 +249,12 @@ const Orders = () => {
                   )}
                 </button>
               </div>
-              {/* {searchCustomer && (
-                <>
-                  <form action="">
-                    <div className="flex flex-col items-center space-y-3">
-                      <div className="space-y-0.5 flex flex-col items-center">
-                        <label htmlFor="filter" className="mr-2">
-                          Search By
-                        </label>
-                        <select
-                          name="filter"
-                          id="filter"
-                          className="w-full px-2 py-1 rounded-xl border border-gray-300 focus:ring-2 focus:ring-green-600 focus:outline-none transition mr-2"
-                        >
-                          <option value="name">Name</option>
-                          <option value="companyName">Company Name</option>
-                          <option value="email">Email</option>
-                          <option value="phone">Phone</option>
-                          <option value="city">City</option>
-                        </select>
-                      </div>
-                      <div className="flex justify-center">
-                        <input
-                          type="text"
-                          className="px-4 py-2 rounded-xl border border-gray-300 focus:ring-2 focus:ring-green-600 focus:outline-none transition mr-2"
-                        />
-                        <button className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white text-sm font-medium px-2.5 py-2.5 rounded-4xl shadow-sm transition-all duration-150 cursor-pointer">
-                          <MdSearch color="white" />
-                        </button>
-                      </div>
-                    </div>
-                  </form>
-                  <div>
-                    
-                  </div>
-                </>
-              )} */}
+
               <SearchCustomer
                 searchCustomer={searchCustomer}
                 customer={customer}
                 setCustomer={setCustomer}
+                resetSignal={resetSearchCustomer}
               />
               <Form
                 inputs={FormData}
@@ -312,6 +263,7 @@ const Orders = () => {
                 setIsSubmitting={setIsSubmitting}
                 setSubmitStatus={setSubmitStatus}
                 products={true}
+                options={customer}
               />
             </div>
           </div>

@@ -154,7 +154,7 @@ const Order = () => {
                     Order #{order.order.orderNumber}
                   </p>
                   <h1 className="text-xl font-semibold text-gray-900">
-                    {order.order.customer.name}
+                    {order.order.customer.fullName}
                   </h1>
                   {order.order.customer.companyName && (
                     <p className="text-sm text-gray-500 mt-0.5">
