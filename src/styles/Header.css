@@ -25,10 +25,10 @@
   align-items: center;
 }
 
-.logo {
+/* .logo {
   flex-shrink: 0;
   padding: 0 5px;
-}
+} */
 
 .logoLink {
   display: flex;

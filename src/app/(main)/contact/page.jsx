@@ -24,13 +24,10 @@ const Contact = () => {
       try {
         console.log(
           "Attempting to fetch from:",
-          process.env.NEXT_PUBLIC_API_URL
+          process.env.NEXT_PUBLIC_API_URL,
         );
 
         const res = await fetch("/api/contact");
-        // const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/contact`, {
-        //   cache: "no-store",
-        // });
 
         if (!res.ok) {
           throw new Error("Failed to fetch contact data");
@@ -82,72 +79,16 @@ const Contact = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-
-    // Clear error for this field when user starts typing
-    if (errors[name]) {
-      setErrors((prev) => ({ ...prev, [name]: "" }));
-    }
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    console.log(formData);
-
-    if (!validateForm()) {
-      return;
-    }
-
-    setIsSubmitting(true);
-    setSubmitStatus(null);
-
-    try {
-      // Make the API call
-      const response = await fetch(`${API_BASE_URL}/contact`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData), // Send the actual formData
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      // send the data to backend
-      console.log("Form submitted:", formData);
-
-      setSubmitStatus("success");
-      setFormData({
-        fullName: "",
-        email: "",
-        phone: "",
-        companyName: "",
-        subject: "",
-        message: "",
-      });
-    } catch (error) {
-      setSubmitStatus("error");
-      console.error("Form submission error:", error);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
   if (loading)
     return (
       <div className={styles.contentWrapper}>
-        <div className={styles.loading}>Loading ...</div>;
+        <div className={styles.loading}>Loading ...</div>
       </div>
     );
   if (error)
     return (
       <div className={styles.contentWrapper}>
-        <div className={styles.error}>Something went wrong</div>;
+        <div className={styles.error}>Something went wrong</div>
       </div>
     );
 
@@ -165,247 +106,8 @@ const Contact = () => {
 
       <div className={styles.container}>
         <div className={styles.content}>
-          {/* Contact Form */}
-          <section
-            className={styles.formSection}
-            role="form"
-            aria-labelledby="contact-form-heading"
-          >
-            <div className={styles.formHeader}>
-              <h2 id="contact-form-heading">Send Us a Message</h2>
-              <p>
-                Fill out the form below and we&apos;ll get back to you within 24
-                hours.
-              </p>
-            </div>
-
-            {submitStatus === "success" && (
-              <div
-                className={styles.successMessage}
-                role="alert"
-                aria-live="polite"
-              >
-                <svg
-                  className={styles.successIcon}
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  aria-hidden="true"
-                >
-                  <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-                </svg>
-                <span>
-                  Thank you! Your message has been sent successfully. We&apos;ll
-                  contact you soon.
-                </span>
-              </div>
-            )}
-
-            {submitStatus === "error" && (
-              <div
-                className={styles.errorMessage}
-                role="alert"
-                aria-live="assertive"
-              >
-                <svg
-                  className={styles.errorIcon}
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  aria-hidden="true"
-                >
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
-                </svg>
-                <span>
-                  Sorry, there was an error sending your message. Please try
-                  again or contact us directly.
-                </span>
-              </div>
-            )}
-
-            <form
-              className={styles.form}
-              onSubmit={handleSubmit}
-              noValidate
-              aria-describedby="contact-form-heading"
-            >
-              <div className={styles.formGroup}>
-                <label htmlFor="name" className={styles.label}>
-                  Full Name *
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="fullName"
-                  value={formData.fullName}
-                  onChange={handleInputChange}
-                  className={`${styles.input} ${
-                    errors.name ? styles.inputError : ""
-                  }`}
-                  placeholder="Enter your full name"
-                  required
-                  aria-describedby={errors.name ? "name-error" : undefined}
-                />
-                {errors.name && (
-                  <span
-                    id="name-error"
-                    className={styles.errorText}
-                    role="alert"
-                  >
-                    {errors.name}
-                  </span>
-                )}
-              </div>
-
-              <div className={styles.formRow}>
-                <div className={styles.formGroup}>
-                  <label htmlFor="email" className={styles.label}>
-                    Email Address *
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    className={`${styles.input} ${
-                      errors.email ? styles.inputError : ""
-                    }`}
-                    placeholder="your.email@company.com"
-                    required
-                    aria-describedby={errors.email ? "email-error" : undefined}
-                  />
-                  {errors.email && (
-                    <span
-                      id="email-error"
-                      className={styles.errorText}
-                      role="alert"
-                    >
-                      {errors.email}
-                    </span>
-                  )}
-                </div>
-
-                <div className={styles.formGroup}>
-                  <label htmlFor="phone" className={styles.label}>
-                    Phone Number *
-                  </label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleInputChange}
-                    className={`${styles.input} ${
-                      errors.phone ? styles.inputError : ""
-                    }`}
-                    placeholder="(000) 000-0000"
-                    required
-                    aria-describedby={errors.phone ? "phone-error" : undefined}
-                  />
-                  {errors.phone && (
-                    <span
-                      id="phone-error"
-                      className={styles.errorText}
-                      role="alert"
-                    >
-                      {errors.phone}
-                    </span>
-                  )}
-                </div>
-              </div>
-
-              <div className={styles.formRow}>
-                <div className={styles.formGroup}>
-                  <label htmlFor="company" className={styles.label}>
-                    Company Name
-                  </label>
-                  <input
-                    type="text"
-                    id="company"
-                    name="companyName"
-                    value={formData.companyName}
-                    onChange={handleInputChange}
-                    className={styles.input}
-                    placeholder="Your Company"
-                  />
-                </div>
-              </div>
-
-              <div className={styles.formGroup}>
-                <label htmlFor="subject" className={styles.label}>
-                  Subject *
-                </label>
-                <input
-                  type="text"
-                  id="subject"
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleInputChange}
-                  className={`${styles.input} ${
-                    errors.subject ? styles.inputError : ""
-                  }`}
-                  placeholder="Brief description of your inquiry"
-                  required
-                  aria-describedby={
-                    errors.subject ? "subject-error" : undefined
-                  }
-                />
-                {errors.subject && (
-                  <span
-                    id="subject-error"
-                    className={styles.errorText}
-                    role="alert"
-                  >
-                    {errors.subject}
-                  </span>
-                )}
-              </div>
-
-              <div className={styles.formGroup}>
-                <label htmlFor="message" className={styles.label}>
-                  Message *
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleInputChange}
-                  className={`${styles.textarea} ${
-                    errors.message ? styles.inputError : ""
-                  }`}
-                  placeholder="Please provide details about your pallet requirements, quantities, specifications, or any questions you have."
-                  rows="6"
-                  required
-                  aria-describedby={
-                    errors.message ? "message-error" : undefined
-                  }
-                />
-                {errors.message && (
-                  <span
-                    id="message-error"
-                    className={styles.errorText}
-                    role="alert"
-                  >
-                    {errors.message}
-                  </span>
-                )}
-              </div>
-
-              <div className={styles.formActions}>
-                <Button
-                  text={isSubmitting ? "Sending..." : "Send Message"}
-                  type="submit"
-                  variant="primary"
-                  size="large"
-                  loading={isSubmitting}
-                  disabled={isSubmitting}
-                  aria-label="Submit contact form"
-                />
-              </div>
-            </form>
-          </section>
-
           {/* Contact Information */}
-          <aside
+          <div
             className={styles.infoSection}
             aria-label="Company contact information"
           >
@@ -550,13 +252,13 @@ const Contact = () => {
                 />
                 <Button
                   text="Get Quote"
-                  variant="secondary"
+                  variant="outline"
                   onClick={() => (window.location.href = "/request-a-quote")}
                   aria-label="Request a pallet quote"
                 />
               </div>
             </div>
-          </aside>
+          </div>
         </div>
       </div>
     </div>

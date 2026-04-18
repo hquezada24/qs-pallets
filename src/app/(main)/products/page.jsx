@@ -77,36 +77,6 @@ const ProductsPage = async () => {
           </div>
         </div>
 
-        {/* Specifications */}
-        {/* {data.specifications && (
-          <div className={styles.specifications}>
-            <h2>Standard Specifications</h2>
-            <div className={styles.specTable}>
-              <div className={styles.specHeader}>
-                {data.specifications.headers.map((header, index) => (
-                  <div key={index}>{header}</div>
-                ))}
-              </div>
-              {data.specifications.rows.map((row, rowIndex) => (
-                <div key={rowIndex} className={styles.specRow}>
-                  {row.map((col, colIndex) => (
-                    <div
-                      key={colIndex}
-                      data-label={
-                        colIndex > 0
-                          ? data.specifications.headers[colIndex]
-                          : undefined
-                      }
-                    >
-                      {col}
-                    </div>
-                  ))}
-                </div>
-              ))}
-            </div>
-          </div>
-        )} */}
-
         {/* CTA */}
         <div
           className={styles.cta}
@@ -124,33 +94,19 @@ const ProductsPage = async () => {
               role="group"
               aria-label="Call to action"
             >
-              {/* <Link
-                href="/request-a-quote"
-                className={styles.primaryButton}
-                aria-label="Request a pallet quote"
-              >
-                Request a Quote
-              </Link> */}
-              {/* <Link
-                href="/contact"
-                className={styles.secondaryButton}
-                aria-label="Contact QS Pallets"
-              >
-                Contact Us
-              </Link> */}
               <a
                 className={styles.secondaryButton}
                 aria-label="Contact QS Pallets"
-                href={"mailto:qspallets@gmail.com"}
+                href={"/contact"}
               >
-                Email us
+                Contact us
               </a>
               <a
                 className={styles.secondaryButton}
-                aria-label="Contact QS Pallets"
-                href={"tel:9034010536"}
+                aria-label="Request a Quote"
+                href={"/request-a-quote"}
               >
-                Text us
+                Quote
               </a>
             </div>
           </div>

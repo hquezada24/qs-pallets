@@ -11,8 +11,8 @@ export default function LogoutButton() {
     });
 
     // Optional: redirect to login or home page
-    // router.push("/login");
-    router.refresh();
+    router.push("/login");
+    // router.refresh();
   };
 
   return (

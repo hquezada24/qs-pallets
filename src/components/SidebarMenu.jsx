@@ -7,7 +7,7 @@ import { IoAnalytics } from "react-icons/io5";
 import { IoMdSettings, IoMdPeople } from "react-icons/io";
 import { TbInvoice } from "react-icons/tb";
 import { LiaPalletSolid } from "react-icons/lia";
-import Image from "next/image";
+import Logo from "./Logo";
 import LogoutButton from "./LogoutButton";
 import { useSession } from "next-auth/react";
 
@@ -59,21 +59,7 @@ const SidebarMenu = ({ isOpen, setIsOpen }) => {
       >
         <div className="flex min-h-screen w-65 shrink-0 flex-col">
           {/* Logo */}
-          <div className="relative z-1 flex items-center border-b border-white/12 px-6 pb-5 pt-7">
-            <Image
-              src="/qspallets.png"
-              alt=""
-              width={100}
-              height={100}
-              sizes="100vw"
-              className="m-0"
-            />
-            <div>
-              <div className="m-0 text-[1.2rem] font-extrabold leading-none tracking-[-0.02em] text-white">
-                QS Pallets
-              </div>
-            </div>
-          </div>
+          <Logo border={true} />
 
           {/* Navigation */}
           <nav className="relative z-1 flex flex-1 flex-col gap-0.5 px-3 py-5">

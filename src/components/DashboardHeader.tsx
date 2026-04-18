@@ -74,7 +74,7 @@ const DashboardHeader = ({ isOpen }) => {
             <h1 className="logo-font truncate text-xl font-extrabold leading-tight tracking-tight text-white sm:text-2xl">
               Welcome back,{" "}
               <span className="text-emerald-200">
-                {status !== "loading" && session.user.name}
+                {status !== "loading" && session?.user?.name}
               </span>{" "}
               👋
             </h1>
@@ -157,14 +157,14 @@ const DashboardHeader = ({ isOpen }) => {
             {/* Avatar */}
             <div className="flex items-center gap-2.5 sm:border-l border-white/25 pl-3">
               <div className="logo-font flex h-10 w-10 items-center justify-center rounded-xl bg-white text-sm font-extrabold text-emerald-800 shadow-md">
-                {status !== "loading" && session.user.name[0]}
+                {status !== "loading" && session?.user?.name[0]}
               </div>
               <div className="hidden sm:block">
                 <p className="text-sm font-semibold leading-tight text-white">
-                  {status !== "loading" && session.user.name}
+                  {status !== "loading" && session?.user?.name}
                 </p>
                 <p className="text-xs font-medium text-emerald-100/80">
-                  {status !== "loading" && session.user.role}
+                  {status !== "loading" && session?.user?.role}
                 </p>
               </div>
               <div className="mobileMenu" ref={menuRef}>
