@@ -1,5 +1,5 @@
 // GET /api/products
-export const GET = (request) => {
+export const GET = () => {
   return new Response(
     JSON.stringify({
       title: "Our Product Range",
@@ -18,7 +18,6 @@ Engineered to handle forklift use, truck transport, and heavy sod loads day afte
           key_features: [
             "High load capacity",
             "Wide boards for maximum load surface",
-            // 'Standard sizes: 48" x 40", 42" x 42", 48" x 48"',
             "Custom branding available",
           ],
         },
@@ -34,7 +33,6 @@ Perfect for sod storage, light stacking, and everyday yard or warehouse use. A s
           key_features: [
             "High load capacity",
             "Best value option",
-            //'Standard sizes: 48" x 40", 42" x 42", 48" x 48"',
             "Custom branding available",
           ],
         },

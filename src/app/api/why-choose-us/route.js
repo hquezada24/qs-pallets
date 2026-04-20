@@ -1,5 +1,5 @@
 // GET /api/why-choose-us
-export const GET = (request) => {
+export const GET = () => {
   return new Response(
     JSON.stringify({
       title: "Why Choose QS Pallets?",
@@ -26,6 +26,6 @@ export const GET = (request) => {
         },
       ],
     }),
-    { status: 200 }
+    { status: 200 },
   );
 };

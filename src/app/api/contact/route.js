@@ -1,5 +1,5 @@
 // GET /api/contact
-export const GET = (request) => {
+export const GET = () => {
   return new Response(
     JSON.stringify({
       address: {

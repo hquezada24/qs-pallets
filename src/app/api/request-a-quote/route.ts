@@ -1,22 +1,20 @@
-import connectDB from "../../../../config/database.js";
+import connectDB from "@/config/database";
 import Customer from "@/models/Customer";
 import Quote from "@/models/Quote";
 import { getNextSequenceNumber } from "@/lib/getNextSequenceNumber";
 
 // POST /api/quote
-export const POST = async (request) => {
+export const POST = async (request: Request) => {
   try {
     await connectDB();
 
     const body = await request.json();
     const quoteNumber = await getNextSequenceNumber("quoteNumber", "Q");
 
-    // Fetch customer from DB
     let customer = await Customer.findOne({
       email: body.email,
     });
 
-    // Create and save Customer if it doesn't exist
     if (!customer) {
       const customerData = {
         fullName: body.fullName,
@@ -28,9 +26,8 @@ export const POST = async (request) => {
       customer = newCustomer;
     }
 
-    // Create and save Quote with customer reference
     const quoteData = {
-      items: body.items.map(({ _id, ...rest }) => ({
+      items: body.items.map(({ _id, ...rest }: { _id: string }) => ({
         id: _id,
         ...rest,
       })),
