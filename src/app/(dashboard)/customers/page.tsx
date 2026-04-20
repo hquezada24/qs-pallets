@@ -1,6 +1,5 @@
 "use client";
-import Form from "@/components/Form";
-import Table from "@/components/Table";
+import Table, { Column } from "@/components/Table";
 import { useState, useEffect } from "react";
 import { apiRequest } from "@/lib/apiRequest";
 import { Customer } from "@/types/customer";
@@ -23,10 +22,10 @@ const Customers = () => {
     {
       key: "phone",
       header: "Phone",
-      render: (value: string) =>
-        `${value.replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3")}`,
+      render: (_value: string) =>
+        `${_value.replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3")}`,
     },
-  ];
+  ] satisfies Column<Customer>[];
 
   async function fetchCustomers() {
     try {
@@ -67,7 +66,7 @@ const Customers = () => {
             title={"Customers"}
             columns={orderColumns}
             data={customers.customers}
-            keyField="id"
+            keyField={"_id"}
           />
         )}
       </div>

@@ -8,6 +8,12 @@ export type Order = {
   address: Types.ObjectId;
   quantity: number;
   orderNumber: string;
+  fullName?: string;
+  phone?: string;
+  deliveryType?: string;
+  total?: string;
+  status?: string;
+  actions?: string;
 };
 
 interface Item {

@@ -10,6 +10,7 @@ export interface Product {
   isMadeToOrder: boolean;
   stockTotal: number;
   stockReserved: number;
+  addButton: unknown;
 }
 
 export interface IProduct {

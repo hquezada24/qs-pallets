@@ -1,5 +1,5 @@
 "use client";
-import Table from "@/components/Table";
+import Table, { Column } from "@/components/Table";
 import { MdArrowRightAlt } from "react-icons/md";
 import { useState, useEffect } from "react";
 import { apiRequest } from "@/lib/apiRequest";
@@ -35,16 +35,14 @@ const Quotes = () => {
     {
       key: "status",
       header: "Status",
-      render: (value) => (
+      render: (value: "PENDING" | "APPROVED") => (
         <span
           className={`px-2 py-1 rounded-full text-xs font-medium ${
-            value === "NEW"
-              ? "bg-blue-50 text-blue-700 border border-blue-200"
-              : value === "PENDING"
-                ? "bg-amber-50 text-amber-700 border border-amber-200"
-                : value === "APPROVED"
-                  ? "bg-green-50 text-green-700 border border-green-200"
-                  : "bg-red-50   text-red-600   border border-red-200"
+            value === "PENDING"
+              ? "bg-amber-50 text-amber-700 border border-amber-200"
+              : value === "APPROVED"
+                ? "bg-green-50 text-green-700 border border-green-200"
+                : ""
           }`}
         >
           {value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()}
@@ -63,7 +61,7 @@ const Quotes = () => {
         </Link>
       ),
     },
-  ];
+  ] satisfies Column<Quote>[];
 
   async function fetchQuotes() {
     try {

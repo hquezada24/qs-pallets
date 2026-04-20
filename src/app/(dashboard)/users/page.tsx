@@ -1,6 +1,6 @@
 "use client";
 import Form from "@/components/Form";
-import Table from "@/components/Table";
+import Table, { Column } from "@/components/Table";
 import { useState } from "react";
 import { User } from "@/types/user";
 import { useSession } from "next-auth/react";
@@ -30,7 +30,7 @@ const Users = () => {
     { key: "name", header: "Name" },
     { key: "email", header: "Email" },
     { key: "role", header: "Role" },
-  ];
+  ] satisfies Column<User>[];
 
   const FormData = [
     { key: "name", label: "Name", type: "text" },

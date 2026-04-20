@@ -1,21 +1,22 @@
 "use client";
-import Form from "@/components/Form";
-import Table from "@/components/Table";
+import Table, { Column } from "@/components/Table";
 import { useState, useEffect } from "react";
 import { apiRequest } from "@/lib/apiRequest";
-import { Number } from "mongoose";
-// import { Order } from "@/types/order";
 
-// type OrdersResponse = {
-//   orders: Order[];
-// };
+type Order = {
+  id: string;
+  date: string;
+  customer: string;
+  address: string;
+  product: string;
+  price: number;
+  quantity: number;
+  status: string;
+};
 
 const Analytics = () => {
-  // const [orders, setOrders] = useState<OrdersResponse | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  //const [isSubmitting, setIsSubmitting] = useState(false);
-  //const [submitStatus, setSubmitStatus] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   const orderColumns = [
     { key: "id", header: "Order #" },
@@ -24,15 +25,15 @@ const Analytics = () => {
     { key: "product", header: "Product" },
     { key: "quantity", header: "Quantity" },
     {
-      key: "earning",
+      key: "price",
       header: "Earning",
-      render: (value: null, row: object) => {
-        return `$${row["quantity"] * row["price"]}`;
+      render: (_value: number, row: Order) => {
+        return `$${row.quantity * row.price}`;
       },
     },
-  ];
+  ] satisfies Column<Order>[];
 
-  const orders = {
+  const orders: { orders: Order[] } = {
     orders: [
       {
         id: "1234",
@@ -74,7 +75,6 @@ const Analytics = () => {
         quantity: 300,
         status: "In Progress",
       },
-      { quantity: "Total: ", status: "$" },
     ],
   };
 
@@ -93,8 +93,11 @@ const Analytics = () => {
 
       //setOrders(data);
     } catch (error) {
-      setError(error.message);
-      console.error("Quote fetching error: ", error.message);
+      const message =
+        error instanceof Error ? error.message : "Failed to fetch data";
+
+      setError(message);
+      console.error("Quote fetching error: ", message);
     } finally {
       setLoading(false);
     }
@@ -118,7 +121,7 @@ const Analytics = () => {
           title={"Sales this month"}
           columns={orderColumns}
           data={orders.orders}
-          keyField="id"
+          keyField={"id"}
         />
       </div>
       <div className="users-"></div>

@@ -1,5 +1,5 @@
 "use client";
-import Table from "./Table";
+import Table, { Column } from "./Table";
 
 const orderColumns = [
   { key: "orderNumber", header: "Orden #" },
@@ -9,7 +9,7 @@ const orderColumns = [
     header: "Total",
     render: (value: number) => `$${value.toFixed(2)}`,
   },
-];
+] satisfies Column<Sales>[];
 
 interface Sales {
   orderNumber: string;
@@ -46,7 +46,7 @@ const SalesSummaryCard = ({
           title={"Sales This Month"}
           columns={orderColumns}
           data={sales}
-          keyField="id"
+          keyField="orderNumber"
         />
       )}
 

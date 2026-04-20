@@ -1,7 +1,6 @@
 "use client";
-import Table from "@/components/Table";
+import Table, { Column } from "@/components/Table";
 import Form from "@/components/Form";
-import { apiRequest } from "@/lib/apiRequest";
 import { useState, useEffect } from "react";
 import { Product } from "@/types/product";
 import { useApiQuery } from "@/hooks/useApiQuery";
@@ -56,7 +55,7 @@ const Products = () => {
     { key: "stockTotal", header: "Available" },
     { key: "stockReserved", header: "Reserved" },
     {
-      key: "",
+      key: "addButton",
       header: "Add Stock",
       render: (_: unknown, row: Product) =>
         !row.isCustom ? (
@@ -72,7 +71,7 @@ const Products = () => {
           <div className="flex justify-center w-full">—</div>
         ),
     },
-  ];
+  ] satisfies Column<Product>[];
 
   useEffect(() => {
     if (!submitStatus) return;

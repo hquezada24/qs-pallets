@@ -8,6 +8,11 @@ export type Quote = {
   status: "PENDING" | "APPROVED" | "SOLVED";
   customer: Types.ObjectId;
   quoteNumber: string;
+  fullName?: string;
+  companyName?: string;
+  phone?: string;
+  createdAt?: string;
+  actions?: string;
 };
 
 export type Dimensions = {

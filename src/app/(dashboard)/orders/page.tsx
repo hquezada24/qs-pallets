@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { MdArrowRightAlt } from "react-icons/md";
-import Table from "@/components/Table";
+import Table, { Column } from "@/components/Table";
 import { useState, useEffect } from "react";
 import { apiRequest } from "@/lib/apiRequest";
 import { Order } from "@/types/order";
@@ -141,7 +141,7 @@ const Orders = () => {
         </Link>
       ),
     },
-  ];
+  ] satisfies Column<Order>[];
 
   async function fetchOrders() {
     try {

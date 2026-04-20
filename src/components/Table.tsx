@@ -1,7 +1,7 @@
-type Column<T> = {
-  key: string;
+export type Column<T> = {
+  key: keyof T;
   header: string;
-  render?: (value: any, row: T) => React.ReactNode;
+  render?: (value: T[keyof T], row: T) => React.ReactNode;
 };
 
 type TableProps<T> = {
@@ -9,7 +9,7 @@ type TableProps<T> = {
   columns: Column<T>[];
   data: T[];
   hover?: "Yes" | "No";
-  keyField: keyof T & string;
+  keyField: keyof T;
 };
 
 export default function Table<T>({
@@ -35,7 +35,7 @@ export default function Table<T>({
             <tr>
               {columns.map((col) => (
                 <th
-                  key={col.key}
+                  key={String(col.key)}
                   className="text-center px-4 py-3 font-medium text-gray-600"
                 >
                   {col.header}
@@ -55,7 +55,7 @@ export default function Table<T>({
 
                   return (
                     <td
-                      key={col.key}
+                      key={String(col.key)}
                       className="px-4 py-3 text-gray-800 text-center"
                     >
                       {col.render
