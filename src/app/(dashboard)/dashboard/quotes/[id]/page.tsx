@@ -474,7 +474,7 @@ const Quote = () => {
         {/* ── Back button ──────────────────────────────────────────────────── */}
         <div className="w-full max-w-3xl">
           <Link
-            href={"/quotes"}
+            href={"/dashboard/quotes"}
             className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-800 transition group"
           >
             <svg

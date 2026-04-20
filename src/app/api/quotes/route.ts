@@ -26,7 +26,7 @@ export const GET = async (req: NextRequest) => {
           companyName: customer?.companyName || "",
           email: customer?.email,
           phone: customer?.phone,
-          actions: `/quotes/${quote.quoteNumber}`,
+          actions: `/dashboard/quotes/${quote.quoteNumber}`,
           quoteNumber: quote.quoteNumber,
         };
       }),

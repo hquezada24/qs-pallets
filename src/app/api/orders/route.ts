@@ -183,7 +183,7 @@ export const GET = async (req: NextRequest) => {
       street: order.delivery?.street,
       city: order.delivery?.city,
       zipCode: order.delivery?.zipCode,
-      actions: `/orders/${order.orderNumber}`,
+      actions: `/dashboard/orders/${order.orderNumber}`,
       ...order,
     }));
 

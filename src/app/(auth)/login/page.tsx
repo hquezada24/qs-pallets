@@ -28,7 +28,7 @@ export default function Login() {
     if (res?.error) {
       console.log("Login failed");
     } else {
-      window.location.href = "/";
+      window.location.href = "/dashboard";
     }
   };
 

@@ -116,7 +116,7 @@ const Order = () => {
         {/* ── Back button ──────────────────────────────────────────────────── */}
         <div className="w-full max-w-3xl">
           <Link
-            href={"/orders"}
+            href={"/dashboard/orders"}
             className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-800 transition group"
           >
             <svg

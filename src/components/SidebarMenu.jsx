@@ -69,7 +69,7 @@ const SidebarMenu = ({ isOpen, setIsOpen }) => {
 
             <ul className="space-y-0.5">
               <li>
-                <Link href="/" className={navItemClass("/")}>
+                <Link href="/dashboard/" className={navItemClass("/")}>
                   <span
                     className={`shrink-0 ${isActiveLink("/") ? "opacity-100" : "opacity-85"}`}
                   >
@@ -79,7 +79,10 @@ const SidebarMenu = ({ isOpen, setIsOpen }) => {
                 </Link>
               </li>
               <li>
-                <Link href="/orders" className={navItemClass("/orders")}>
+                <Link
+                  href="/dashboard/orders"
+                  className={navItemClass("/orders")}
+                >
                   <span
                     className={`shrink-0 ${isActiveLink("/orders") ? "opacity-100" : "opacity-85"}`}
                   >
@@ -90,7 +93,7 @@ const SidebarMenu = ({ isOpen, setIsOpen }) => {
               </li>
               <li>
                 <Link
-                  href="/our-products"
+                  href="/dashboard/our-products"
                   className={navItemClass("/our-products")}
                 >
                   <span
@@ -102,7 +105,10 @@ const SidebarMenu = ({ isOpen, setIsOpen }) => {
                 </Link>
               </li>
               <li>
-                <Link href="/customers" className={navItemClass("/customers")}>
+                <Link
+                  href="/dashboard/customers"
+                  className={navItemClass("/customers")}
+                >
                   <span
                     className={`shrink-0 ${isActiveLink("/customers") ? "opacity-100" : "opacity-85"}`}
                   >
@@ -112,7 +118,10 @@ const SidebarMenu = ({ isOpen, setIsOpen }) => {
                 </Link>
               </li>
               <li>
-                <Link href="/quotes" className={navItemClass("/quotes")}>
+                <Link
+                  href="/dashboard/quotes"
+                  className={navItemClass("/quotes")}
+                >
                   <span
                     className={`shrink-0 ${isActiveLink("/quotes") ? "opacity-100" : "opacity-85"}`}
                   >
@@ -122,7 +131,10 @@ const SidebarMenu = ({ isOpen, setIsOpen }) => {
                 </Link>
               </li>
               <li>
-                <Link href="/analytics" className={navItemClass("/analytics")}>
+                <Link
+                  href="/dashboard/analytics"
+                  className={navItemClass("/analytics")}
+                >
                   <span
                     className={`shrink-0 ${isActiveLink("/analytics") ? "opacity-100" : "opacity-85"}`}
                   >
@@ -132,7 +144,10 @@ const SidebarMenu = ({ isOpen, setIsOpen }) => {
                 </Link>
               </li>
               <li>
-                <Link href="/settings" className={navItemClass("/settings")}>
+                <Link
+                  href="/dashboard/settings"
+                  className={navItemClass("/settings")}
+                >
                   <span
                     className={`shrink-0 ${isActiveLink("/settings") ? "opacity-100" : "opacity-85"}`}
                   >
@@ -143,7 +158,10 @@ const SidebarMenu = ({ isOpen, setIsOpen }) => {
               </li>
               {status !== "loading" && session?.user.role === "admin" && (
                 <li>
-                  <Link href="/users" className={navItemClass("/users")}>
+                  <Link
+                    href="/dashboard/users"
+                    className={navItemClass("/users")}
+                  >
                     <span
                       className={`shrink-0 ${isActiveLink("/users") ? "opacity-100" : "opacity-85"}`}
                     >
