@@ -44,7 +44,7 @@ export const POST = async (request: Request) => {
         : {},
       customer: {
         id: customer._id,
-        name: customer.fullName,
+        fullName: customer.fullName,
         companyName: customer.companyName || "",
         phone: customer.phone,
         email: customer.email,
