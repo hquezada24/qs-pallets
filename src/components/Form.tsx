@@ -56,7 +56,7 @@ const Form = ({
   const validateForm = () => {
     const newErrors: Errors = {};
 
-    if (items.length === 0) {
+    if (products && items.length === 0) {
       newErrors.quantities = "Please select at least one product";
     }
 
@@ -72,8 +72,6 @@ const Form = ({
     }
 
     setIsSubmitting(true);
-
-    console.log(form);
 
     try {
       const res = await apiRequest(`/api/${path}`, {
@@ -271,13 +269,18 @@ const Form = ({
       ))}
 
       {products && (
-        <ProductsCatalog
-          items={items}
-          onItemsChange={setItems}
-          customDimensions={customDimensions}
-          onCustomDimensionsChange={setCustomDimensions}
-          showCustomSection={showCustomSection}
-        />
+        <>
+          <ProductsCatalog
+            items={items}
+            onItemsChange={setItems}
+            customDimensions={customDimensions}
+            onCustomDimensionsChange={setCustomDimensions}
+            showCustomSection={showCustomSection}
+          />
+          {errors.quantities && (
+            <p className="text-sm text-red-600">{errors.quantities}</p>
+          )}
+        </>
       )}
       {/* Button */}
       <button
